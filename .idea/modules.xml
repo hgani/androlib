@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/androlib.iml" filepath="$PROJECT_DIR$/androlib.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ganilib/ganilib.iml" filepath="$PROJECT_DIR$/ganilib/ganilib.iml" />
+    </modules>
+  </component>
+</project>

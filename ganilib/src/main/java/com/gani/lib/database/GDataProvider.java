@@ -14,7 +14,11 @@ import java.util.LinkedHashSet;
 public abstract class GDataProvider extends ContentProvider {
   public static final String COMMON_PAGE = "page";
   private static final LinkedHashSet<DataUris> REGISTERED_TABLE_URIS = new LinkedHashSet<>();
-  public static final LinkedHashSet<GDbTable> REGISTERED_TABLES = new LinkedHashSet<>();
+  private static final LinkedHashSet<GDbTable> REGISTERED_TABLES = new LinkedHashSet<>();
+
+  public static final GDbTable[] registeredTables() {
+    return REGISTERED_TABLES.toArray(new GDbTable[REGISTERED_TABLES.size()]);
+  }
 
   private static final PolymorphicEnablingUriMatcher URI_MATCHER = new PolymorphicEnablingUriMatcher();
 
@@ -109,4 +113,27 @@ public abstract class GDataProvider extends ContentProvider {
 //  private static void register(DataUris dataUris, AbstractCollectionCrud collectionCrud) {
 //    register(dataUris, collectionCrud, null);
 //  }
+
+
+  public static final class KeyValue extends GDbTable {
+    static final String TABLE = "key_value";
+
+    public static final String COLUMN_KEY = "data_key";
+    public static final String COLUMN_VALUE = "data_value";
+
+    public static final DataUris URIS = new DataUris("key_values");
+
+    public static final KeyValue TABLE_HELPER = new KeyValue();
+
+    @Override
+    protected String columnsSpec() {
+      return COLUMN_KEY + " text," +
+          COLUMN_VALUE + " text";  // json
+    }
+
+    @Override
+    protected GDbCursor createCursor(Cursor cursor) {
+      return new GDbCursor(cursor);
+    }
+  }
 }

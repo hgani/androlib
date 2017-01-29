@@ -4,7 +4,7 @@ public class GHttpSyncPost implements HttpSync {
   private PostDelegate delegate;
  
   public GHttpSyncPost(String nakedUrl, GImmutableParams params, HttpHook hook, HttpMethod method) {
-    this.delegate = new PostDelegate(nakedUrl, params, hook, method.name());
+    this.delegate = new PostDelegate(nakedUrl, params, hook, method);
   }
 
   @Override

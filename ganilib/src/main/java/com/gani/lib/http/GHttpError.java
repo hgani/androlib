@@ -10,7 +10,7 @@ import org.json.JSONException;
 import java.io.IOException;
 import java.io.Serializable;
 
-public class GHttpError<HR extends GHttpResponse> implements Serializable {
+public abstract class GHttpError<HR extends GHttpResponse> implements Serializable {
   private static final long serialVersionUID = 1L;
 
   public enum ErrorType {
@@ -95,13 +95,15 @@ public class GHttpError<HR extends GHttpResponse> implements Serializable {
     return setError(ErrorType.AUTH, ErrorType.AUTH.name(), logMessagePrefix + " -- logging out (" + getUrl() + ") ...");
   }
 
-  public void handleDefault(Context context) {
-    if (type == ErrorType.AUTH) {
-      GHttp.instance().signOut();
-//      new LocalSignouter().signoutAndStartNextActivity(context);
-    }
-    else {
-      Toast.makeText(context, message, Toast.LENGTH_LONG).show();
-    }
-  }
+  public abstract void handleDefault(Context context);
+
+//  public void handleDefault(Context context) {
+//    if (type == ErrorType.AUTH) {
+//      GHttp.instance().signOut();
+////      new LocalSignouter().signoutAndStartNextActivity(context);
+//    }
+//    else {
+//      Toast.makeText(context, message, Toast.LENGTH_LONG).show();
+//    }
+//  }
 }

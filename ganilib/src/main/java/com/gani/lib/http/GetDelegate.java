@@ -11,12 +11,14 @@ class GetDelegate extends HttpDelegate {
 
 //  private Map<String, Object> params;
   private GParams params;
+  private HttpMethod method;
 
   GetDelegate(String nakedUrl, GImmutableParams params, HttpHook hook) {
     super(nakedUrl, hook);
 
 //    this.params = ConnectionPreparator.nonNullImmutable(params);
     this.params = GParams.fromNullable(params);
+    this.method = HttpMethod.GET;
   }
   
 //  Map<String, Object> getParams() {
@@ -31,12 +33,13 @@ class GetDelegate extends HttpDelegate {
 
   @Override
   protected String getMethod() {
-    return "GET";
+    return method.name();
   }
   
   @Override
   protected HttpURLConnection makeConnection() throws MalformedURLException, IOException {
-    return makeConnection(getFullUrl());
+//    return makeConnection(getFullUrl());
+    return GHttp.instance().openConnection(getFullUrl(), params, method);
   }
 
   @Override
@@ -48,9 +51,9 @@ class GetDelegate extends HttpDelegate {
     return getUrl() + "?" + params.toImmutable().asQueryString();
   }
   
-  static HttpURLConnection makeConnection(String url) throws MalformedURLException, IOException {
-    HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
-    ConnectionPreparator.configureCharsetAndTimeouts(connection);
-    return connection;
-  }
+//  static HttpURLConnection makeConnection(String url) throws MalformedURLException, IOException {
+//    HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
+//    ConnectionPreparator.configureCharsetAndTimeouts(connection);
+//    return connection;
+//  }
 }

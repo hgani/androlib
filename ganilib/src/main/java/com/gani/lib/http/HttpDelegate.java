@@ -20,8 +20,15 @@ abstract class HttpDelegate implements Serializable {
 
   HttpDelegate(String nakedUrl, HttpHook hook) {
     this.nakedUrl = nakedUrl;
-    this.hook = ConnectionPreparator.nonNull(hook);
+    this.hook = nonNull(hook);
     this.canceled = false;
+  }
+
+  private static HttpHook nonNull(HttpHook hook) {
+    if (hook == null) {
+      return HttpHook.DUMMY;
+    }
+    return hook;
   }
 
   final String getUrl() {
@@ -84,7 +91,8 @@ abstract class HttpDelegate implements Serializable {
   private HttpURLConnection makeRedirectConnection() throws MalformedURLException, IOException {
     String redirectUrl = connection.getHeaderField("Location");
     GLog.d(getClass(), "Redirected to url: " + redirectUrl);
-    return GetDelegate.makeConnection(redirectUrl);
+    return GHttp.instance().openConnection(redirectUrl, GParams.create(), HttpMethod.GET);
+//    return GetDelegate.makeConnection(redirectUrl);
   }
 
 

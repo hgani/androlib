@@ -65,7 +65,7 @@ public abstract class DatabaseInitializer extends SQLiteOpenHelper {
   public final void onUpgrade(SQLiteDatabase database, int oldVersion, int newVersion) {
     GLog.t(DatabaseInitializer.class, "Dropping all tables " );
 //    for (DataUris dataUris : GDataProvider.REGISTERED_TABLE_URIS) {
-    for (GDbTable table : GDataProvider.REGISTERED_TABLES) {
+    for (GDbTable table : GDataProvider.registeredTables()) {
       if (shouldDeleteOnUpgrade(table.getDataUris())) {
         table.dropTableIfExists(database);
 //        dropTableIfExists(database, dataUris.getTableName());

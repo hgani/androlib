@@ -1,5 +1,11 @@
 package com.gani.lib.http;
 
+import java.io.IOError;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+
 public abstract class GHttp {
   private static GHttp instance;
 
@@ -13,12 +19,22 @@ public abstract class GHttp {
 
   protected abstract String networkErrorMessage();
 
-  protected abstract void signOut();
+//  protected abstract void signOut();
 //  protected abstract void reauthenticate(GHttpResponse origResponse);
-  protected abstract void prepareForPost(GParams params);
-  protected abstract void prefetchAfterLogin();
-  protected abstract HttpAsyncPost signinRequest(GParams params);
-  protected abstract String authUrl();
+
+  public HttpURLConnection openConnection(String url, GParams params, HttpMethod method) throws MalformedURLException, IOException {
+    HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
+    prepareConnection(connection, params, method);
+    return connection;
+//    ConnectionPreparator.configureCharsetAndTimeouts(connection);
+//    connection.setDoOutput(true);
+  }
+
+
+  protected abstract void prepareConnection(HttpURLConnection connection, GParams params, HttpMethod method);
+//  protected abstract void prefetchAfterLogin();
+//  protected abstract HttpAsyncPost signinRequest(GParams params);
+//  protected abstract String authUrl();
 //  protected abstract void onJsonSuccess(GRestResponse r) throws JSONException;
   protected abstract GHttpResponse createHttpResponse(String url);
 

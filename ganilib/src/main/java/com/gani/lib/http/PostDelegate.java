@@ -8,11 +8,11 @@ import java.net.URL;
 final class PostDelegate extends HttpDelegate {
   private static final long serialVersionUID = 1L;
 
-  private String method;
+  private HttpMethod method;
 //  private Map<String, Object> params;
   private GParams params;
 
-  PostDelegate(String nakedUrl, GImmutableParams params, HttpHook hook, String method) {
+  PostDelegate(String nakedUrl, GImmutableParams params, HttpHook hook, HttpMethod method) {
     super(nakedUrl, hook);
     this.method = method;
 //    this.params = ConnectionPreparator.nonNullMutable(params);
@@ -21,17 +21,20 @@ final class PostDelegate extends HttpDelegate {
   
   @Override
   protected String getMethod() {
-    return method;
+    return method.name();
   }
   
   @Override
   protected HttpURLConnection makeConnection() throws MalformedURLException, IOException {
-    params.put("_method", method);
-    GHttp.instance().prepareForPost(params);
-//    params.put("authenticity_token", Credential.getInstance().getAuthenticityToken());
+    params.put("_method", getMethod());
 
-    HttpURLConnection connection = (HttpURLConnection) new URL(getFullUrl()).openConnection();
-    ConnectionPreparator.configureCharsetAndTimeouts(connection);
+//    params.put("authenticity_token", Credential.getInstance().getAuthenticityToken());
+//
+//    HttpURLConnection connection = (HttpURLConnection) new URL(getFullUrl()).openConnection();
+//    ConnectionPreparator.configureCharsetAndTimeouts(connection);
+//    connection.setDoOutput(true);
+
+    HttpURLConnection connection = GHttp.instance().openConnection(getFullUrl(), params, method);
     connection.setDoOutput(true);
 
     // NOTE: 

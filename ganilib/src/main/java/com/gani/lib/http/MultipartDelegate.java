@@ -10,17 +10,21 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Collections;
 import java.util.Map;
+import java.util.Set;
 
 final class MultipartDelegate extends HttpDelegate {
   private static final String MESSAGE_BOUNDARY = "----------V2ymHFg03ehbqgZCaKO6jy";
   private static final long serialVersionUID = 1L;
 
-  private Map<String, Object> params;
+//  private Map<String, Object> params;
+
+  private GParams params;
   private Map<String, HttpAsyncMultipart.Uploadable> uploads;
 
-  MultipartDelegate(String nakedUrl, GParams params, Map<String, HttpAsyncMultipart.Uploadable> uploads, HttpHook hook) {
+  MultipartDelegate(String nakedUrl, GImmutableParams params, Map<String, HttpAsyncMultipart.Uploadable> uploads, HttpHook hook) {
     super(nakedUrl, hook);
-    this.params = ConnectionPreparator.nonNullImmutable(params);
+//    this.params = ConnectionPreparator.nonNullImmutable(params);
+    this.params = GParams.fromNullable(params);;
     this.uploads = nonNullImmutable(uploads);
   }
   
@@ -38,8 +42,9 @@ final class MultipartDelegate extends HttpDelegate {
   
   @Override
   protected HttpURLConnection makeConnection() throws MalformedURLException, IOException {
-    HttpURLConnection connection = (HttpURLConnection) new URL(getFullUrl()).openConnection();
-    ConnectionPreparator.configureCharsetAndTimeouts(connection);
+//    HttpURLConnection connection = (HttpURLConnection) new URL(getFullUrl()).openConnection();
+//    ConnectionPreparator.configureCharsetAndTimeouts(connection);
+    HttpURLConnection connection = GHttp.instance().openConnection(getFullUrl(), params, HttpMethod.POST);
   	connection.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + MESSAGE_BOUNDARY);
     connection.setDoOutput(true);
 
@@ -52,15 +57,16 @@ final class MultipartDelegate extends HttpDelegate {
     return connection;
   }
 
-  private static byte[] createMultipartData(Map<String, Object> params, Map<String, HttpAsyncMultipart.Uploadable> uploads) throws IOException {
+  private static byte[] createMultipartData(GParams params, Map<String, HttpAsyncMultipart.Uploadable> uploads) throws IOException {
     String endBoundary = "\r\n--" + MESSAGE_BOUNDARY + "--\r\n";
 
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
     OutputStreamWriter osw = new OutputStreamWriter(baos);
 
     osw.write("--" + MESSAGE_BOUNDARY + "\r\n");
-    // NOTE: For now we just assume all values are String. We don't support String[].
-    for (Map.Entry<String, Object> entry : params.entrySet()) {
+    // Not sure why casting is required.
+    for (Map.Entry<String, Object> entry : (Set<Map.Entry<String, Object>>) params.entrySet()) {
+      // NOTE: For now we just assume all values are String. We don't support String[].
       osw.write("Content-Disposition: form-data; name=\"" + entry.getKey() + 
           "\"\r\n\r\n" + entry.getValue() + "\r\n--" + MESSAGE_BOUNDARY + "\r\n");
     }

@@ -193,6 +193,10 @@ public class GActivity extends AppCompatActivity implements RichContainer {
     getSupportFragmentManager().beginTransaction().replace(R.id.screen_body, fragment).commit();
   }
 
+  public GFragment getMainFragment() {
+    return (GFragment) getSupportFragmentManager().findFragmentById(R.id.screen_body);
+  }
+
   private boolean shouldRecreateFragmentOnNewIntent = false;
 
   protected GFragment createNewIntentFragment() {

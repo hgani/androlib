@@ -4,7 +4,9 @@ import android.net.Uri;
 
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 
 public abstract class GParams<PB extends GParams, IP extends GImmutableParams> implements Serializable {
   // NOTE: Value should only be either String or String[]
@@ -53,8 +55,12 @@ public abstract class GParams<PB extends GParams, IP extends GImmutableParams> i
     return paramMap.size();
   }
 
-  public Map<String, Object> asMap() {
-    return paramMap;
+//  public Map<String, Object> asMap() {
+//    return paramMap;
+//  }
+
+  public Set<Map.Entry<String, Object>> entrySet() {
+    return paramMap.entrySet();
   }
   
   static GParams create() {

@@ -7,7 +7,7 @@ public class HttpAsyncMultipart implements HttpAsync {
   private MultipartDelegate delegate;
   private AsyncHttpTask asyncTask;
 
-  public HttpAsyncMultipart(String nakedUrl, GParams params, Map<String, Uploadable> uploads, HttpHook hook, GHttpCallback callback) {
+  public HttpAsyncMultipart(String nakedUrl, GImmutableParams params, Map<String, Uploadable> uploads, HttpHook hook, GHttpCallback callback) {
     this.delegate = new MultipartDelegate(nakedUrl, params, uploads, hook);
     this.asyncTask = new AsyncHttpTask(callback, delegate);
   }

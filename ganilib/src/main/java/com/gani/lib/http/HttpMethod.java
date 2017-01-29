@@ -1,7 +1,7 @@
 package com.gani.lib.http;
 
 public enum HttpMethod {
-  POST, PATCH, DELETE;
+  POST, PATCH, DELETE, GET;
 
   public static HttpMethod from(String method) {
     switch (method) {

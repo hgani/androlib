@@ -5,7 +5,7 @@ public class HttpAsyncPost implements HttpAsync {
   private AsyncHttpTask asyncTask;
  
   public HttpAsyncPost(String nakedUrl, GImmutableParams params, HttpHook hook, HttpMethod method, GHttpCallback callback) {
-    this.delegate = new PostDelegate(nakedUrl, params, hook, method.name());
+    this.delegate = new PostDelegate(nakedUrl, params, hook, method);
     this.asyncTask = new AsyncHttpTask(callback, delegate);
   }
 

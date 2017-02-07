@@ -2,9 +2,13 @@ package com.gani.lib.ui;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Handler;
+import android.support.annotation.Nullable;
+
+import static android.R.attr.name;
 
 // TODO: Rename to res because this is not UI-specific, e.g. int(), context()
 public class Ui {
@@ -45,6 +49,33 @@ public class Ui {
 
   public static int color(int resId) {
     return resources.getColor(resId);
+  }
+
+  private static String expandColorIfNecessary(String code) {
+    if (code.length() == 3) {
+      String result = "";
+      for (char c : code.toCharArray()) {
+        result += ("" + c + c);
+      }
+      return result;
+    }
+    return code;
+  }
+
+  public static int color(String code) throws IllegalArgumentException {
+    if (code != null) {
+      if (code.startsWith("#")) {
+        code = "#" + expandColorIfNecessary(code.substring(1));
+      }
+
+      try {
+        return Color.parseColor(code);
+      }
+      catch (IllegalArgumentException e) {
+        // Do nothing
+      }
+    }
+    throw new IllegalArgumentException();
   }
 
   public static int integer(int resId) {

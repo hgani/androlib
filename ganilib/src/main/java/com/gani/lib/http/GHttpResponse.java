@@ -37,6 +37,10 @@ public abstract class GHttpResponse<RR extends GRestResponse> implements Seriali
   void setError(GHttpError error) {
     this.error = error;
   }
+
+  public boolean hasError() {
+    return error.hasError();
+  }
   
   public byte[] asBinary() {
     return binary;

@@ -6,7 +6,12 @@ import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.style.StyleSpan;
 import android.util.AttributeSet;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.gani.lib.ui.Ui;
+import com.gani.lib.ui.style.Length;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,22 +21,34 @@ import java.util.regex.Pattern;
 public class GTextView extends TextView {
   public GTextView(Context context) {
     super(context);
+    init();
   }
 
   public GTextView(Context context, AttributeSet attrs) {
     super(context, attrs);
+    init();
   }
 
-//  public static GTextView create(Context context, String text) {
-//    GTextView view = new GTextView(context);
-//    view.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-//    view.setText(text);
-//    return view;
-//
-////    return new TextViewHelper(view);
-//  }
+  private void init() {
+    // Ensure layout params can't be null.
+    setLayoutParams(new LinearLayout.LayoutParams(
+        ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+  }
 
-  public GTextView boldify() {
+  public GTextView size(Integer width, Integer height) {
+    ViewGroup.LayoutParams params = getLayoutParams();
+    if (width != null) {
+      params.width = Length.dpToPx(width);
+    }
+    if (height != null) {
+      params.height = Length.dpToPx(height);
+    }
+    setLayoutParams(params);
+
+    return this;
+  }
+
+  public GTextView bold() {
     List<String> matchers = new ArrayList<>();
     String text = getText().toString();
     SpannableStringBuilder builder = new SpannableStringBuilder(text);
@@ -54,6 +71,21 @@ public class GTextView extends TextView {
 
     setText(builder);
 
+    return this;
+  }
+
+  public GTextView background(String code) {
+    setBackgroundColor(Ui.color(code));
+    return this;
+  }
+
+  public GTextView color(String code) {
+    setTextColor(Ui.color(code));
+    return this;
+  }
+
+  public GTextView padding(int left, int top, int right, int bottom) {
+    setPadding(left, top, right, bottom);
     return this;
   }
 }

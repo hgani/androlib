@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.gani.lib.logging.GLog;
+import com.gani.lib.ui.Ui;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -174,27 +175,41 @@ public abstract class GJsonObject<JO extends GJsonObject, JA extends GJsonArray>
       return null;
     }
   }
-
-  private String expandColorIfNecessary(String code) {
-    if (code.length() == 3) {
-      String result = "";
-      for (char c : code.toCharArray()) {
-        result += ("" + c + c);
-      }
-      return result;
-    }
-    return code;
-  }
+//
+//  private String expandColorIfNecessary(String code) {
+//    if (code.length() == 3) {
+//      String result = "";
+//      for (char c : code.toCharArray()) {
+//        result += ("" + c + c);
+//      }
+//      return result;
+//    }
+//    return code;
+//  }
+//
+//  @Nullable
+//  public Integer getNullableColor(String name) {
+//    String code = getNullableString(name);
+//    if (code != null) {
+//      if (code.startsWith("#")) {
+//        code = "#" + expandColorIfNecessary(code.substring(1));
+//      }
+//      try {
+//        return Color.parseColor(code);
+//      }
+//      catch (IllegalArgumentException e) {
+//        // Do nothing
+//      }
+//    }
+//    return null;
+//  }
 
   @Nullable
   public Integer getNullableColor(String name) {
     String code = getNullableString(name);
     if (code != null) {
-      if (code.startsWith("#")) {
-        code = "#" + expandColorIfNecessary(code.substring(1));
-      }
       try {
-        return Color.parseColor(code);
+        return Ui.color(code);
       }
       catch (IllegalArgumentException e) {
         // Do nothing

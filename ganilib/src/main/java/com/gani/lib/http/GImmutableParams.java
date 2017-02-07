@@ -9,8 +9,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class GImmutableParams implements Serializable {
-//  static final GImmutableParams EMPTY = new GImmutableParams();
-
   // NOTE: Value should only be either String or String[]
   private Map<String, Object> paramMap;
 

@@ -56,7 +56,7 @@ public class GMenu {
 //
 //  public MenuItem addTurbolinks(PathSpec pathSpec, CvIcon icon, Integer showAsAction) {
 //    MenuItem item = add(pathSpec.getTitle(), icon, showAsAction);
-//    item.setIntent(DialogTurbolinks.intent(pathSpec));
+//    item.setIntent(GDialogTurbolinks.intent(pathSpec));
 //    return item;
 //  }
 

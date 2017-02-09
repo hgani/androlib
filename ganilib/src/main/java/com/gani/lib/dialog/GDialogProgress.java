@@ -56,7 +56,7 @@ public abstract class GDialogProgress extends GActivity implements ProgressIndic
   }
 
   protected abstract String text();
-  protected abstract GBundle args();
+//  protected abstract GBundle args();
 
   protected void onCancel() {
     // Do nothing by default

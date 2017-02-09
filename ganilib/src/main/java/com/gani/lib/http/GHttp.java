@@ -1,5 +1,11 @@
 package com.gani.lib.http;
 
+import android.content.Intent;
+
+import com.basecamp.turbolinks.TurbolinksSessionWrapper;
+import com.gani.lib.web.GScreenTurbolinks;
+import com.gani.lib.web.PathSpec;
+
 import java.io.IOError;
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -39,6 +45,20 @@ public abstract class GHttp {
   protected abstract GHttpResponse createHttpResponse(String url);
 
   public abstract GHttpAlert alertHelper();
+
+  public TurbolinksSessionWrapper prepareTlSession(TurbolinksSessionWrapper session) {
+    return session;
+  }
+
+
+
+//  public void handleTlVisit() {
+//
+//  }
+
+//  public void handleTlError(int errorCode) {
+//
+//  }
 
 //  protected void signout() {
 

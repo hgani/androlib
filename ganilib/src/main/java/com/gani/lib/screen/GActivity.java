@@ -14,13 +14,18 @@ import android.widget.TextView;
 import com.gani.lib.R;
 import com.gani.lib.analytics.Tracker;
 import com.gani.lib.analytics.TrackingSpec;
+import com.gani.lib.http.GImmutableParams;
 import com.gani.lib.ui.ProgressIndicator;
 import com.gani.lib.model.GBundle;
 import com.gani.lib.ui.Ui;
+import com.gani.lib.web.GScreenTurbolinks;
+import com.gani.lib.web.GTurbolinks;
+import com.gani.lib.web.PathSpec;
 
 import java.io.Serializable;
 
 public class GActivity extends AppCompatActivity implements RichContainer {
+  private GTurbolinks turbolinks;
 
   protected Tracker tracker;
   private GScreenView container;
@@ -77,6 +82,10 @@ public class GActivity extends AppCompatActivity implements RichContainer {
 
   public final ActionBar getNavBar() {
     return getSupportActionBar();
+  }
+
+  protected GBundle args() {
+    return new GBundle(rawArguments());
   }
 
   protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -320,4 +329,27 @@ public class GActivity extends AppCompatActivity implements RichContainer {
       return intent;
     }
   }
+
+
+
+  ///// Turbolinks /////
+
+  public void registerTurbolinksRestore(GTurbolinks turbolinks) {
+    this.turbolinks = turbolinks;
+  }
+
+  @Override
+  protected void onRestart() {
+    super.onRestart();
+
+    if (turbolinks != null) {
+      turbolinks.restore();
+    }
+  }
+
+  public void startTurbolinksScreen(PathSpec pathSpec, GImmutableParams params) {
+    // Override for TL support
+  }
+
+  /////
 }

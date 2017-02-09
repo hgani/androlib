@@ -3,6 +3,8 @@ package com.gani.lib.model;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.gani.lib.http.GImmutableParams;
+
 import java.io.Serializable;
 
 public class GBundle {
@@ -53,7 +55,8 @@ public class GBundle {
   public final <T> Class<T> getClass(String key) {
     return (Class<T>) getSerializable(key);
   }
-//  public GImmutableParams getParams(String key) {
-//    return (GImmutableParams) bundle.getSerializable(key);
-//  }
+
+  public GImmutableParams getParams(String key) {
+    return (GImmutableParams) bundle.getSerializable(key);
+  }
 }

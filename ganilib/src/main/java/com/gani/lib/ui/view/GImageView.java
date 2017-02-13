@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.gani.lib.ui.Ui;
 import com.gani.lib.ui.style.Length;
 
@@ -34,6 +35,14 @@ public class GImageView extends ImageView {
     // Ensure layout params can't be null.
     setLayoutParams(new LinearLayout.LayoutParams(
             ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+  }
+
+  public void setImageUrl(String url) {
+    if (url != null) {
+      Glide.with(getContext())
+          .load(url)
+          .into(this);
+    }
   }
 
 //  public GImageView size(Integer width, Integer height) {

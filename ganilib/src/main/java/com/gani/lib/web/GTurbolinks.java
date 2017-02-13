@@ -3,7 +3,6 @@ package com.gani.lib.web;
 import android.net.Uri;
 import android.os.Build;
 import android.view.ViewGroup;
-import android.webkit.WebSettings;
 import android.webkit.WebView;
 
 import com.basecamp.turbolinks.InlineTurbolinksView;
@@ -34,7 +33,7 @@ public abstract class GTurbolinks {
     this.activity = activity;
     this.view = view;
 //    this.url = RestPaths.BASE + path;
-    this.url = basePath() + path;
+    this.url = baseUrl() + path;
     // Use separate sessions so we have separate web views thus greatly simplifying their lifecycle management. See InlineTurbolinksView.
     this.session = (view instanceof InlineTurbolinksView) ? wrapContentSession() : matchParentSession();
     this.adapter = createAdapter();
@@ -51,7 +50,7 @@ public abstract class GTurbolinks {
 //        ViewGroup.LayoutParams.MATCH_PARENT, 10));;
   }
 
-  protected abstract String basePath();
+  protected abstract String baseUrl();
 
   public void visit() {
     GLog.i(getClass(), "TL visit: " + url);
@@ -72,6 +71,10 @@ public abstract class GTurbolinks {
         .view(view)
         .restore(url);
 //        .advance(url);
+  }
+
+  protected String getUrl() {
+    return url;
   }
 
   private static TurbolinksSessionWrapper wrapContentSession;

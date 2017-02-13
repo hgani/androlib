@@ -9,43 +9,43 @@ public class WebVisit {
   public enum Action {
     ADVANCE {
       @Override
-      boolean openGeneric(GActivity activity, String path, GImmutableParams params) {
+      public boolean openGeneric(GActivity activity, String path, GImmutableParams params) {
         activity.startTurbolinksScreen(new PathSpec(path), params);
 //        activity.startActivity(GScreenTurbolinks.intent(new PathSpec(path), params));
         return true;
       }
 
       @Override
-      void openSpecific(GActivity activity, Runnable command) {
+      public void openSpecific(GActivity activity, Runnable command) {
         command.run();
       }
     },
     REPLACE {
       @Override
-      boolean openGeneric(GActivity activity, String path, GImmutableParams params) {
+      public boolean openGeneric(GActivity activity, String path, GImmutableParams params) {
         return false;
       }
 
       @Override
-      void openSpecific(GActivity activity, Runnable command) {
+      public void openSpecific(GActivity activity, Runnable command) {
         command.run();
         activity.finish();
       }
     };
 
-    abstract boolean openGeneric(GActivity activity, String path, GImmutableParams params);
-    abstract void openSpecific(GActivity activity, Runnable command);
+    public abstract boolean openGeneric(GActivity activity, String path, GImmutableParams params);
+    public abstract void openSpecific(GActivity activity, Runnable command);
   }
 
-  private GActivity activity;
-  private Uri uri;
-  private Action action;
-
-  public WebVisit(GActivity activity, Uri uri, Action action) {
-    this.activity = activity;
-    this.uri = uri;
-    this.action = action;
-  }
+//  private GActivity activity;
+//  private Uri uri;
+//  private Action action;
+//
+//  public WebVisit(GActivity activity, Uri uri, Action action) {
+//    this.activity = activity;
+//    this.uri = uri;
+//    this.action = action;
+//  }
 
 //  private void handleAppAction(String path) {
 //    switch (path.replaceFirst("^/app/", "")) {

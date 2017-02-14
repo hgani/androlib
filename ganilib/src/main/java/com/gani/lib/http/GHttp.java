@@ -1,6 +1,6 @@
 package com.gani.lib.http;
 
-import com.basecamp.turbolinks.TurbolinksSessionWrapper;
+import android.webkit.WebView;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -41,9 +41,13 @@ public abstract class GHttp {
 
   public abstract GHttpAlert alertHelper();
 
-  public TurbolinksSessionWrapper prepareTlSession(TurbolinksSessionWrapper session) {
-    return session;
+  public void prepareWebView(WebView webView) {
+    // To be overridden.
   }
+
+//  public TurbolinksSessionWrapper prepareTlSession(TurbolinksSessionWrapper session) {
+//    return session;
+//  }
 
 
 

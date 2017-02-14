@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.net.Uri;
 import android.os.Build;
 import android.view.ViewGroup;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 
 import com.basecamp.turbolinks.InlineTurbolinksView;
@@ -107,7 +108,10 @@ public abstract class GTurbolinks {
   }
 
   private static TurbolinksSessionWrapper prepare(TurbolinksSessionWrapper session) {
-    return GHttp.instance().prepareTlSession(session);
+    WebView webView = session.getWebView();
+    GHttp.instance().prepareWebView(webView);
+    return session;
+
 //    WebSettings settings = session.getWebView().getSettings();
 //    settings.setUserAgentString(CvHttp.userAgent());
 //    return session;

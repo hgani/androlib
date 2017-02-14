@@ -1,4 +1,4 @@
-package com.gani.lib.web;
+package com.gani.web;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -51,7 +51,7 @@ abstract class AbstractTurbolinksActivity extends GActivity {
     turbolinks.visit();
   }
 
-  protected abstract GTurbolinks createTurbolinks(GActivity activity, TurbolinksView view, String path);
+  protected abstract GTurbolinks createTurbolinks(GTurbolinksSupportActivity activity, TurbolinksView view, String path);
 
   @Override
   protected void onActivityResult(int requestCode, int resultCode, Intent intent) {

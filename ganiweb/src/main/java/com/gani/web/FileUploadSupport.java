@@ -1,4 +1,4 @@
-package com.gani.lib.web;
+package com.gani.web;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;

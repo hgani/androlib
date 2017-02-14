@@ -1,5 +1,6 @@
-package com.gani.lib.web;
+package com.gani.web;
 
+import android.app.Activity;
 import android.net.Uri;
 import android.os.Build;
 import android.view.ViewGroup;
@@ -17,14 +18,14 @@ import com.gani.lib.ui.Ui;
 import java.net.URI;
 
 public abstract class GTurbolinks {
-  private GActivity activity;
+  private GTurbolinksSupportActivity activity;
   private TurbolinksView view;
   private String url;
   //  private TurbolinksSession session;
   private TurbolinksSessionWrapper session;
   private TurbolinksAdapter adapter;
 
-  public GTurbolinks(GActivity activity, TurbolinksView view, String path) {
+  public GTurbolinks(GTurbolinksSupportActivity activity, TurbolinksView view, String path) {
     URI uri = URI.create(path);
     if (uri.getHost() != null) {
       throw new IllegalArgumentException("Relative path expected. Got: " + path);
@@ -120,7 +121,7 @@ public abstract class GTurbolinks {
 //    return new WebVisit(activity, uri, action).handle();
 //  }
 
-  protected abstract void handleVisit(GActivity activity, Uri uri, WebVisit.Action action);
+  protected abstract void handleVisit(GTurbolinksSupportActivity activity, Uri uri, WebVisit.Action action);
   protected abstract void handleError(int errorCode);
 
   private TurbolinksAdapter createAdapter() {

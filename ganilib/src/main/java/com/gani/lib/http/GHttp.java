@@ -1,12 +1,7 @@
 package com.gani.lib.http;
 
-import android.content.Intent;
-
 import com.basecamp.turbolinks.TurbolinksSessionWrapper;
-import com.gani.lib.web.GScreenTurbolinks;
-import com.gani.lib.web.PathSpec;
 
-import java.io.IOError;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;

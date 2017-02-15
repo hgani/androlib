@@ -1,4 +1,4 @@
-package com.gani.lib.htmlform;
+package com.gani.web.htmlform;
 
 import android.content.Context;
 import android.widget.CheckBox;
@@ -8,7 +8,8 @@ import org.jsoup.nodes.Element;
 
 public class HTMLCheckBox extends CheckBox {
 
-    private final String CHECKED_ATTR  = "checked";
+    private static final String ATTR_NAME = "name";
+    private static final String CHECKED_ATTR  = "checked";
 
     private final Element mField;
 
@@ -30,6 +31,7 @@ public class HTMLCheckBox extends CheckBox {
 
     private void setDefaultListeners() {
         setChecked(mField.hasAttr(CHECKED_ATTR));
+        setTag(mField.attr(ATTR_NAME));
         setText(mField.parent().text());
 
         setOnCheckedChangeListener(new HTMLFieldValidation(mField, this));

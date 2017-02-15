@@ -1,4 +1,4 @@
-package com.gani.lib.htmlform;
+package com.gani.web.htmlform;
 
 import android.text.Editable;
 import android.text.TextUtils;
@@ -147,25 +147,26 @@ public class HTMLFieldValidation
     }
 
     private void validateField(String value) {
-        try {
-            JSONArray validateOptions = new JSONArray(mField.attr(ATTR_VALIDATE));
+        if (!mField.attr(ATTR_VALIDATE).equals("")) {
+            try {
+                JSONArray validateOptions = new JSONArray(mField.attr(ATTR_VALIDATE));
 
-            for(int index = 0; index < validateOptions.length(); index++) {
-                JSONObject validation = validateOptions.getJSONObject(index);
-                JSONObject messages = validation.getJSONObject(JSON_MESSAGES);
-                JSONObject options = validation.getJSONObject(JSON_OPTIONS);
+                for (int index = 0; index < validateOptions.length(); index++) {
+                    JSONObject validation = validateOptions.getJSONObject(index);
+                    JSONObject messages = validation.getJSONObject(JSON_MESSAGES);
+                    JSONObject options = validation.getJSONObject(JSON_OPTIONS);
 
-                if (Objects.equals(validation.getString(VALIDATE_KIND), VALIDATE_PRESENCE)) {
-                    if (value.isEmpty()) {
-                        mErrorMessages.add(messages.getString(MESSAGES_BLANK));
+                    if (Objects.equals(validation.getString(VALIDATE_KIND), VALIDATE_PRESENCE)) {
+                        if (value.isEmpty()) {
+                            mErrorMessages.add(messages.getString(MESSAGES_BLANK));
+                        }
                     }
-                }
 
-                if (Objects.equals(validation.getString(VALIDATE_KIND), VALIDATE_LENGTH)) {
-                    if (value.length() > options.getInt(OPTIONS_MAXIMUM)) {
-                        mErrorMessages.add(messages.getString(MESSAGES_TOO_LONG));
+                    if (Objects.equals(validation.getString(VALIDATE_KIND), VALIDATE_LENGTH)) {
+                        if (value.length() > options.getInt(OPTIONS_MAXIMUM)) {
+                            mErrorMessages.add(messages.getString(MESSAGES_TOO_LONG));
+                        }
                     }
-                }
 
 //                TODO: uncomment for validate blacklist, currently no error messages on attributes
 //                if (Objects.equals(validation.getString(VALIDATE_KIND), VALIDATE_BLACKLIST)) {
@@ -179,9 +180,10 @@ public class HTMLFieldValidation
 //                        }
 //                    }
 //                }
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-        } catch (JSONException e) {
-            e.printStackTrace();
         }
     }
 }

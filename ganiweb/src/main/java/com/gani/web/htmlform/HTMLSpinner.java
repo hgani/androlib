@@ -1,4 +1,4 @@
-package com.gani.lib.htmlform;
+package com.gani.web.htmlform;
 
 
 import android.content.Context;
@@ -8,14 +8,15 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 
-import com.gani.lib.R;
+import com.gani.web.R;
 
 import org.jsoup.nodes.Element;
 
 import java.util.ArrayList;
 
 public class HTMLSpinner extends Spinner {
-    private final String SELECTED_ATTR = "selected";
+    private static final String ATTR_NAME = "name";
+    private static final String SELECTED_ATTR = "selected";
 
     private final Element mField;
 
@@ -61,6 +62,7 @@ public class HTMLSpinner extends Spinner {
         setBackgroundResource(R.drawable.spinner_default);
         setAdapter(spinnerAdapter);
         setSelection(selectedIndex);
+        setTag(mField.attr(ATTR_NAME));
 
         setOnItemSelectedListener(new HTMLFieldValidation(mField, this));
     }

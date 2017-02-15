@@ -1,4 +1,4 @@
-package com.gani.lib.htmlform;
+package com.gani.web.htmlform;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -13,7 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TimePicker;
 
-import com.gani.lib.R;
+import com.gani.web.R;
 
 import org.jsoup.nodes.Element;
 
@@ -26,6 +26,7 @@ public class HTMLEditText extends EditText {
     private static final String TAG = HTMLEditText.class.getName();
 
     private static final String ATTR_PLACEHOLDER = "placeholder";
+    private static final String ATTR_NAME = "name";
 
     private static final String DATETIME_PICKER_TYPE = "datetime_picker";
     private static final String DATE_PICKER_TYPE     = "date_picker";
@@ -56,6 +57,7 @@ public class HTMLEditText extends EditText {
         setLayoutParams(params);
         setPadding(20, 20, 20, 20);
         setBackgroundResource(R.drawable.edit_text_state);
+        setTag(mField.attr(ATTR_NAME));
         setHint(mField.attr(ATTR_PLACEHOLDER));
         setText(mField.val());
 

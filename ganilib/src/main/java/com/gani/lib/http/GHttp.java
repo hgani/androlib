@@ -2,7 +2,14 @@ package com.gani.lib.http;
 
 import android.webkit.WebView;
 
+import com.gani.lib.io.PersistentCookieStore;
+import com.gani.lib.io.WebkitCookieManagerProxy;
+import com.gani.lib.ui.Ui;
+
 import java.io.IOException;
+import java.net.CookieHandler;
+import java.net.CookieManager;
+import java.net.CookiePolicy;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -18,25 +25,30 @@ public abstract class GHttp {
     return instance;
   }
 
-  protected abstract String networkErrorMessage();
+  protected GHttp() {
+    // TODO: Call initHttpCookieHandler
+  }
 
-//  protected abstract void signOut();
-//  protected abstract void reauthenticate(GHttpResponse origResponse);
+  private static void initHttpCookieHandler() {
+    android.webkit.CookieSyncManager.createInstance(Ui.context());
+
+    // Use ACCEPT_ALL instead of ACCEPT_ORIGINAL_SERVER so that it is cross-subdomain.
+    CookieManager defaultManager = new CookieManager(null, CookiePolicy.ACCEPT_ALL);
+    PersistentCookieStore cookieStore = new PersistentCookieStore(defaultManager.getCookieStore());
+
+    // See http://stackoverflow.com/questions/18057624/two-way-sync-for-cookies-between-httpurlconnection-java-net-cookiemanager-and
+    CookieHandler.setDefault(new WebkitCookieManagerProxy(cookieStore, java.net.CookiePolicy.ACCEPT_ALL));
+  }
+
+  protected abstract String networkErrorMessage();
 
   public HttpURLConnection openConnection(String url, GParams params, HttpMethod method) throws MalformedURLException, IOException {
     HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
     prepareConnection(connection, params, method);
     return connection;
-//    ConnectionPreparator.configureCharsetAndTimeouts(connection);
-//    connection.setDoOutput(true);
   }
 
-
   protected abstract void prepareConnection(HttpURLConnection connection, GParams params, HttpMethod method);
-//  protected abstract void prefetchAfterLogin();
-//  protected abstract HttpAsyncPost signinRequest(GParams params);
-//  protected abstract String authUrl();
-//  protected abstract void onJsonSuccess(GRestResponse r) throws JSONException;
   protected abstract GHttpResponse createHttpResponse(String url);
 
   public abstract GHttpAlert alertHelper();
@@ -44,23 +56,4 @@ public abstract class GHttp {
   public void prepareWebView(WebView webView) {
     // To be overridden.
   }
-
-//  public TurbolinksSessionWrapper prepareTlSession(TurbolinksSessionWrapper session) {
-//    return session;
-//  }
-
-
-
-//  public void handleTlVisit() {
-//
-//  }
-
-//  public void handleTlError(int errorCode) {
-//
-//  }
-
-//  protected void signout() {
-
-//    // Nothing to do by default
-//  }
 }

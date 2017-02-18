@@ -13,6 +13,8 @@ import com.gani.lib.ui.Ui;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import static android.R.attr.versionName;
+
 public abstract class GApp {
   private static GApp instance;
 
@@ -24,13 +26,27 @@ public abstract class GApp {
     return instance;
   }
 
-  private static String versionName;
-  private static String codeName;
-  private static String deviceId;
-  private static int apiVersion;
+//  private static String versionName;
+//  private static String codeName;
+//  private static String deviceId;
+//  private static int apiVersion;
+//
+//  public static void init(Context c, Handler h, String cn, int av) {
+//    Ui.init(c, h);
+//
+//    versionName = calculateApplicationVersionName(c);
+//    codeName = cn;
+//    deviceId = Settings.Secure.getString(c.getContentResolver(), Settings.Secure.ANDROID_ID);
+//    apiVersion = av;
+//  }
 
-  public static void init(Context c, Resources r, Handler h, String cn, int av) {
-    Ui.init(c, r, h);
+  private String versionName;
+  private String codeName;
+  private String deviceId;
+  private int apiVersion;
+
+  public GApp(Context c, Handler h, String cn, int av) {
+    Ui.init(c, h);
 
     versionName = calculateApplicationVersionName(c);
     codeName = cn;
@@ -54,19 +70,19 @@ public abstract class GApp {
   }
 
   public static String getVersionName() {
-    return versionName;
+    return instance.versionName;
   }
 
   public static String getCodeName() {
-    return codeName;
+    return instance.codeName;
   }
 
   public static String getDeviceId() {
-    return deviceId;
+    return instance.deviceId;
   }
 
   public static int getApiVersion() {
-    return apiVersion;
+    return instance.apiVersion;
   }
 
   private static Gson GSON = new GsonBuilder().registerTypeAdapter(SelfTruncatingSet.class, new SelfTruncatingSet.GsonSerializer()).create();
@@ -80,6 +96,7 @@ public abstract class GApp {
     return DEFAULT_GSON;
   }
 
-
-  public abstract int notificationIconRes();
+  public int notificationIconRes() {
+    return R.drawable.icon_notification_logo;
+  }
 }

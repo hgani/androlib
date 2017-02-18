@@ -78,12 +78,12 @@ public class GActivity extends AppCompatActivity implements RichContainer {
     return getSupportActionBar();
   }
 
-  protected GBundle args() {
+  public GBundle args() {
     return new GBundle(rawArguments());
   }
 
   protected void onCreate(@Nullable Bundle savedInstanceState) {
-    throw new UnsupportedOperationException();  // To be overridden
+    throw new UnsupportedOperationException("Should be overridden in child class");
   }
 
   @Override

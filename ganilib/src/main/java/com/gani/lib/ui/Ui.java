@@ -16,9 +16,9 @@ public class Ui {
   private static Resources resources;
   private static Handler uiHandler;
 
-  public static void init(Context c, Resources r, Handler h) {
+  public static void init(Context c, Handler h) {
     appContext = c;
-    resources = r;
+    resources = c.getResources();
     uiHandler = h;
   }
 

@@ -2,6 +2,8 @@ package com.gani.web.htmlform;
 
 import android.content.Context;
 
-public interface HTMLFormOnSubmitListener {
+import java.io.Serializable;
+
+public interface HTMLFormOnSubmitListener extends Serializable {
     void onSubmit(HTMLForm form);
 }

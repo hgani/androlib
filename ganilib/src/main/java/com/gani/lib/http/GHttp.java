@@ -52,6 +52,7 @@ public abstract class GHttp {
   protected abstract GHttpResponse createHttpResponse(String url);
 
   public abstract GHttpAlert alertHelper();
+  public abstract String baseUrl();
 
   public void prepareWebView(WebView webView) {
     // To be overridden.

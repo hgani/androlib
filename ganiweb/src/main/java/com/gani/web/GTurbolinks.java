@@ -34,8 +34,9 @@ public abstract class GTurbolinks {
 
     this.activity = activity;
     this.view = view;
-//    this.url = RestPaths.BASE + path;
-    this.url = baseUrl() + path;
+//    this.url = baseUrl() + path;
+    this.url = GHttp.instance().baseUrl() + path;
+
     // Use separate sessions so we have separate web views thus greatly simplifying their lifecycle management. See InlineTurbolinksView.
     this.session = (view instanceof InlineTurbolinksView) ? wrapContentSession() : matchParentSession();
     this.adapter = createAdapter();
@@ -51,8 +52,8 @@ public abstract class GTurbolinks {
 //    session.getWebView().setLayoutParams(new ViewGroup.LayoutParams(
 //        ViewGroup.LayoutParams.MATCH_PARENT, 10));;
   }
-
-  protected abstract String baseUrl();
+//
+//  protected abstract String baseUrl();
 
   public void visit() {
     GLog.i(getClass(), "TL visit: " + url);

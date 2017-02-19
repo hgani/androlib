@@ -2,8 +2,7 @@ package com.gani.web;
 
 import android.os.Bundle;
 
-import com.gani.lib.R;
-import com.gani.lib.screen.GActivity;
+import com.gani.web.R;
 
 public abstract class TurbolinksDialogHelper extends TurbolinksActivityHelper {
   public TurbolinksDialogHelper(GTurbolinksSupportActivity activity, Bundle savedInstanceState) {

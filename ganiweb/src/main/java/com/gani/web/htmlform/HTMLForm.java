@@ -13,6 +13,14 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.gani.lib.http.GHttp;
+import com.gani.lib.http.GHttpCallback;
+import com.gani.lib.http.GHttpError;
+import com.gani.lib.http.GHttpResponse;
+import com.gani.lib.http.HttpAsyncGet;
+import com.gani.lib.http.HttpHook;
+import com.gani.lib.logging.GLog;
+
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -24,7 +32,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class HTMLForm {
+    public class HTMLForm {
     private final String TAG          = HTMLForm.class.getName();
     private final String INPUT_TAG    = "input";
     private final String TEXTAREA_TAG = "textarea";
@@ -54,7 +62,7 @@ public class HTMLForm {
         this.mURL = url;
     }
 
-    public Element getForm() {
+    public Element getFormElement() {
         return mForm;
     }
 
@@ -71,7 +79,31 @@ public class HTMLForm {
     }
 
     public void buildFields() {
-        new ParseForm().execute(mURL);
+//        new ParseForm().execute(mURL);
+        GLog.t(getClass(), "BUILD FIELDS");
+
+        GHttpCallback callback = new GHttpCallback<GHttpResponse, GHttpError>() {
+            @Override
+            public void onHttpSuccess(GHttpResponse response) {
+                GLog.t(getClass(), "FORM RESPONSE: " + response.hasError());
+                if (!response.hasError()) {
+                    Document document = Jsoup.parse(response.asString());
+//                    parse(document);
+                    new ParseForm().onPostExecute(document);
+                }
+                else {
+                    GHttp.instance().alertHelper().alertFormError(mContext, response);
+                }
+            }
+
+            @Override
+            public void onHttpFailure(GHttpError error) {
+                GHttp.instance().alertHelper().alertFormError(mContext, error.getResponse());
+//                GLog.e(getClass(), "Failed retrieving form");
+            }
+        };
+
+        new HttpAsyncGet(mURL, null, HttpHook.DUMMY, callback).execute();
     }
 
     public void setOnSubmitListener(HTMLFormOnSubmitListener listener) {

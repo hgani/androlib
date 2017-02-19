@@ -41,7 +41,7 @@ public abstract class GHttpResponse<RR extends GRestResponse> implements Seriali
   public boolean hasError() {
     return error.hasError();
   }
-  
+
   public byte[] asBinary() {
     return binary;
   }

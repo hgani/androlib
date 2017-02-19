@@ -26,10 +26,10 @@ public abstract class GHttp {
   }
 
   protected GHttp() {
-    // TODO: Call initHttpCookieHandler
+    initPermanentCookieHandler();
   }
 
-  private static void initHttpCookieHandler() {
+  private static void initPermanentCookieHandler() {
     android.webkit.CookieSyncManager.createInstance(Ui.context());
 
     // Use ACCEPT_ALL instead of ACCEPT_ORIGINAL_SERVER so that it is cross-subdomain.

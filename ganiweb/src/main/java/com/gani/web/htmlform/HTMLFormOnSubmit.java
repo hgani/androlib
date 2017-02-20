@@ -11,6 +11,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.gani.lib.logging.GLog;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -73,10 +74,14 @@ public abstract class HTMLFormOnSubmit implements HTMLFormOnSubmitListener {
                             params.put(keys[0], new JSONObject());
                         }
 
+                        GLog.t(getClass(), "PARAM1: " + keys[0] + " => " + value);
+
                         params.getJSONObject(keys[0]).put(keys[1], value);
                     }
                     else {
                         params.put(tag, value);
+
+                        GLog.t(getClass(), "PARAM2: " + tag + " => " + value);
                     }
                 }
             }
@@ -86,4 +91,40 @@ public abstract class HTMLFormOnSubmit implements HTMLFormOnSubmitListener {
 
         return params;
     }
+
+//    protected Map extractParams(HTMLForm form){
+//        LinearLayout layout = form.getLayout();
+////        JSONObject params = new JSONObject();
+//        Map params = new HashMap();
+//
+//        try {
+//            for(int i = 0; i < form.getLayout().getChildCount(); i++) {
+//                String tag = (String) layout.getChildAt(i).getTag();
+//                String value = "";
+//
+//                if (layout.getChildAt(i) instanceof HTMLEditText) {
+//                    value = ((HTMLEditText) layout.getChildAt(i)).getText().toString();
+//                }
+//
+//                if (tag instanceof String) {
+//                    if (tag.contains("[")) {
+//                        String[] keys = tag.replace("]", "").split("\\[");
+//
+//                        if (params.isNull(keys[0])) {
+//                            params.put(keys[0], new JSONObject());
+//                        }
+//
+//                        params.getJSONObject(keys[0]).put(keys[1], value);
+//                    }
+//                    else {
+//                        params.put(tag, value);
+//                    }
+//                }
+//            }
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//
+//        return params;
+//    }
 }

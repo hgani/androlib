@@ -1,5 +1,7 @@
 package com.gani.web;
 
+import android.net.Uri;
+
 import com.gani.lib.ui.Ui;
 import com.gani.web.htmlform.HTMLFormOnSubmitListener;
 
@@ -39,5 +41,9 @@ public class PathSpec implements Serializable {
 
   public HTMLFormOnSubmitListener getFormListener() {
     return formListener;
+  }
+
+  public boolean matches(Uri uri) {
+    return path.equals(uri.getPath());
   }
 }

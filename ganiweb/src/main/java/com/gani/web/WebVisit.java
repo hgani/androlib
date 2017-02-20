@@ -3,6 +3,7 @@ package com.gani.web;
 import android.net.Uri;
 
 import com.gani.lib.http.GImmutableParams;
+import com.gani.lib.logging.GLog;
 import com.gani.lib.screen.GActivity;
 
 public class WebVisit {
@@ -10,6 +11,8 @@ public class WebVisit {
     ADVANCE {
       @Override
       public boolean openGeneric(GTurbolinksSupportActivity activity, String path, GImmutableParams params) {
+        GLog.t(getClass(), "OPEN GENERIC: ADVANCE");
+
         activity.startTurbolinksScreen(new PathSpec(path), params);
 //        activity.startActivity(GScreenTurbolinks.intent(new PathSpec(path), params));
         return true;

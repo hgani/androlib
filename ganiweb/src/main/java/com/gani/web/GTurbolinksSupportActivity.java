@@ -26,7 +26,7 @@ import com.gani.web.PathSpec;
 
 import java.io.Serializable;
 
-public class GTurbolinksSupportActivity extends GActivity {
+public abstract class GTurbolinksSupportActivity extends GActivity {
   private GTurbolinks turbolinks;
 
 
@@ -46,9 +46,10 @@ public class GTurbolinksSupportActivity extends GActivity {
     }
   }
 
-  public void startTurbolinksScreen(PathSpec pathSpec, GImmutableParams params) {
-    // Override for TL support
-  }
+  public abstract void startTurbolinksScreen(PathSpec pathSpec, GImmutableParams params);
+//  {
+//    // Override for TL support
+//  }
 
   /////
 }

@@ -65,6 +65,9 @@ public abstract class HTMLFormOnSubmit implements HTMLFormOnSubmitListener {
                 if (layout.getChildAt(i) instanceof HTMLEditText) {
                     value = ((HTMLEditText) layout.getChildAt(i)).getText().toString();
                 }
+                else if (layout.getChildAt(i) instanceof HTMLSpinner) {
+                    value = ((HTMLSpinner) layout.getChildAt(i)).getSelectedItem().toString();
+                }
 
                 if (tag instanceof String) {
                     if (tag.contains("[")) {

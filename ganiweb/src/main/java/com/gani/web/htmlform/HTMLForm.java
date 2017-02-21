@@ -195,7 +195,7 @@ import java.util.Map;
                                 break;
                             case HIDDEN_TYPE:
                                 htmlEditText = new HTMLEditText(mContext, field);
-//                                htmlEditText.setVisibility(View.GONE);
+                                htmlEditText.setVisibility(View.GONE);
                                 mLayout.addView(htmlEditText);
                                 break;
                             case CHECKBOX_TYPE:

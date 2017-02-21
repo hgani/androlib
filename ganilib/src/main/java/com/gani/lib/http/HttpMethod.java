@@ -15,4 +15,12 @@ public enum HttpMethod {
         return POST;
     }
   }
+
+  public static HttpMethod from(GParams params) {
+    String method = (String) params.get("_method");
+    if (method == null) {
+      return POST;
+    }
+    return from(method);
+  }
 }

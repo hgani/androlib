@@ -16,7 +16,7 @@ public abstract class GParams<PB extends GParams, IP extends GImmutableParams> i
     this(new HashMap<String, Object>());
   }
 
-  GParams(Map<String, Object> initialData) {
+  protected GParams(Map<String, Object> initialData) {
     this.paramMap = new HashMap<String, Object>();
     paramMap.putAll(initialData);
   }

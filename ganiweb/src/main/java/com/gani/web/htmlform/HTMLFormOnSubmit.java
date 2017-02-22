@@ -68,8 +68,17 @@ public abstract class HTMLFormOnSubmit implements HTMLFormOnSubmitListener {
                 else if (layout.getChildAt(i) instanceof HTMLSpinner) {
                     value = ((HTMLSpinner) layout.getChildAt(i)).getSelectedItem().toString();
                 }
+                else if (layout.getChildAt(i) instanceof HTMLRadioButton) {
+                    HTMLRadioButton radioButton = (HTMLRadioButton) layout.getChildAt(i);
+                    if (radioButton.isChecked()) {
+                        value = radioButton.getValue();
+                    }
+                    else {
+                        value = null;
+                    }
+                }
 
-                if (tag instanceof String) {
+                if (tag instanceof String && value != null) {
                     if (tag.contains("[")) {
                         String[] keys = tag.replace("]", "").split("\\[");
 
@@ -77,7 +86,7 @@ public abstract class HTMLFormOnSubmit implements HTMLFormOnSubmitListener {
                             params.put(keys[0], new JSONObject());
                         }
 
-                        GLog.t(getClass(), "PARAM1: " + keys[0] + " => " + value);
+                        GLog.t(getClass(), "PARAM1: " + keys[1] + " => " + value);
 
                         params.getJSONObject(keys[0]).put(keys[1], value);
                     }

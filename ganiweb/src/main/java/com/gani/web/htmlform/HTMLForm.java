@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.text.InputType;
 import android.util.Log;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.webkit.CookieManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.RadioGroup;
 
 import com.gani.lib.http.GHttp;
 import com.gani.lib.http.GHttpCallback;
@@ -46,6 +48,8 @@ import java.util.Map;
     private final String CHECKBOX_TYPE = "checkbox";
     private final String EMAIL_TYPE    = "email";
     private final String PASSWORD_TYPE = "password";
+
+    private final String NAME_ATTR = "name";
 
     private Context mContext;
     private LinearLayout mLayout;
@@ -203,8 +207,25 @@ import java.util.Map;
                                 mLayout.addView(htmlCheckBox);
                                 break;
                             case RADIO_TYPE:
-                                HTMLRadioButton htmlRadioButton = new HTMLRadioButton(mContext, field);
-                                mLayout.addView(htmlRadioButton);
+//                                HTMLRadioButton htmlRadioButton = new HTMLRadioButton(mContext, field);
+//                                mLayout.addView(htmlRadioButton);
+                                RadioGroup radioGroup = new RadioGroup(mContext);
+                                radioGroup.setTag(field.attr(NAME_ATTR));
+                                mLayout.addView(radioGroup);
+
+                                Elements radioButtons = mForm.getElementsByAttributeValue(NAME_ATTR, field.attr(NAME_ATTR));
+                                radioButtons = radioButtons.select("input[type=radio]");
+
+                                for(int i = 0; i < radioButtons.size(); i++) {
+                                    Element radio = mFields.get(index + i);
+                                    HTMLRadioButton htmlRadioButton = new HTMLRadioButton(mContext, radio);
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                                        htmlRadioButton.setId(View.generateViewId());
+                                    }
+                                    radioGroup.addView(htmlRadioButton);
+                                }
+
+                                index = index + (radioButtons.size() - 1);
                                 break;
                             case SUBMIT_TYPE:
                                 Button button = new Button(mContext);

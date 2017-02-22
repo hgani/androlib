@@ -1,9 +1,11 @@
 package com.gani.web.htmlform;
 
 import android.net.Uri;
+import android.text.Html;
 import android.util.Log;
 import android.webkit.CookieManager;
 import android.widget.LinearLayout;
+import android.widget.RadioGroup;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.RequestQueue;
@@ -68,9 +70,11 @@ public abstract class HTMLFormOnSubmit implements HTMLFormOnSubmitListener {
                 else if (layout.getChildAt(i) instanceof HTMLSpinner) {
                     value = ((HTMLSpinner) layout.getChildAt(i)).getSelectedItem().toString();
                 }
-                else if (layout.getChildAt(i) instanceof HTMLRadioButton) {
-                    HTMLRadioButton radioButton = (HTMLRadioButton) layout.getChildAt(i);
-                    if (radioButton.isChecked()) {
+                else if (layout.getChildAt(i) instanceof RadioGroup) {
+                    int radioButtonId = ((RadioGroup) layout.getChildAt(i)).getCheckedRadioButtonId();
+
+                    if (radioButtonId > -1) {
+                        HTMLRadioButton radioButton = (HTMLRadioButton) layout.findViewById(radioButtonId);
                         value = radioButton.getValue();
                     }
                     else {

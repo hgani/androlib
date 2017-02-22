@@ -10,8 +10,11 @@ public class HTMLCheckBox extends CheckBox {
 
     private static final String ATTR_NAME = "name";
     private static final String CHECKED_ATTR  = "checked";
+    private static final String VALUE_ATTR = "value";
 
     private final Element mField;
+
+    private String value;
 
     public HTMLCheckBox(Context context, Element field, RelativeLayout.LayoutParams params) {
         super(context);
@@ -21,6 +24,13 @@ public class HTMLCheckBox extends CheckBox {
         setDefaultListeners();
     }
 
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
+    }
 
     public HTMLCheckBox(Context context, Element field) {
         super(context);
@@ -30,6 +40,7 @@ public class HTMLCheckBox extends CheckBox {
     }
 
     private void setDefaultListeners() {
+        setValue(mField.attr(VALUE_ATTR));
         setChecked(mField.hasAttr(CHECKED_ATTR));
         setTag(mField.attr(ATTR_NAME));
         setText(mField.parent().text());

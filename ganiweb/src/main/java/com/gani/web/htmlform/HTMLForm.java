@@ -49,7 +49,10 @@ import java.util.Map;
     private final String EMAIL_TYPE    = "email";
     private final String PASSWORD_TYPE = "password";
 
-    private final String NAME_ATTR = "name";
+    public static final String NAME_ATTR = "name";
+
+    public static final String RADIO_TYPE_QUERY = "input[type=radio]";
+    public static final String CHECKBOX_TYPE_QUERY = "input[type=checkbox]";
 
     private Context mContext;
     private LinearLayout mLayout;
@@ -214,7 +217,7 @@ import java.util.Map;
                                 mLayout.addView(radioGroup);
 
                                 Elements radioButtons = mForm.getElementsByAttributeValue(NAME_ATTR, field.attr(NAME_ATTR));
-                                radioButtons = radioButtons.select("input[type=radio]");
+                                radioButtons = radioButtons.select(RADIO_TYPE_QUERY);
 
                                 for(int i = 0; i < radioButtons.size(); i++) {
                                     Element radio = mFields.get(index + i);

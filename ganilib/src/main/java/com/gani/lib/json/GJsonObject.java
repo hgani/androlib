@@ -68,8 +68,13 @@ public abstract class GJsonObject<JO extends GJsonObject, JA extends GJsonArray>
   }
 
   @Nullable
-  public JO getNullableObject(String name) throws JSONException {
-    return isNull(name) ? null : getObject(name);
+  public JO getNullableObject(String name) {
+    try {
+      return isNull(name) ? null : getObject(name);
+    }
+    catch (JSONException e) {
+      return null;
+    }
   }
 
   // TODO: Deprecate. As much as possible, use getImage()

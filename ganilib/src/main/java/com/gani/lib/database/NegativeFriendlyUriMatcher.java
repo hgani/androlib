@@ -73,7 +73,7 @@ public class NegativeFriendlyUriMatcher
                 }
             }
             if (j == numChildren) {
-                // Child not found, create it
+                // Child not found, fromParamMap it
                 child = new NegativeFriendlyUriMatcher();
                 if (token.equals("#")) {
                     child.mWhich = NUMBER;

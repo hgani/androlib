@@ -4,7 +4,6 @@ import android.net.Uri;
 
 import java.io.Serializable;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -48,7 +47,7 @@ public abstract class GParams<PB extends GParams, IP extends GImmutableParams> i
   }
 
   public GParams copy() {
-    return new DefaultParams(paramMap);
+    return new Params(paramMap);
   }
   
   public int size() {
@@ -63,8 +62,12 @@ public abstract class GParams<PB extends GParams, IP extends GImmutableParams> i
     return paramMap.entrySet();
   }
   
-  static GParams create() {
-    return new DefaultParams();
+  static GParams fromParamMap() {
+    return new Params();
+  }
+
+  public static GParams fromParamMap(Map<String, Object> paramMap) {
+    return new Params(paramMap);
   }
 
   // Think about this class as a builder and GImmutableParams is the actual (built) object.
@@ -76,7 +79,7 @@ public abstract class GParams<PB extends GParams, IP extends GImmutableParams> i
 
   public static GParams fromNullable(GImmutableParams params) {
     if (params == null) {
-      return GParams.create();
+      return GParams.fromParamMap();
     }
     return params.toMutable();
   }
@@ -94,12 +97,12 @@ public abstract class GParams<PB extends GParams, IP extends GImmutableParams> i
     return toImmutable().toString();
   }
 
-  static class DefaultParams extends GParams {
-    DefaultParams() {
+  static class Params extends GParams {
+    Params() {
       super();
     }
 
-    DefaultParams(Map<String, Object> initialData) {
+    Params(Map<String, Object> initialData) {
       super(initialData);
     }
 

@@ -53,7 +53,7 @@ public abstract class DatabaseInitializer extends SQLiteOpenHelper {
 //  }
 //
 //  private static void createIndex(SQLiteDatabase database, String tableName, String columnName) {
-//    database.execSQL("create index " + tableName + "_" + columnName + "_idx on " + tableName + "(" + columnName + ");");
+//    database.execSQL("fromParamMap index " + tableName + "_" + columnName + "_idx on " + tableName + "(" + columnName + ");");
 //  }
 //
 //  protected static void dropTableIfExists(SQLiteDatabase database, String tableName) {

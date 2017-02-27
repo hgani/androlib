@@ -97,13 +97,16 @@ public abstract class GHttpError<HR extends GHttpResponse> implements Serializab
 
   public abstract void handleDefault(Context context);
 
-//  public void handleDefault(Context context) {
-//    if (type == ErrorType.AUTH) {
-//      GHttp.instance().signOut();
-////      new LocalSignouter().signoutAndStartNextActivity(context);
-//    }
-//    else {
-//      Toast.makeText(context, message, Toast.LENGTH_LONG).show();
-//    }
-//  }
+
+
+  public static class Default extends GHttpError<GHttpResponse> {
+    public Default(GHttpResponse response) {
+      super(response);
+    }
+
+    @Override
+    public void handleDefault(Context context) {
+      Toast.makeText(context, getMessage(), Toast.LENGTH_LONG).show();
+    }
+  }
 }

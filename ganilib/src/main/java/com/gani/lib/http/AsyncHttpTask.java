@@ -37,8 +37,8 @@ public class AsyncHttpTask extends AsyncTask<Void, Void, GHttpResponse> {
 
   public synchronized void firstPhaseExecute() {
     // TODO: refactor so we don't need to use instanceof
-    if (callback instanceof GHttpCallback.Rest) {
-      ((GHttpCallback.Rest) callback).onBeforeHttp();
+    if (callback instanceof GRestCallback) {
+      ((GRestCallback) callback).onBeforeHttp();
     }
   }
 

@@ -33,6 +33,10 @@ public class GFragment extends Fragment implements RichContainer, ProgressIndica
     return arguments;
   }
 
+  protected final GBundle args() {
+    return new GBundle(arguments);
+  }
+
   @Override
   public void onViewCreated(View view, Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
@@ -79,7 +83,7 @@ public class GFragment extends Fragment implements RichContainer, ProgressIndica
   }
 
   @Override
-  public GActivity getRichActivity() {
+  public GActivity getGActivity() {
     return (GActivity) getActivity();
   }
 

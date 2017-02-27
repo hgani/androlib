@@ -1,12 +1,20 @@
 package com.gani.web.htmlform;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.widget.LinearLayout;
 
-import com.gani.lib.logging.GLog;
-import com.gani.web.GTurbolinksSupportActivity;
+import com.gani.lib.http.GHttp;
+import com.gani.lib.http.GHttpCallback;
+import com.gani.lib.http.GParams;
+import com.gani.lib.http.GRestCallback;
+import com.gani.lib.http.GRestResponse;
+import com.gani.lib.http.HttpAsyncPost;
+import com.gani.lib.http.HttpHook;
+import com.gani.lib.http.HttpMethod;
+import com.gani.web.PathSpec;
 
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -122,5 +130,46 @@ public abstract class HTMLFormOnSubmit implements HTMLFormOnSubmitListener {
 //        }
 
         return params;
+    }
+
+    protected abstract Intent createTurbolinksIntent(PathSpec pathSpec);
+
+    @Override
+    public void onSubmit(final HTMLForm form) {
+    String endpoint = GHttp.instance().baseUrl() + form.getFormElement().attr("action") + ".json";
+
+        GParams params = GParams.fromParamMap(buildParamMap(form));
+//    MaParams params = extractParams(form);
+
+        GHttpCallback restCallback = new GRestCallback.Default(form.getFragment()) {
+            @Override
+            protected void onRestSuccess(GRestResponse r) throws JSONException {
+                String url = r.getJsonResult().getString("visit");
+
+                Uri uri = Uri.parse(url);
+                PathSpec path = new PathSpec(uri.getPath());
+                form.getContext().startActivity(createTurbolinksIntent(path));
+//                form.getContext().startActivity(ScreenTurbolinks.intent(path));
+//                ((Activity) form.getContext()).finish();
+                form.getFragment().getGActivity().finish();
+
+//        new AlertDialog.Builder(form.getContext())
+//            .setMessage("SUCCESS")
+//            .show();
+
+
+            }
+
+            @Override
+            protected final void onJsonSuccess(GRestResponse r) throws JSONException {
+//    String message = r.getJResult().getNullableString(ParamKeys.MESSAGE);
+//    if (message != null) {
+//      ToastUtils.showNormal(message);
+//    }
+            }
+        };
+
+        // The HTTP method is specified as a field.
+        new HttpAsyncPost(endpoint, params.toImmutable(), HttpHook.DUMMY, HttpMethod.from(params), restCallback).execute();
     }
 }

@@ -55,7 +55,7 @@ class FileUploadSupport {
       public boolean onJsConfirm(WebView view, String url, String message, final JsResult result) {
         // See http://stackoverflow.com/questions/2726377/how-to-handle-a-webview-confirm-dialog
         // Originally, we implement this only as a workaround for certain API levels which fail to show a dialog
-        // with the error "Cannot fromParamMap a dialog, the WebView context is not an Activity". This should be
+        // with the error "Cannot create a dialog, the WebView context is not an Activity". This should be
         // Android's bug because it still doesn't work even after updating TL's webview's MutableContextWrapper's
         // base context.
         //

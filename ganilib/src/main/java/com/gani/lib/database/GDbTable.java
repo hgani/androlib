@@ -148,7 +148,7 @@ public abstract class GDbTable<C extends GDbCursor> implements BaseColumns {
 
   public void createTable(SQLiteDatabase database) {
 //    if (columnsSpec() != null) {  // Consider making this NON-optional
-    database.execSQL("fromParamMap table " + getName() + " (" + columnsSpec() + ");");
+    database.execSQL("create table " + getName() + " (" + columnsSpec() + ");");
 //    }
   }
 
@@ -163,7 +163,7 @@ public abstract class GDbTable<C extends GDbCursor> implements BaseColumns {
 
   public void createIndex(SQLiteDatabase database, String columnName) {
     String tableName = getName();
-    database.execSQL("fromParamMap index " + tableName + "_" + columnName + "_idx on " + tableName + "(" + columnName + ");");
+    database.execSQL("create index " + tableName + "_" + columnName + "_idx on " + tableName + "(" + columnName + ");");
   }
 
   public void registerObserver(ContentObserver observer) {

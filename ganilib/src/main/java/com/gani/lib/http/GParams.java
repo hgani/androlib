@@ -62,11 +62,11 @@ public abstract class GParams<PB extends GParams, IP extends GImmutableParams> i
     return paramMap.entrySet();
   }
   
-  static GParams fromParamMap() {
+  static GParams create() {
     return new Params();
   }
 
-  public static GParams fromParamMap(Map<String, Object> paramMap) {
+  public static GParams fromMap(Map<String, Object> paramMap) {
     return new Params(paramMap);
   }
 
@@ -79,7 +79,7 @@ public abstract class GParams<PB extends GParams, IP extends GImmutableParams> i
 
   public static GParams fromNullable(GImmutableParams params) {
     if (params == null) {
-      return GParams.fromParamMap();
+      return GParams.create();
     }
     return params.toMutable();
   }

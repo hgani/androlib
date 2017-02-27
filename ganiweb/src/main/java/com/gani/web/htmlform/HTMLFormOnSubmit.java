@@ -138,7 +138,7 @@ public abstract class HTMLFormOnSubmit implements HTMLFormOnSubmitListener {
     public void onSubmit(final HTMLForm form) {
     String endpoint = GHttp.instance().baseUrl() + form.getFormElement().attr("action") + ".json";
 
-        GParams params = GParams.fromParamMap(buildParamMap(form));
+        GParams params = GParams.fromMap(buildParamMap(form));
 //    MaParams params = extractParams(form);
 
         GHttpCallback restCallback = new GRestCallback.Default(form.getFragment()) {

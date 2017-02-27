@@ -67,7 +67,7 @@ public class GImmutableParams implements Serializable {
 
   //
 //  public static GImmutableParams fromUri(Uri uri) {
-//    GParams params = GParams.fromParamMap();
+//    GParams params = GParams.create();
 //    for (String key : uri.getQueryParameterNames()) {
 //      String value = uri.getQueryParameter(key);
 //      params.put(key, value);

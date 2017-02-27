@@ -232,7 +232,7 @@ public class GActivity extends AppCompatActivity implements RichContainer {
 
 //  // TODO: Deprecated
 //  // Default implementation of HasUp interface. Be careful in overriding this when using dirty checking.
-//  // Returning a value other than null would fromParamMap a bug because the non-null class would cause a corresponding Activity to be created
+//  // Returning a value other than null would create a bug because the non-null class would cause a corresponding Activity to be created
 //  // when up is pressed, defeating dirty checking in this class.
 //  public Intent getUpIntent() {
 //    return null;

@@ -1,0 +1,5 @@
+#!/bin/bash
+
+dir=`dirname $0`
+
+gvim "${dir}/../src/com/thecrowdvoice/app/constant/ParamKeys.java"

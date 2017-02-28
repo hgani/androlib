@@ -1,0 +1,14 @@
+#!/bin/bash
+
+image_file=$1
+
+if [ -z $image_file ]; then
+  echo 'Image file to copy'
+  exit 1
+fi
+
+adb=$ANDROID_SDK_HOME/platform-tools/adb
+$adb push $image_file /sdcard/Pictures
+
+echo "Need to restart the emulator for the copied image to appear"
+

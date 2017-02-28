@@ -1,0 +1,9 @@
+#!/bin/bash
+
+$ANDROID_SDK_HOME/tools/emulator -avd GalaxyNexus4.4.2 -partition-size 512 &
+#/opt/android-sdks/tools/emulator -avd GalaxyNexus4.4.2 -partition-size 512 &
+
+sleep 10
+
+"`dirname $0`/update_ip"
+

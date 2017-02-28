@@ -1,0 +1,8 @@
+#!/bin/bash
+
+/opt/android-sdks/tools/emulator -avd Tablet5.1.1 -partition-size 512 &
+
+sleep 10
+
+"`dirname $0`/update_ip"
+

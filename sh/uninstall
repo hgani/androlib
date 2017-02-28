@@ -1,0 +1,12 @@
+#!/bin/bash
+
+package=$1
+if [ -z $package ]; then
+	echo "Pass a package name to delete"
+	exit
+fi
+
+
+# See http://stackoverflow.com/questions/11891848/install-failed-update-incompatible-when-i-try-to-install-compiled-trebuchet-apk
+$ANDROID_SDK_HOME/platform-tools/adb uninstall $package
+

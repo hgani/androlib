@@ -1,0 +1,17 @@
+#!/bin/sh
+
+text=$1
+
+if [ -z $text ]; then
+  echo 'Specify text to send'
+  exit 1
+fi
+
+expect << EOF
+spawn telnet localhost 5554
+expect -re ".*>"
+send "sms send 0123456789 $text\r"
+expect -re ".*>"
+send "exit\r"
+EOF
+

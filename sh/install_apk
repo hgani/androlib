@@ -1,0 +1,7 @@
+#!/bin/bash
+
+adb=/opt/android-sdks/platform-tools/adb
+
+# See http://stackoverflow.com/questions/7076240/install-an-apk-file-from-command-prompt
+$adb install $1
+

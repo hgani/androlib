@@ -1,0 +1,50 @@
+#!/bin/bash
+#
+# Need to run simulator with sufficiently large partition-size first
+# See http://borkweb.com/story/setting-etchosts-on-an-android-emulator-using-a-mac
+
+#PLATFORM=ubuntu
+PLATFORM=macosx
+
+case "$PLATFORM" in
+"ubuntu")
+  #INTERFACE=wlan0
+  INTERFACE=wlp2s0
+  POSITION=4
+  FLAG=
+  ;;
+"macosx")
+  INTERFACE=en0
+  POSITION=2
+  FLAG=-e
+  ;;
+*)
+  echo "Invalid platform: $PLATFORM"
+  exit
+  ;;
+esac
+
+hosts_file="`dirname $0`/hosts"
+
+echo "ifconfig $INTERFACE | grep "inet " | awk -F'[: ]+' { print \$$POSITION }"
+
+#ip_address=`ifconfig $INTERFACE | grep "inet " | awk -F'[: ]+' "{ print \$$POSITION }"`
+ip_address=$(ifconfig $INTERFACE | grep "inet " | awk -F'[: ]+' "{ print \$$POSITION }")
+
+sed -i $FLAG "1s/.*/$ip_address id.crowdvoice.me/" $hosts_file
+
+adb=$ANDROID_SDK_HOME/platform-tools/adb
+
+# Required by remount
+$adb root
+
+n=0
+until [ $n -ge 60 ]
+do
+  $adb remount && break
+  n=$[$n+1]
+  sleep 1
+done
+ 
+$adb push $hosts_file /system/etc
+

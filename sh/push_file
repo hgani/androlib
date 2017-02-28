@@ -1,0 +1,9 @@
+#!/bin/bash
+#
+
+adb=/opt/android-sdks/platform-tools/adb
+
+# See http://stackoverflow.com/questions/5151744/upload-picture-to-emulator-gallery
+#$adb shell mkdir /sdcard/Pictures
+$adb push $1 /sdcard/Pictures
+

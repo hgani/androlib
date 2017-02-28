@@ -22,7 +22,7 @@ public class ToastUtils {
 //
 //  // TODO: Remove. If you can pass a context, might as well use a snack bar
 //  public static void showNormal(RichContainer container, final String str) {
-//    final RichActivity activity = container.getRichActivity();
+//    final RichActivity activity = container.getGActivity();
 //    if (activity != null) {
 //      activity.runOnUiThread(new Runnable() {
 //        @Override

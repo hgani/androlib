@@ -82,7 +82,7 @@ public abstract class GHttpAlert<HR extends GHttpResponse, RR extends GRestRespo
   public abstract void alertJsonError(Context c, RR r, JSONException e);
   public abstract void alertCommonError(Context context, HR r) throws JSONException;
 
-  public void alertFormError(Context context, HR response) {
+  public void alertFormParsingError(Context context, HR response) {
     // Do nothing by default
   }
 }

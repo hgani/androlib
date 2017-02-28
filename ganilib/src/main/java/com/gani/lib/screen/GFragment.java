@@ -29,8 +29,12 @@ public class GFragment extends Fragment implements RichContainer, ProgressIndica
 //    this.arguments = new GBundle((getArguments() == null) ? new Bundle() : getArguments());
   }
 
-  protected final Bundle rawArguments() {
-    return arguments;
+//  protected final Bundle rawArguments() {
+//    return arguments;
+//  }
+
+  protected GBundle args() {
+    return new GBundle(arguments);
   }
 
   @Override
@@ -79,7 +83,7 @@ public class GFragment extends Fragment implements RichContainer, ProgressIndica
   }
 
   @Override
-  public GActivity getRichActivity() {
+  public GActivity getGActivity() {
     return (GActivity) getActivity();
   }
 

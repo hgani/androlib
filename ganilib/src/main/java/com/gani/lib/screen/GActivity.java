@@ -79,7 +79,7 @@ public class GActivity extends AppCompatActivity implements RichContainer {
   }
 
   public GBundle args() {
-    return new GBundle(rawArguments());
+    return new GBundle(arguments);
   }
 
   protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -124,7 +124,7 @@ public class GActivity extends AppCompatActivity implements RichContainer {
   }
   
   @Override
-  public final GActivity getRichActivity() {
+  public final GActivity getGActivity() {
     return this;
   }
   
@@ -170,9 +170,9 @@ public class GActivity extends AppCompatActivity implements RichContainer {
     getSupportActionBar().setSubtitle(subtitle);
   }
 
-  protected final Bundle rawArguments() {
-    return arguments;
-  }
+//  protected final Bundle rawArguments() {
+//    return arguments;
+//  }
 
 
 

@@ -77,4 +77,21 @@ public abstract class GJsonArray<JO extends GJsonObject> implements Iterable<JO>
 //    return new JArray(objects.toArray(new JObject[objects.size()]));
 ////    return insertRows(URIS, rows);
 //  }
+
+
+  static class Default extends GJsonArray<GJsonObject.Default> {
+    Default(JSONArray array) throws JSONException {
+      super(array);
+    }
+
+    @Override
+    protected GJsonObject.Default[] createArray(int length) {
+      return new GJsonObject.Default[length];
+    }
+
+    @Override
+    protected GJsonObject.Default createObject(JSONObject object) {
+      return new GJsonObject.Default(object);
+    }
+  }
 }

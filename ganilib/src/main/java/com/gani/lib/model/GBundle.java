@@ -8,37 +8,41 @@ import com.gani.lib.http.GImmutableParams;
 import java.io.Serializable;
 
 public class GBundle {
-  private Bundle bundle;
+  private Bundle backend;
 
-  public GBundle(Bundle bundle) {
-    this.bundle = bundle;
+  protected GBundle(GBundle backend) {
+    this(backend.backend);
+  }
+
+  public GBundle(Bundle backend) {
+    this.backend = backend;
   }
 
   public final Serializable getSerializable(String key) {
-    return bundle.getSerializable(key);
+    return backend.getSerializable(key);
   }
 
   public final Intent getIntent(String key) {
-    return (Intent) bundle.getParcelable(key);
+    return (Intent) backend.getParcelable(key);
   }
 
   public final String getString(String key) {
-    return bundle.getString(key);
+    return backend.getString(key);
   }
 
   public final long getLong(String key) {
-    return bundle.getLong(key);
+    return backend.getLong(key);
   }
 
   public final boolean getBoolean(String key) {
     if (!containsKey(key)) {
       throw new IllegalArgumentException("Bundle key not specified: " + key);
     }
-    return bundle.getBoolean(key);
+    return backend.getBoolean(key);
   }
 
   public final boolean getBoolean(String key, boolean defaultValue) {
-    return bundle.getBoolean(key, defaultValue);
+    return backend.getBoolean(key, defaultValue);
   }
 
   public final Long getNullableLong(String key) {
@@ -49,7 +53,7 @@ public class GBundle {
   }
 
   private final boolean containsKey(String key) {
-    return bundle.containsKey(key);
+    return backend.containsKey(key);
   }
 
   public final <T> Class<T> getClass(String key) {
@@ -57,6 +61,6 @@ public class GBundle {
   }
 
   public GImmutableParams getParams(String key) {
-    return (GImmutableParams) bundle.getSerializable(key);
+    return (GImmutableParams) backend.getSerializable(key);
   }
 }

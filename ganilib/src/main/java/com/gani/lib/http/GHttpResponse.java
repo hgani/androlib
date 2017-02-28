@@ -124,4 +124,9 @@ public abstract class GHttpResponse<RR extends GRestResponse> implements Seriali
     GLog.d(GHttpResponse.class, "Actual HTTP result size (in bytes): " + data.length);
     return data;
   }
+
+  @Override
+  public String toString() {
+    return asString();
+  }
 }

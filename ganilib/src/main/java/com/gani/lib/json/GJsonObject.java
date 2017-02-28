@@ -5,7 +5,9 @@ import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.gani.lib.http.GRestResponse;
 import com.gani.lib.logging.GLog;
+import com.gani.lib.screen.GActivity;
 import com.gani.lib.ui.Ui;
 
 import org.json.JSONArray;
@@ -18,7 +20,10 @@ import java.util.List;
 public abstract class GJsonObject<JO extends GJsonObject, JA extends GJsonArray> {
   private JSONObject backend;
 
-  // NOTE: Might not be needed anymore in the future
+  protected GJsonObject(GJsonObject object) {
+    this(object.backend);
+  }
+
   protected GJsonObject(JSONObject backend) {
     this.backend = backend;
   }
@@ -68,8 +73,13 @@ public abstract class GJsonObject<JO extends GJsonObject, JA extends GJsonArray>
   }
 
   @Nullable
-  public JO getNullableObject(String name) throws JSONException {
-    return isNull(name) ? null : getObject(name);
+  public JO getNullableObject(String name) {
+    try {
+      return isNull(name) ? null : getObject(name);
+    }
+    catch (JSONException e) {
+      return null;
+    }
   }
 
   // TODO: Deprecate. As much as possible, use getImage()
@@ -232,6 +242,24 @@ public abstract class GJsonObject<JO extends GJsonObject, JA extends GJsonArray>
   @NonNull
   public String toString() {
     return backend.toString();
+  }
+
+
+
+  public static class Default extends GJsonObject<GJsonObject.Default, GJsonArray.Default> {
+    public Default(JSONObject object) {
+      super(object);
+    }
+
+    @Override
+    protected GJsonArray.Default createArray(JSONArray array) throws JSONException {
+      return new GJsonArray.Default(array);
+    }
+
+    @Override
+    protected GJsonObject.Default createObject(JSONObject object) {
+      return new GJsonObject.Default(object);
+    }
   }
 }
 

@@ -1,7 +1,5 @@
 package com.gani.lib.http;
 
-import android.net.Uri;
-
 import com.gani.lib.logging.GLog;
 
 import java.io.Serializable;
@@ -22,7 +20,7 @@ public class GImmutableParams implements Serializable {
   }
 
   GParams toMutable() {
-    return new GParams.DefaultParams(paramMap);
+    return new GParams.Default(paramMap);
   }
 
   public String asQueryString() {

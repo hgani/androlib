@@ -122,7 +122,7 @@ public abstract class GTurbolinks {
     return (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT);
   }
 
-//  public static boolean handleVisit(GActivity activity, Uri uri, WebVisit.Action action) {
+//  public static boolean handleVisit(GActivity activity, Uri uri, WebVisit.HtmlFormHandler action) {
 //    return new WebVisit(activity, uri, action).handle();
 //  }
 
@@ -200,7 +200,7 @@ public abstract class GTurbolinks {
         if (ACTION_ADVANCE.equals(action)) {
           handleVisit(activity, Uri.parse(location), WebVisit.Action.ADVANCE);
         } else {  // replace
-//          if (!handleVisit(activity, Uri.parse(location), WebVisit.Action.REPLACE)) {
+//          if (!handleVisit(activity, Uri.parse(location), WebVisit.HtmlFormHandler.REPLACE)) {
           GTurbolinks.this.url = location;
           visit();
 //          }

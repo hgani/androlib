@@ -14,6 +14,7 @@ import com.gani.lib.http.HttpAsyncPost;
 import com.gani.lib.http.HttpHook;
 import com.gani.lib.http.HttpMethod;
 import com.gani.lib.json.GJsonObject;
+import com.gani.lib.logging.GLog;
 import com.gani.lib.screen.GActivity;
 import com.gani.web.PathSpec;
 
@@ -24,10 +25,12 @@ import org.jsoup.select.Elements;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.gani.lib.database.GDbValue.getString;
+import javax.microedition.khronos.opengles.GL;
+
+import static android.R.attr.name;
 
 public abstract class HTMLFormOnSubmit implements HTMLFormOnSubmitListener {
-  private final String TAG = this.getClass().getSimpleName();
+//  private final String TAG = this.getClass().getSimpleName();
 
 //    private JSONObject mParams;
 
@@ -301,6 +304,8 @@ public abstract class HTMLFormOnSubmit implements HTMLFormOnSubmitListener {
   }
 
   protected abstract Intent createTurbolinksIntent(PathSpec pathSpec);
+//  public abstract void execute   (TaRichActivity activity, TaJsonObject params) throws JSONException;
+
 
   @Override
   public void onSubmit(final HTMLForm form) {
@@ -310,19 +315,27 @@ public abstract class HTMLFormOnSubmit implements HTMLFormOnSubmitListener {
     GHttpCallback restCallback = new GRestCallback.Default(form.getFragment()) {
       @Override
       protected void onRestSuccess(GRestResponse r) throws JSONException {
+        GActivity activity = form.getFragment().getGActivity();
         GJsonObject result = r.getResult();
 
-//        String handler = result.getNullableString("handler");
-//        if (handler != null) {
-//
-//        }
+        GJsonObject handler = result.getNullableObject("handler");
+        if (handler != null) {
+          String name = handler.getString("name");
+          try {
+            String prefix = HTMLFormOnSubmit.this.getClass().getPackage().getName() + ".handler";
+            HtmlFormHandler.create(prefix, name).execute(activity, handler);
+          }
+          catch (HtmlFormHandler.NotFoundException e) {
+            GLog.e(getClass(), "Handler not found", e);
+            throw new JSONException("Handler not found");
+          }
+        }
 
         String url = result.getString("visit");
 
         Uri uri = Uri.parse(url);
         PathSpec path = new PathSpec(uri.getPath());
 
-        GActivity activity = form.getFragment().getGActivity();
         activity.startActivity(createTurbolinksIntent(path));
         activity.finish();
       }

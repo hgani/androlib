@@ -19,6 +19,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class GTextView extends TextView {
+  private ViewHelper helper;
+
   public GTextView(Context context) {
     super(context);
     init();
@@ -30,9 +32,7 @@ public class GTextView extends TextView {
   }
 
   private void init() {
-    // Ensure layout params can't be null.
-    setLayoutParams(new LinearLayout.LayoutParams(
-        ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+    this.helper = new ViewHelper(this);
   }
 
   public GTextView size(Integer width, Integer height) {

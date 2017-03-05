@@ -19,6 +19,10 @@ public class GLog {
     Log.w(cls.getName(), msg, t);
   }
 
+  public static void w(Class<?> cls, String msg) {
+    Log.w(cls.getName(), msg);
+  }
+
   public static void d(Class<?> cls, String msg) {
     if (msg.length() > LOGCAT_CHAR_LIMIT) {
       Log.d(cls.getName(), msg.substring(0, LOGCAT_CHAR_LIMIT));

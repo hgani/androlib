@@ -6,6 +6,7 @@ import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.style.StyleSpan;
 import android.util.AttributeSet;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -21,6 +22,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class GImageView extends ImageView {
+  private ViewHelper helper;
+
   public GImageView(Context context) {
     super(context);
     init();
@@ -32,9 +35,7 @@ public class GImageView extends ImageView {
   }
 
   private void init() {
-    // Ensure layout params can't be null.
-    setLayoutParams(new LinearLayout.LayoutParams(
-            ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+    this.helper = new ViewHelper(this);
   }
 
   public void setImageUrl(String url) {

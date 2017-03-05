@@ -48,15 +48,6 @@ public abstract class DbCursorRecyclerAdapter<C extends GDbCursor> extends Curso
     else {
       return onCreateItemHolder(parent, viewType);
     }
-//    switch (viewType) {
-//
-//      case R.id.listitem_header:
-//        return onCreateHeaderHolder(parent);
-//      case R.id.listitem_footer:
-//        return onCreateFooterHolder(parent);
-//      default:
-//        return onCreateItemHolder(parent, viewType);
-//    }
   }
 
   protected abstract CursorBindingHolder onCreateItemHolder(ViewGroup parent, int viewType);
@@ -66,58 +57,13 @@ public abstract class DbCursorRecyclerAdapter<C extends GDbCursor> extends Curso
     if (withSeparator) {
       recyclerView.addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.VERTICAL_LIST));
     }
-//    ((LinearLayoutManager) recyclerView.getLayoutManager()).setStackFromEnd(true);
     recyclerView.setAdapter(this);
     return new RecyclerListHelper(recyclerView);
-  }
-
-  public static class RecyclerListHelper {
-    private RecyclerView recyclerView;
-    private LinearLayoutManager layoutManager;
-
-    private RecyclerListHelper(RecyclerView recyclerView) {
-      this.recyclerView = recyclerView;
-      this.layoutManager = new LinearLayoutManager(recyclerView.getContext());
-//      layoutManager.setStackFromEnd(true);
-//      layoutManager.setReverseLayout(true);
-
-      recyclerView.setLayoutManager(layoutManager);
-    }
-
-    public void reverse() {
-      layoutManager.setReverseLayout(true);
-
-      // Review to see if this is really needed
-//      layoutManager.setStackFromEnd(true);
-    }
-
-    public long getLastCompletelyVisibleItemId() {
-//      int pos = layoutManager.findFirstCompletelyVisibleItemPosition();
-      int pos = layoutManager.findLastCompletelyVisibleItemPosition();
-      return recyclerView.getAdapter().getItemId(pos - 1);  // Subtract header
-    }
-
-//    public void scroll(final int position) {
-//      layoutManager.scrollToPositionWithOffset(position, 0);
-//
-//      // Without the delay the screen sometimes does not get scrolled, presumably because the recycler view has not been populated.
-////      recyclerView.postDelayed(new Runnable() {
-////        @Override
-////        public void run() {
-////          GLog.t(getClass(), "SCROLL");
-////          // We've tried a few alternatives, but this seems to be the only way that works.
-////          // See http://stackoverflow.com/questions/26875061/scroll-recyclerview-to-show-selected-item-on-top
-//////          layoutManager.scrollToPositionWithOffset(position, 0);
-////          ((LinearLayoutManager) recyclerView.getLayoutManager()).scrollToPositionWithOffset(position, 0);
-////        }
-////      }, 1000);
-//    }
   }
 
   public void initForList(RecyclerView recyclerView) {
     initForList(recyclerView, true);
   }
-
 
   protected GenericBindingHolder onCreateHeaderHolder(ViewGroup parent) {
     return new BlankGenericItemHolder(parent);
@@ -296,7 +242,6 @@ public abstract class DbCursorRecyclerAdapter<C extends GDbCursor> extends Curso
       super(view, selectable);
     }
 
-//    protected abstract void update();
     protected abstract void update(State state);
   }
 

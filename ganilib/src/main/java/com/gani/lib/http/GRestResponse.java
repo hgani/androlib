@@ -24,7 +24,7 @@ public class GRestResponse implements Serializable {
     return httpResponse.getUrl();
   }
   
-  private JSONObject getJsonResult() throws JSONException {
+  protected JSONObject getJsonResult() throws JSONException {
     if (this.jsonResult == null) {
       this.jsonResult = new JSONObject(jsonString);
     }

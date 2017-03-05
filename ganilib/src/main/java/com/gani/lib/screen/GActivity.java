@@ -2,12 +2,14 @@ package com.gani.lib.screen;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -112,7 +114,7 @@ public class GActivity extends AppCompatActivity implements RichContainer {
     return TrackingSpec.DO_NOTHING;
   }
 
-  protected final void setOkResult(String resultKey, Serializable resultValue) {
+  public final void setOkResult(String resultKey, Serializable resultValue) {
     Intent extras = new Intent();
     extras.putExtra(resultKey, resultValue);
     setResult(RESULT_OK, extras);
@@ -151,12 +153,37 @@ public class GActivity extends AppCompatActivity implements RichContainer {
     return getIntent().getSerializableExtra(key);
   }
 
-  public void setContentWithToolbar(int resId, boolean topNavigation) {
-    this.topNavigation = topNavigation;
-
+  private void setContent(int resId) {
     container.initNavigation(topNavigation, getSupportActionBar());
     container.setBody(resId);
   }
+
+  public void setContentWithToolbar(int resId, boolean topNavigation) {
+    this.topNavigation = topNavigation;
+    setContent(resId);
+    container.getToolbar().setVisibility(View.VISIBLE);
+  }
+
+  public void setContentWithoutToolbar(int resId) {
+    this.topNavigation = false;
+    setContent(resId);
+  }
+
+  @Override
+  public final void setContentView(View view) {
+    throw new UnsupportedOperationException("Use either setContentWithToolbar() or setContentWithoutToolbar()");
+  }
+
+  @Override
+  public final void setContentView(View view, ViewGroup.LayoutParams params) {
+    setContentView(view);
+  }
+
+  @Override
+  public final void setContentView(@LayoutRes int layoutResID) {
+    setContentView(null);
+  }
+
 
   // Unfortunately when setting theme programatically, the background won't be transparent. See http://stackoverflow.com/questions/15455979/translucent-theme-does-not-work-when-set-programmatically-on-android-2-3-3-or-4
   // So we'll stick to setting theme in manifest and calling the right dialog method here. Ideally both can be done in this method.
@@ -188,6 +215,7 @@ public class GActivity extends AppCompatActivity implements RichContainer {
       // R.id.screen_body has to be unique or else we might be attaching the fragment to the wrong view
       getSupportFragmentManager().beginTransaction().add(R.id.screen_body, fragment).commit();
     }
+    container.getToolbar().setVisibility(View.VISIBLE);
   }
 
   public void replaceFragment(GFragment fragment) {

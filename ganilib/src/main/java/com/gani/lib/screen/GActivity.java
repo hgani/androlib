@@ -205,9 +205,7 @@ public class GActivity extends AppCompatActivity implements RichContainer {
 
   ///// Fragment management /////
 
-  public void setFragmentWithToolbar(GFragment fragment, boolean topNavigation, Bundle savedInstanceState) {
-    this.topNavigation = topNavigation;
-
+  private void setFragment(GFragment fragment, Bundle savedInstanceState) {
     container.initNavigation(topNavigation, getSupportActionBar());
 
     if (savedInstanceState == null) {  // During initial setup, plug in the fragment
@@ -215,6 +213,16 @@ public class GActivity extends AppCompatActivity implements RichContainer {
       // R.id.screen_body has to be unique or else we might be attaching the fragment to the wrong view
       getSupportFragmentManager().beginTransaction().add(R.id.screen_body, fragment).commit();
     }
+  }
+
+  public void setFragmentWithoutToolbar(GFragment fragment, Bundle savedInstanceState) {
+    this.topNavigation = false;
+    setFragment(fragment, savedInstanceState);
+  }
+
+  public void setFragmentWithToolbar(GFragment fragment, boolean topNavigation, Bundle savedInstanceState) {
+    this.topNavigation = topNavigation;
+    setFragment(fragment, savedInstanceState);
     container.getToolbar().setVisibility(View.VISIBLE);
   }
 

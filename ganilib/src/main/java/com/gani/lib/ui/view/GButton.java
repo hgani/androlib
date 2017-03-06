@@ -1,7 +1,12 @@
 package com.gani.lib.ui.view;
 
+import android.app.Activity;
 import android.content.Context;
+import android.graphics.LightingColorFilter;
+import android.graphics.PorterDuff;
 import android.graphics.Typeface;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewCompat;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.style.StyleSpan;
@@ -12,7 +17,9 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.gani.lib.R;
 import com.gani.lib.ui.Ui;
+import com.gani.lib.ui.menu.GMenu;
 import com.gani.lib.ui.style.Length;
 
 import java.util.ArrayList;
@@ -20,7 +27,15 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static android.R.attr.button;
+
 public class GButton extends Button {
+  private static int defaultBgColor = Ui.color(R.color.colorAccent);
+
+  public static void setDefaultBgColor(int defaultBgColor) {
+    GButton.defaultBgColor = defaultBgColor;
+  }
+
   private ViewHelper helper;
 
   public GButton(Context context) {
@@ -35,6 +50,7 @@ public class GButton extends Button {
 
   private void init() {
     this.helper = new ViewHelper(this);
+    background(defaultBgColor);
   }
 
   public GButton size(Integer width, Integer height) {
@@ -77,7 +93,14 @@ public class GButton extends Button {
 //  }
 
   public GButton background(String code) {
-    setBackgroundColor(Ui.color(code));
+    background(Ui.color(code));
+    return this;
+  }
+
+  public GButton background(int color) {
+    // Alternative implementation: http://stackoverflow.com/questions/1521640/standard-android-button-with-a-different-color
+     getBackground().setColorFilter(color, PorterDuff.Mode.MULTIPLY);
+//    ViewCompat.setBackgroundTintList(this, ContextCompat.getColorStateList(getContext(), colorResId));
     return this;
   }
 
@@ -98,6 +121,11 @@ public class GButton extends Button {
 
   public GButton margin(int left, int top, int right, int bottom) {
     helper.margin(left, top, right, bottom);
+    return this;
+  }
+
+  public GButton click(View.OnClickListener listener) {
+    helper.click(listener);
     return this;
   }
 }

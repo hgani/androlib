@@ -27,4 +27,8 @@ public class ViewHelper {
       GLog.w(getClass(), "Unable to set margin for: " + view);
     }
   }
+
+  void click(View.OnClickListener listener) {
+    view.setOnClickListener(listener);
+  }
 }

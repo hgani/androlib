@@ -30,10 +30,10 @@ import java.util.regex.Pattern;
 import static android.R.attr.button;
 
 public class GButton extends Button {
-  private static int defaultBgColor = Ui.color(R.color.colorAccent);
+  private static Spec defaultSpec = new Spec();
 
-  public static void setDefaultBgColor(int defaultBgColor) {
-    GButton.defaultBgColor = defaultBgColor;
+  public static void setDefaultSpec(Spec defaultSpec) {
+    GButton.defaultSpec = defaultSpec;
   }
 
   private ViewHelper helper;
@@ -50,7 +50,7 @@ public class GButton extends Button {
 
   private void init() {
     this.helper = new ViewHelper(this);
-    background(defaultBgColor);
+    defaultSpec.init(this);
   }
 
   public GButton size(Integer width, Integer height) {
@@ -125,7 +125,16 @@ public class GButton extends Button {
   }
 
   public GButton click(View.OnClickListener listener) {
-    helper.click(listener);
+    // TODO
+//    helper.click(listener);
     return this;
+  }
+
+
+
+  public static class Spec {
+    public void init(GButton button) {
+      button.background(Ui.color(R.color.colorAccent));
+    }
   }
 }

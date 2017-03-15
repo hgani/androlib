@@ -9,6 +9,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 
 import com.gani.lib.R;
+import com.gani.lib.logging.GLog;
 import com.gani.lib.screen.GActivity;
 import com.gani.lib.ui.Ui;
 
@@ -19,6 +20,7 @@ import java.util.List;
 import java.util.Set;
 
 import static android.R.attr.id;
+import static android.app.Activity.RESULT_OK;
 
 public class ItemSelectScreenHelper<I extends SelectableItem, T extends SelectGroup.Tab> {
   static final String PARAM_SELECTED_ITEMS = "selectedItems";
@@ -41,28 +43,31 @@ public class ItemSelectScreenHelper<I extends SelectableItem, T extends SelectGr
   private Set<I> selectedItems;
   private boolean multiselect;
 
-  public ItemSelectScreenHelper(GActivity activity, Bundle savedInstanceState, FragmentItemSelect<I, T> fragment, boolean multiselect) {
+  public ItemSelectScreenHelper(GActivity activity, Bundle savedInstanceState, FragmentItemSelect<I, T> fragment,
+                                boolean multiselect, List<I> initialSelection) {
     this.activity = activity;
     this.fragment = fragment;
     this.multiselect = multiselect;
+    this.selectedItems = (savedInstanceState == null)?
+//        new LinkedHashSet<I>((List<I>) activity.getIntent().getSerializableExtra(PARAM_SELECTED_ITEMS)) :
+        new LinkedHashSet<I>((List<I>) initialSelection) :
+        (LinkedHashSet<I>) savedInstanceState.getSerializable(BUNDLE_SELECTED_ITEMS);
 
-    onCreate(savedInstanceState);
+//    onCreate(savedInstanceState);
+    activity.setFragmentWithToolbar(fragment, false, savedInstanceState);
   }
-
 
 //  protected ItemSelectScreenHelper(FragmentItemSelect<I, T> fragment) {
 //    this.fragment = fragment;
 //  }
+//
+//  private void onCreate(Bundle savedInstanceState) {
+//    activity.setFragmentWithToolbar(fragment, false, savedInstanceState);
+//  }
 
-  private void onCreate(Bundle savedInstanceState) {
-    activity.setFragmentWithToolbar(fragment, false, savedInstanceState);
+  public void initResult() {
+    GLog.t(getClass(), "ON BACK2: " + selectedItems);
 
-    this.selectedItems = (savedInstanceState == null)?
-        new LinkedHashSet<I>((List<I>) activity.getIntent().getSerializableExtra(PARAM_SELECTED_ITEMS)) :
-        (LinkedHashSet<I>) savedInstanceState.getSerializable(BUNDLE_SELECTED_ITEMS);
-  }
-
-  public void onBackPressed() {
     activity.setOkResult(RETURN_ITEMS, new ArrayList<I>(selectedItems));
 //    super.onBackPressed();
   }
@@ -93,7 +98,6 @@ public class ItemSelectScreenHelper<I extends SelectableItem, T extends SelectGr
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
       if (isChecked) {
         if (!multiselect) {
-//          ListView listView = (ListView) activity.findViewById(R.id.list_common);
           RecyclerView listView = (RecyclerView) activity.findViewById(R.id.list_common);
           for (int i = 0; i < listView.getChildCount(); i++) {
             View itemView = listView.getChildAt(i);

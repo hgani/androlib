@@ -2,11 +2,13 @@ package com.gani.lib.ui.view;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.LightingColorFilter;
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewCompat;
+import android.support.v7.widget.AppCompatButton;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.style.StyleSpan;
@@ -28,8 +30,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static android.R.attr.button;
+import static android.R.attr.text;
 
-public class GButton extends Button {
+public class GButton extends AppCompatButton {
   private static Spec defaultSpec = new Spec();
 
   public static void setDefaultSpec(Spec defaultSpec) {
@@ -54,43 +57,22 @@ public class GButton extends Button {
   }
 
   public GButton size(Integer width, Integer height) {
-    ViewGroup.LayoutParams params = getLayoutParams();
-    if (width != null) {
-      params.width = Length.dpToPx(width);
-    }
-    if (height != null) {
-      params.height = Length.dpToPx(height);
-    }
-    setLayoutParams(params);
-
+//    ViewGroup.LayoutParams params = getLayoutParams();
+//    if (width != null) {
+//      params.width = Length.dpToPx(width);
+//    }
+//    if (height != null) {
+//      params.height = Length.dpToPx(height);
+//    }
+//    setLayoutParams(params);
+    helper.size(width, height);
     return this;
   }
 
-//  public GButton bold() {
-//    List<String> matchers = new ArrayList<>();
-//    String text = getText().toString();
-//    SpannableStringBuilder builder = new SpannableStringBuilder(text);
-//    Pattern boldPattern = Pattern.compile("\\*([A-z0-9 ]+)\\*");
-//    Matcher matcher = boldPattern.matcher(builder);
-//
-//    while(matcher.find()) {
-//      matchers.add(matcher.group());
-//    }
-//
-//    for (int i = matchers.size() - 1; i >= 0; i--) {
-//      String m = matchers.get(i);
-//      int startIndex = text.indexOf(m);
-//      int endIndex = startIndex + m.length();
-//
-//      SpannableString str = new SpannableString(m.substring(1, m.length() - 1));
-//      str.setSpan(new StyleSpan(Typeface.BOLD), 0, str.length(), 0);
-//      builder.replace(startIndex, endIndex, str);
-//    }
-//
-//    setText(builder);
-//
-//    return this;
-//  }
+  public GButton spec(Spec spec) {
+    spec.init(this);
+    return this;
+  }
 
   public GButton background(String code) {
     background(Ui.color(code));
@@ -105,12 +87,22 @@ public class GButton extends Button {
   }
 
   public GButton color(String code) {
-    setTextColor(Ui.color(code));
+    color(Ui.color(code));
+    return this;
+  }
+
+  public GButton color(int color) {
+    setTextColor(color);
     return this;
   }
 
   public GButton text(String text) {
     setText(text);
+    return this;
+  }
+
+  public GButton textSize(float textSize) {
+    setTextSize(textSize);
     return this;
   }
 
@@ -125,8 +117,7 @@ public class GButton extends Button {
   }
 
   public GButton click(View.OnClickListener listener) {
-    // TODO
-//    helper.click(listener);
+    helper.click(listener);
     return this;
   }
 
@@ -134,7 +125,34 @@ public class GButton extends Button {
 
   public static class Spec {
     public void init(GButton button) {
-      button.background(Ui.color(R.color.colorAccent));
+//      button.background(Ui.color(R.color.colorAccent));
+
+      Integer backgroundColor = backgroundColor();
+      if (backgroundColor != null) {
+        button.background(backgroundColor);
+      }
+
+      Integer color = color();
+      if (color != null) {
+        button.color(color);
+      }
+
+      Integer textSize = textSize();
+      if (textSize != null) {
+        button.textSize(textSize);
+      }
+    }
+
+    public Integer backgroundColor() {
+      return null;
+    }
+
+    public Integer color() {
+      return null;
+    }
+
+    public Integer textSize() {
+      return null;
     }
   }
 }

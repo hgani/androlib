@@ -72,7 +72,10 @@ public class Ui {
         return Color.parseColor(code);
       }
       catch (IllegalArgumentException e) {
-        // Do nothing
+        // Will be rethrown
+      }
+      catch (StringIndexOutOfBoundsException e) {
+        // Will be rethrown
       }
     }
     throw new IllegalArgumentException();

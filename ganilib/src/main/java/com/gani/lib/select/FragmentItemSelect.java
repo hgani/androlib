@@ -28,9 +28,8 @@ public abstract class FragmentItemSelect<I extends SelectableItem, T extends Sel
 
 //  protected abstract SelectGroup getDefaultGroup();
 
-  @Override
-  public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    View fragmentLayout = inflater.inflate(R.layout.fragment_common_list, null);
+  private View onCreateView(LayoutInflater inflater, int layoutId, Bundle savedInstanceState) {
+    View fragmentLayout = inflater.inflate(layoutId, null);
 
     selectedTab = tabHelper.initView(savedInstanceState, getActivity(),
         (TabHost) fragmentLayout.findViewById(R.id.tabhost),
@@ -38,6 +37,19 @@ public abstract class FragmentItemSelect<I extends SelectableItem, T extends Sel
     initTabsIn(inflater);
 
     return fragmentLayout;
+  }
+
+  @Override
+  public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+//    View fragmentLayout = inflater.inflate(R.layout.fragment_common_list, null);
+//
+//    selectedTab = tabHelper.initView(savedInstanceState, getActivity(),
+//        (TabHost) fragmentLayout.findViewById(R.id.tabhost),
+//        inflater.inflate(R.layout.tabcontent_common_list, null));
+//    initTabsIn(inflater);
+//
+//    return fragmentLayout;
+    return onCreateView(inflater, R.layout.fragment_common_list, savedInstanceState);
   }
 
   @Override
@@ -80,10 +92,10 @@ public abstract class FragmentItemSelect<I extends SelectableItem, T extends Sel
 //
     tabHelper.initTabs(new TabContentSwitcher(), selectedTab);
 
-    test(listView);
+    initList(listView);
   }
 
-  protected abstract void test(RecyclerView listView);
+  protected abstract void initList(RecyclerView listView);
 
 //  protected abstract ControllerItemSelect<I, T> createController(RecyclerView listView, T group, boolean multiSelect);
 

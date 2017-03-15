@@ -26,8 +26,8 @@ public abstract class FormField extends HorizontalLayout {
     VerticalLayout editLayout = new VerticalLayout(context);
     editLayout.addView(editView);
 
-    setWeightOf(label, 3);
-    setWeightOf(editLayout, 1);
+    setWeightOf(label, 10);
+    setWeightOf(editLayout, 4);
 
 //    label.setBackgroundColor(Color.RED);
 //    editLayout.setBackgroundColor(Color.BLUE);

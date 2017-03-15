@@ -4,6 +4,7 @@ import android.view.View;
 import android.widget.CheckBox;
 
 import com.gani.lib.R;
+import com.gani.lib.logging.GLog;
 
 public abstract class DtoItemSelectHolder<I extends SelectableItem> extends DtoBindingHolder<I> {
   private ItemSelectScreenHelper<I, ?> helper;
@@ -20,6 +21,7 @@ public abstract class DtoItemSelectHolder<I extends SelectableItem> extends DtoB
 
   @Override
   public void update(I item) {
+    GLog.t(getClass(), "UPDATE: " + helper.getMutableSelectedItems());
     selectButton.setChecked(helper.getMutableSelectedItems().contains(item));
     selectButton.setOnCheckedChangeListener(helper.new ActivityNotifier(item));
   }

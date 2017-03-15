@@ -169,9 +169,9 @@ public abstract class DbCursorRecyclerAdapter<C extends GDbCursor> extends Curso
     return position == super.getItemCount() + 1;
   }
 
-  private static View inflate(ViewGroup parent, int layoutId) {
-    return LayoutInflater.from(parent.getContext()).inflate(layoutId, parent, false);
-  }
+//  private static View inflate(ViewGroup parent, int layoutId) {
+//    return LayoutInflater.from(parent.getContext()).inflate(layoutId, parent, false);
+//  }
 
 
 
@@ -194,46 +194,6 @@ public abstract class DbCursorRecyclerAdapter<C extends GDbCursor> extends Curso
     @Override
     protected void bind(C cursor) {
       // Do nothing
-    }
-  }
-
-  public static abstract class AbstractBindingHolder extends RecyclerView.ViewHolder {
-    private View layout;
-
-    public AbstractBindingHolder(View view, boolean selectable) {
-      super(view);
-      this.layout = view;
-
-      if (selectable) {
-        unhighlightSelectable();
-      }
-    }
-
-    public View getLayout() {
-      return layout;
-    }
-
-    public Context getContext() {
-      return layout.getContext();
-    }
-
-    protected static View inflate(ViewGroup parent, int layoutId) {
-      return DbCursorRecyclerAdapter.inflate(parent, layoutId);
-    }
-
-    protected void unselectable() {
-      layout.setBackgroundDrawable(Ui.resources().getDrawable(R.color.transparent));
-    }
-
-    protected void highlightSelectable() {
-      layout.setBackgroundDrawable(Ui.resources().getDrawable(R.drawable.background_post_highlight_selector));
-    }
-
-    protected void unhighlightSelectable() {
-      // See http://stackoverflow.com/questions/8732662/how-to-set-background-highlight-to-a-linearlayout/28087443#28087443
-      TypedValue outValue = new TypedValue();
-      Ui.context().getTheme().resolveAttribute(android.R.attr.selectableItemBackground, outValue, true);
-      layout.setBackgroundResource(outValue.resourceId);
     }
   }
 

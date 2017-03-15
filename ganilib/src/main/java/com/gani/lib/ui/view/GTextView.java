@@ -2,6 +2,8 @@ package com.gani.lib.ui.view;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.support.v4.view.ViewCompat;
+import android.support.v7.widget.AppCompatTextView;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.style.StyleSpan;
@@ -18,7 +20,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class GTextView extends TextView {
+public class GTextView extends AppCompatTextView {
   private ViewHelper helper;
 
   public GTextView(Context context) {
@@ -36,19 +38,20 @@ public class GTextView extends TextView {
   }
 
   public GTextView size(Integer width, Integer height) {
-    ViewGroup.LayoutParams params = getLayoutParams();
-    if (width != null) {
-      params.width = Length.dpToPx(width);
-    }
-    if (height != null) {
-      params.height = Length.dpToPx(height);
-    }
-    setLayoutParams(params);
+//    ViewGroup.LayoutParams params = getLayoutParams();
+//    if (width != null) {
+//      params.width = Length.dpToPx(width);
+//    }
+//    if (height != null) {
+//      params.height = Length.dpToPx(height);
+//    }
+//    setLayoutParams(params);
 
+    helper.size(width, height);
     return this;
   }
 
-  public GTextView bold() {
+  public GTextView processBold() {
     List<String> matchers = new ArrayList<>();
     String text = getText().toString();
     SpannableStringBuilder builder = new SpannableStringBuilder(text);
@@ -80,12 +83,31 @@ public class GTextView extends TextView {
   }
 
   public GTextView color(String code) {
-    setTextColor(Ui.color(code));
+    return color(Ui.color(code));
+  }
+
+  public GTextView color(int color) {
+    setTextColor(color);
     return this;
   }
 
   public GTextView padding(int left, int top, int right, int bottom) {
     setPadding(left, top, right, bottom);
+    return this;
+  }
+
+  public GTextView bold() {
+    setTypeface(Typeface.DEFAULT_BOLD);
+    return this;
+  }
+
+  public GTextView text(String text) {
+    setText(text);
+    return this;
+  }
+
+  public GTextView gravity(int alignment) {
+    setGravity(alignment);
     return this;
   }
 }

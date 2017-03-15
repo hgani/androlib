@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.gani.lib.R;
 import com.gani.lib.analytics.Tracker;
 import com.gani.lib.analytics.TrackingSpec;
+import com.gani.lib.logging.GLog;
 import com.gani.lib.ui.ProgressIndicator;
 import com.gani.lib.model.GBundle;
 import com.gani.lib.ui.Ui;
@@ -115,6 +116,8 @@ public class GActivity extends AppCompatActivity implements RichContainer {
   }
 
   public final void setOkResult(String resultKey, Serializable resultValue) {
+    GLog.t(getClass(), "setOkResult: " + RESULT_OK);
+
     Intent extras = new Intent();
     extras.putExtra(resultKey, resultValue);
     setResult(RESULT_OK, extras);

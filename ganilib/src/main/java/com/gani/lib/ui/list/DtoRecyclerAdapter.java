@@ -6,45 +6,24 @@ import android.database.Cursor;
 import android.database.DataSetObserver;
 import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
+import android.util.TypedValue;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.FilterQueryProvider;
 import android.widget.Filterable;
 
+import com.gani.lib.R;
 import com.gani.lib.logging.GLog;
 import com.gani.lib.select.DtoBindingHolder;
+import com.gani.lib.ui.Ui;
 
 import java.util.List;
 
-public abstract class DtoRecyclerAdapter<DO, VH
-    extends DtoBindingHolder<DO>> extends RecyclerView.Adapter<VH> {
-//    implements Filterable, CursorFilter.CursorFilterClient {
-//  private boolean mDataValid;
-//  private int mRowIDColumn;
-//  private Cursor mCursor;
-//  private ChangeObserver mChangeObserver;
-//  private DataSetObserver mDataSetObserver;
-//  private CursorFilter mCursorFilter;
-//  private FilterQueryProvider mFilterQueryProvider;
-//
-//  public DtoRecyclerAdapter(Cursor cursor) {
-//    init(cursor);
-//  }
-//
-//  void init(Cursor c) {
-//    boolean cursorPresent = c != null;
-//    mCursor = c;
-//    mDataValid = cursorPresent;
-//    mRowIDColumn = cursorPresent ? c.getColumnIndexOrThrow("_id") : -1;
-//
-//    mChangeObserver = new ChangeObserver();
-//    mDataSetObserver = new MyDataSetObserver();
-//
-//    if (cursorPresent) {
-//      if (mChangeObserver != null) c.registerContentObserver(mChangeObserver);
-//      if (mDataSetObserver != null) c.registerDataSetObserver(mDataSetObserver);
-//    }
-//  }
+import static com.gani.lib.ui.list.AbstractBindingHolder.inflate;
 
+public abstract class DtoRecyclerAdapter<DO, VH
+    extends DtoBindingHolder<DO>> extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
   private List<DO> objects;
 
   protected DtoRecyclerAdapter(List<DO> objects) {
@@ -64,14 +43,69 @@ public abstract class DtoRecyclerAdapter<DO, VH
     return new RecyclerListHelper(recyclerView);
   }
 
+  private boolean isPositionHeader(int position) {
+    return position == 0;
+  }
+
+  private boolean isPositionFooter(int position) {
+    return position == getItemCount() - 1;
+  }
+
   @Override
-  public final void onBindViewHolder(VH holder, int i) {
-    holder.update(getItem(i));
+  public final int getItemViewType(int position) {
+    if (isPositionHeader(position)) {
+      return R.id.listitem_header;
+    } else if (isPositionFooter(position)) {
+      return R.id.listitem_footer;
+    }
+    return determineViewType(getItem(position - 1));
+  }
+
+  // Should return 1 or higher
+  protected int determineViewType(DO item) {
+    return R.id.listitem_normal;
+  }
+
+  @Override
+  public final void onBindViewHolder(RecyclerView.ViewHolder holder, int i) {
+    if (isPositionHeader(i)) {
+      ((GenericBindingHolder) holder).update();
+    }
+    else if (isPositionFooter(i)) {
+      ((GenericBindingHolder) holder).update();
+    }
+    else {
+      ((VH) holder).update(getItem(i - 1));
+    }
+  }
+
+  @Override
+  public final RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    // Need to use `if` instead of `switch`. See http://stackoverflow.com/questions/8476912/menu-item-ids-in-an-android-library-project
+    if (viewType == R.id.listitem_header) {
+      return onCreateHeaderHolder(parent);
+    }
+    else if (viewType == R.id.listitem_footer) {
+      return onCreateFooterHolder(parent);
+    }
+    else {
+      return onCreateItemHolder(parent, viewType);
+    }
+  }
+
+  protected abstract VH onCreateItemHolder(ViewGroup parent, int viewType);
+
+  protected RecyclerView.ViewHolder onCreateHeaderHolder(ViewGroup parent) {
+    return new BlankGenericItemHolder(parent);
+  }
+
+  protected RecyclerView.ViewHolder onCreateFooterHolder(ViewGroup parent) {
+    return  new BlankGenericItemHolder(parent);
   }
 
   @Override
   public int getItemCount() {
-    return objects.size();
+    return objects.size() + 2;  // Header and footer
   }
 
 //  /**
@@ -95,177 +129,32 @@ public abstract class DtoRecyclerAdapter<DO, VH
     return objects.get(position);
   }
 
-//  public Cursor getCursor() {
-//    return mCursor;
+
+
+//  public static abstract class GenericBindingHolder extends AbstractBindingHolder {
+//    public GenericBindingHolder(View view, boolean selectable) {
+//      super(view, selectable);
+//    }
+//
+//    protected abstract void update(DbCursorRecyclerAdapter.State state);
 //  }
 
-//  /**
-//   * Change the underlying cursor to a new cursor. If there is an existing cursor it will be
-//   * closed.
-//   *
-//   * @param cursor The new cursor to be used
-//   */
-//  public void changeCursor(Cursor cursor) {
-//    Cursor old = swapCursor(cursor);
-//    if (old != null) {
-//      old.close();
-//    }
-//  }
-//
-//  /**
-//   * Swap in a new Cursor, returning the old Cursor.  Unlike
-//   * {@link #changeCursor(Cursor)}, the returned old Cursor is <em>not</em>
-//   * closed.
-//   *
-//   * @param newCursor The new cursor to be used.
-//   * @return Returns the previously set Cursor, or null if there wasa not one.
-//   * If the given new Cursor is the same getInstance is the previously set
-//   * Cursor, null is also returned.
-//   */
-//  public Cursor swapCursor(Cursor newCursor) {
-//    if (newCursor == mCursor) {
-//      return null;
-//    }
-//    Cursor oldCursor = mCursor;
-//    if (oldCursor != null) {
-//      if (mChangeObserver != null) oldCursor.unregisterContentObserver(mChangeObserver);
-//      if (mDataSetObserver != null) oldCursor.unregisterDataSetObserver(mDataSetObserver);
-//    }
-//    mCursor = newCursor;
-//    if (newCursor != null) {
-//      if (mChangeObserver != null) newCursor.registerContentObserver(mChangeObserver);
-//      if (mDataSetObserver != null) newCursor.registerDataSetObserver(mDataSetObserver);
-//      mRowIDColumn = newCursor.getColumnIndexOrThrow("_id");
-//      mDataValid = true;
-//      // notify the observers about the new cursor
-//      notifyDataSetChanged();
-//    } else {
-//      mRowIDColumn = -1;
-//      mDataValid = false;
-//      // notify the observers about the lack of a data set
-//      // notifyDataSetInvalidated();
-//      notifyItemRangeRemoved(0, getItemCount());
-//    }
-//    return oldCursor;
-//  }
+  public static abstract class GenericBindingHolder extends AbstractBindingHolder {
+    public GenericBindingHolder(View view, boolean selectable) {
+      super(view, selectable);
+    }
 
-//  /**
-//   * <p>Converts the cursor into a CharSequence. Subclasses should override this
-//   * method to convert their results. The default implementation returns an
-//   * empty String for null values or the default String representation of
-//   * the value.</p>
-//   *
-//   * @param cursor the cursor to convert to a CharSequence
-//   * @return a CharSequence representing the value
-//   */
-//  public CharSequence convertToString(Cursor cursor) {
-//    return cursor == null ? "" : cursor.toString();
-//  }
+    protected abstract void update();
+  }
 
-//  /**
-//   * Runs a query with the specified constraint. This query is requested
-//   * by the filter attached to this adapter.
-//   * <p>
-//   * The query is provided by a
-//   * {@link FilterQueryProvider}.
-//   * If no provider is specified, the createCurrent cursor is not filtered and returned.
-//   * <p>
-//   * After this method returns the resulting cursor is passed to {@link #changeCursor(Cursor)}
-//   * and the previous cursor is closed.
-//   * <p>
-//   * This method is always executed on a background thread, not on the
-//   * application's main thread (or UI thread.)
-//   * <p>
-//   * Contract: when constraint is null or empty, the original results,
-//   * prior to any filtering, must be returned.
-//   *
-//   * @param constraint the constraint with which the query must be filtered
-//   * @return a Cursor representing the results of the new query
-//   * @see #getFilter()
-//   * @see #getFilterQueryProvider()
-//   * @see #setFilterQueryProvider(FilterQueryProvider)
-//   */
-//  public Cursor runQueryOnBackgroundThread(CharSequence constraint) {
-//    if (mFilterQueryProvider != null) {
-//      return mFilterQueryProvider.runQuery(constraint);
-//    }
-//
-//    return mCursor;
-//  }
-//
-//  public Filter getFilter() {
-//    if (mCursorFilter == null) {
-//      mCursorFilter = new CursorFilter(this);
-//    }
-//    return mCursorFilter;
-//  }
-//
-//  /**
-//   * Returns the query filter provider used for filtering. When the
-//   * provider is null, no filtering occurs.
-//   *
-//   * @return the createCurrent filter query provider or null if it does not exist
-//   * @see #setFilterQueryProvider(FilterQueryProvider)
-//   * @see #runQueryOnBackgroundThread(CharSequence)
-//   */
-//  public FilterQueryProvider getFilterQueryProvider() {
-//    return mFilterQueryProvider;
-//  }
-//
-//  /**
-//   * Sets the query filter provider used to filter the createCurrent Cursor.
-//   * The provider's
-//   * {@link FilterQueryProvider#runQuery(CharSequence)}
-//   * method is invoked when filtering is requested by a client of
-//   * this adapter.
-//   *
-//   * @param filterQueryProvider the filter query provider or null to remove it
-//   * @see #getFilterQueryProvider()
-//   * @see #runQueryOnBackgroundThread(CharSequence)
-//   */
-//  public void setFilterQueryProvider(FilterQueryProvider filterQueryProvider) {
-//    mFilterQueryProvider = filterQueryProvider;
-//  }
-//
-//  /**
-//   * Called when the {@link ContentObserver} on the cursor receives a change notification.
-//   * Can be implemented by sub-class.
-//   *
-//   * @see ContentObserver#onChange(boolean)
-//   */
-//  protected void onContentChanged() {
-//
-//  }
+  public static class BlankGenericItemHolder extends GenericBindingHolder {
+    public BlankGenericItemHolder(ViewGroup parent) {
+      super(inflate(parent, R.layout.blank), false);
+    }
 
-//  private class ChangeObserver extends ContentObserver {
-//    public ChangeObserver() {
-//      super(new Handler());
-//    }
-//
-//    @Override
-//    public boolean deliverSelfNotifications() {
-//      return true;
-//    }
-//
-//    @Override
-//    public void onChange(boolean selfChange) {
-//      onContentChanged();
-//    }
-//  }
-//
-//  private class MyDataSetObserver extends DataSetObserver {
-//    @Override
-//    public void onChanged() {
-//      mDataValid = true;
-//      notifyDataSetChanged();
-//    }
-//
-//    @Override
-//    public void onInvalidated() {
-//      mDataValid = false;
-//      // notifyDataSetInvalidated();
-//      notifyItemRangeRemoved(0, getItemCount());
-//    }
-//  }
+    @Override
+    protected void update() {
 
+    }
+  }
 }

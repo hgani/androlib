@@ -21,22 +21,23 @@ import java.util.Set;
 
 import static android.R.attr.id;
 import static android.app.Activity.RESULT_OK;
+import static com.gani.lib.select.FragmentItemSelect.RETURN_ITEMS;
 
 public class ItemSelectScreenHelper<I extends SelectableItem, T extends SelectGroup.Tab> {
-  static final String PARAM_SELECTED_ITEMS = "selectedItems";
+//  static final String PARAM_SELECTED_ITEMS = "selectedItems";
 
   private static final String BUNDLE_SELECTED_ITEMS = "selectedItems";
 
-  public static final String RETURN_ITEMS = "items";
+//  public static final String RETURN_ITEMS = "items";
 
-  public static <I extends SelectableItem, T extends SelectGroup.Tab> Intent intent(
-      Class<? extends GActivity> cls, List<I> selectedItems, boolean multiselect) {
-    Intent intent = new Intent(Ui.context(), cls);
-    intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-    intent.putExtra(FragmentItemSelect.PARAM_SELECTED_ITEMS, (Serializable) selectedItems);
-    intent.putExtra(FragmentItemSelect.PARAM_MULTISELECT, multiselect);
-    return intent;
-  }
+//  public static <I extends SelectableItem, T extends SelectGroup.Tab> Intent intent(
+//      Class<? extends GActivity> cls, List<I> selectedItems, boolean multiselect) {
+//    Intent intent = new Intent(Ui.context(), cls);
+//    intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+//    intent.putExtra(FragmentItemSelect.PARAM_SELECTED_ITEMS, (Serializable) selectedItems);
+//    intent.putExtra(FragmentItemSelect.PARAM_MULTISELECT, multiselect);
+//    return intent;
+//  }
 
   private GActivity activity;
   private FragmentItemSelect<I, T> fragment;
@@ -66,10 +67,7 @@ public class ItemSelectScreenHelper<I extends SelectableItem, T extends SelectGr
 //  }
 
   public void initResult() {
-    GLog.t(getClass(), "ON BACK2: " + selectedItems);
-
-    activity.setOkResult(RETURN_ITEMS, new ArrayList<I>(selectedItems));
-//    super.onBackPressed();
+    activity.setOkResult(FragmentItemSelect.RETURN_ITEMS, new ArrayList<I>(selectedItems));
   }
 
   public void onSaveInstanceState(Bundle outState) {

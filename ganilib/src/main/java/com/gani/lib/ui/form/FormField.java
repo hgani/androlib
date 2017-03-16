@@ -9,18 +9,19 @@ import android.widget.TextView;
 
 import com.gani.lib.ui.layout.HorizontalLayout;
 import com.gani.lib.ui.layout.VerticalLayout;
+import com.gani.lib.ui.view.GTextView;
 
 public abstract class FormField extends HorizontalLayout {
   private TextView label;
   private View editView;
 
-  public FormField(Context context, String labelText) {
+  public FormField(Context context, String labelText, GTextView.Spec labelSpec) {
     super(context);
 
     setGravity(Gravity.CENTER_VERTICAL);
     size(ViewGroup.LayoutParams.MATCH_PARENT, null).padding(0, 60, 0, 0);
 
-    this.label = createLabel(context);
+    this.label = createLabel(context).spec(labelSpec);
     this.editView = createEditView(context);
 
     VerticalLayout editLayout = new VerticalLayout(context);
@@ -43,8 +44,8 @@ public abstract class FormField extends HorizontalLayout {
     return this;
   }
 
-  private TextView createLabel(Context context) {
-    return new TextView(context);
+  private GTextView createLabel(Context context) {
+    return new GTextView(context);
   }
 
   protected abstract View createEditView(Context context);

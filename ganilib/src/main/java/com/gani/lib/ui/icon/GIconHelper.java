@@ -116,6 +116,9 @@ public abstract class GIconHelper implements GIcon {
     @Override
     public Icon[] characters() {
       List<GIconHelper> icons = iconMap.get(iconClass);
+      if (icons == null) {
+        throw new IllegalStateException("Make sure that the enums include icons from this fontset: " + iconClass);
+      }
 //      List<Icon> result = new ArrayList<>(icons.size());
 ////      Icon[] arr = new Icon[icons.size()];
 //      for (CvIcon icon : icons) {

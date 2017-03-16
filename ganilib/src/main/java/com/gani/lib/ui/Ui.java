@@ -3,6 +3,7 @@ package com.gani.lib.ui;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Handler;
@@ -10,7 +11,6 @@ import android.support.annotation.Nullable;
 
 import static android.R.attr.name;
 
-// TODO: Rename to res because this is not UI-specific, e.g. int(), context()
 public class Ui {
   private static Context appContext;
   private static Resources resources;
@@ -90,5 +90,9 @@ public class Ui {
   // Ensure that listeners are executed on UI thread
   public static void run(Runnable command) {
     uiHandler.post(command);
+  }
+
+  public static Typeface ttf(String ttf) {
+    return Typeface.createFromAsset(appContext.getAssets(), "Eras_Demi_ITC.ttf");
   }
 }

@@ -2,6 +2,8 @@ package com.gani.lib.ui.view;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
+import android.support.v7.widget.AppCompatImageView;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.style.StyleSpan;
@@ -21,7 +23,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class GImageView extends ImageView {
+public class GImageView extends AppCompatImageView {
   private ViewHelper helper;
 
   public GImageView(Context context) {
@@ -46,21 +48,23 @@ public class GImageView extends ImageView {
     }
   }
 
-//  public GImageView size(Integer width, Integer height) {
-//    ViewGroup.LayoutParams params = getLayoutParams();
-//    if (width != null) {
-//      params.width = Length.dpToPx(width);
-//    }
-//    if (height != null) {
-//      params.height = Length.dpToPx(height);
-//    }
-//    setLayoutParams(params);
-//
-//    return this;
-//  }
+  public GImageView background(String code) {
+    background(Ui.color(code));
+    return this;
+  }
 
-//  public GImageView padding(int left, int top, int right, int bottom) {
-//    setPadding(left, top, right, bottom);
-//    return this;
-//  }
+  public GImageView background(int color) {
+    setBackgroundColor(color);
+    return this;
+  }
+
+  public GImageView drawable(Drawable drawable) {
+    setImageDrawable(drawable);
+    return this;
+  }
+
+  public GImageView margin(Integer left, Integer top, Integer right, Integer bottom) {
+    helper.margin(left, top, right, bottom);
+    return this;
+  }
 }

@@ -106,6 +106,15 @@ public class GButton extends AppCompatButton {
     return this;
   }
 
+  public GButton bold() {
+    return typeface(Typeface.DEFAULT_BOLD);
+  }
+
+  public GButton typeface(Typeface typeface) {
+    setTypeface(typeface);
+    return this;
+  }
+
   public GButton padding(int left, int top, int right, int bottom) {
     setPadding(left, top, right, bottom);
     return this;
@@ -141,6 +150,13 @@ public class GButton extends AppCompatButton {
       if (textSize != null) {
         button.textSize(textSize);
       }
+
+      Typeface typeface = typeface();
+      if (typeface != null) {
+        button.typeface(typeface);
+      }
+
+      button.size(width(), height());
     }
 
     public Integer backgroundColor() {
@@ -152,6 +168,16 @@ public class GButton extends AppCompatButton {
     }
 
     public Integer textSize() {
+      return null;
+    }
+
+    public Typeface typeface() { return null; }
+
+    public Integer width() {
+      return null;
+    }
+
+    public Integer height() {
       return null;
     }
   }

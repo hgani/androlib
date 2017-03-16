@@ -12,9 +12,9 @@ import com.gani.lib.logging.GLog;
 import com.gani.lib.screen.GFragment;
 
 public abstract class FragmentItemSelect<I extends SelectableItem, T extends SelectGroup.Tab> extends GFragment {
-  static final String PARAM_SELECTED_ITEMS = "selectedItems";
-  static final String PARAM_MULTISELECT = "multiselect";
-
+//  static final String PARAM_SELECTED_ITEMS = "selectedItems";
+//  static final String PARAM_MULTISELECT = "multiselect";
+//
   public static final String RETURN_ITEMS = "items";
 
   private SelectGroup.ViewHelper<T> tabHelper;

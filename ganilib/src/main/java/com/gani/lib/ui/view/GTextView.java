@@ -1,6 +1,7 @@
 package com.gani.lib.ui.view;
 
 import android.content.Context;
+import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.AppCompatTextView;
@@ -16,9 +17,12 @@ import com.gani.lib.ui.Ui;
 import com.gani.lib.ui.style.Length;
 
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static android.R.attr.button;
 
 public class GTextView extends AppCompatTextView {
   private ViewHelper helper;
@@ -37,16 +41,12 @@ public class GTextView extends AppCompatTextView {
     this.helper = new ViewHelper(this);
   }
 
-  public GTextView size(Integer width, Integer height) {
-//    ViewGroup.LayoutParams params = getLayoutParams();
-//    if (width != null) {
-//      params.width = Length.dpToPx(width);
-//    }
-//    if (height != null) {
-//      params.height = Length.dpToPx(height);
-//    }
-//    setLayoutParams(params);
+  public GTextView spec(Spec spec) {
+    spec.init(this);
+    return this;
+  }
 
+  public GTextView size(Integer width, Integer height) {
     helper.size(width, height);
     return this;
   }
@@ -78,7 +78,13 @@ public class GTextView extends AppCompatTextView {
   }
 
   public GTextView background(String code) {
-    setBackgroundColor(Ui.color(code));
+//    setBackgroundColor(Ui.color(code));
+    background(Ui.color(code));
+    return this;
+  }
+
+  public GTextView background(int color) {
+    setBackgroundColor(color);
     return this;
   }
 
@@ -91,13 +97,22 @@ public class GTextView extends AppCompatTextView {
     return this;
   }
 
-  public GTextView padding(int left, int top, int right, int bottom) {
-    setPadding(left, top, right, bottom);
+  public GTextView padding(Integer left, Integer top, Integer right, Integer bottom) {
+    helper.padding(left, top, right, bottom);
+    return this;
+  }
+
+  public GTextView margin(Integer left, Integer top, Integer right, Integer bottom) {
+    helper.margin(left, top, right, bottom);
     return this;
   }
 
   public GTextView bold() {
-    setTypeface(Typeface.DEFAULT_BOLD);
+    return typeface(Typeface.DEFAULT_BOLD);
+  }
+
+  public GTextView typeface(Typeface typeface) {
+    setTypeface(typeface);
     return this;
   }
 
@@ -106,8 +121,56 @@ public class GTextView extends AppCompatTextView {
     return this;
   }
 
+  public GTextView textSize(float textSize) {
+    setTextSize(textSize);
+    return this;
+  }
+
   public GTextView gravity(int alignment) {
     setGravity(alignment);
     return this;
+  }
+
+
+//  EnumSet<FileAccess> readWrite = EnumSet.of(FileAccess.Read, FileAccess.Write);
+
+
+
+  public static class Spec {
+    public void init(GTextView textView) {
+      Integer backgroundColor = backgroundColor();
+      if (backgroundColor != null) {
+        textView.background(backgroundColor);
+      }
+
+      Integer color = color();
+      if (color != null) {
+        textView.color(color);
+      }
+
+      Integer textSize = textSize();
+      if (textSize != null) {
+        textView.textSize(textSize);
+      }
+
+      Typeface typeface = typeface();
+      if (typeface != null) {
+        textView.typeface(typeface);
+      }
+    }
+
+    public Integer backgroundColor() {
+      return null;
+    }
+
+    public Integer color() {
+      return null;
+    }
+
+    public Integer textSize() {
+      return null;
+    }
+
+    public Typeface typeface() { return null; }
   }
 }

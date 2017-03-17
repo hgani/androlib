@@ -68,6 +68,11 @@ public class AbstractLinearLayout<T extends AbstractLinearLayout> extends Linear
     return (T) this;
   }
 
+  public T background(int color) {
+    setBackgroundColor(color);
+    return (T) this;
+  }
+
 //  public T layout(Integer width, Integer height) {
 //    ViewGroup.LayoutParams params = getLayoutParams();
 //    if (width != null) {

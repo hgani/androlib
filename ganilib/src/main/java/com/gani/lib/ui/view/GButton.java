@@ -1,36 +1,14 @@
 package com.gani.lib.ui.view;
 
-import android.app.Activity;
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.LightingColorFilter;
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.view.ViewCompat;
+import android.media.MediaPlayer;
 import android.support.v7.widget.AppCompatButton;
-import android.text.SpannableString;
-import android.text.SpannableStringBuilder;
-import android.text.style.StyleSpan;
 import android.util.AttributeSet;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
-import com.gani.lib.R;
 import com.gani.lib.ui.Ui;
-import com.gani.lib.ui.menu.GMenu;
-import com.gani.lib.ui.style.Length;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import static android.R.attr.button;
-import static android.R.attr.text;
 
 public class GButton extends AppCompatButton {
   private static Spec defaultSpec = new Spec();
@@ -40,6 +18,7 @@ public class GButton extends AppCompatButton {
   }
 
   private ViewHelper helper;
+  private MediaPlayer customClickSound;
 
   public GButton(Context context) {
     super(context);
@@ -125,8 +104,30 @@ public class GButton extends AppCompatButton {
     return this;
   }
 
-  public GButton click(View.OnClickListener listener) {
-    helper.click(listener);
+  public GButton click(final View.OnClickListener listener) {
+    if (customClickSound == null) {
+      helper.click(listener);
+    }
+    else {
+      helper.click(new OnClickListener() {
+        @Override
+        public void onClick(View view) {
+          customClickSound.start();
+          listener.onClick(view);
+        }
+      });
+    }
+    return this;
+  }
+
+  public GButton sound(MediaPlayer customClickSound) {
+    this.customClickSound = customClickSound;
+//        int maxVolume = 10;
+//        mp.setVolume();
+//        float log1=(float)(Math.log(maxVolume?-currVolume)/Math.log(maxVolume));
+//        mp.setVolume(1-log1);
+    customClickSound.setVolume(1.0f, 1.0f);
+    setSoundEffectsEnabled(false);
     return this;
   }
 

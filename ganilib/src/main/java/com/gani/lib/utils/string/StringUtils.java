@@ -78,7 +78,7 @@ public class StringUtils {
     return false;
   }
 
-  public static String join(Collection<?> collection, char separator) {
+  public static String join(Collection<?> collection, String separator) {
     return join(collection.toArray(), separator);
   }
 
@@ -110,7 +110,7 @@ public class StringUtils {
    * @return the joined String, <code>null</code> if null array input
    * @since 2.0
    */
-  public static String join(Object[] array, char separator) {
+  public static String join(Object[] array, String separator) {
     if (array == null) {
       return null;
     }
@@ -144,7 +144,7 @@ public class StringUtils {
    * @return the joined String, <code>null</code> if null array input
    * @since 2.0
    */
-  public static String join(Object[] array, char separator, int startIndex, int endIndex) {
+  public static String join(Object[] array, String separator, int startIndex, int endIndex) {
     if (array == null) {
       return null;
     }

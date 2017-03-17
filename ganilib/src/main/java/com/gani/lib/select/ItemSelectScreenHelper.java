@@ -24,20 +24,20 @@ import static android.app.Activity.RESULT_OK;
 import static com.gani.lib.select.FragmentItemSelect.RETURN_ITEMS;
 
 public class ItemSelectScreenHelper<I extends SelectableItem, T extends SelectGroup.Tab> {
-//  static final String PARAM_SELECTED_ITEMS = "selectedItems";
+  static final String PARAM_SELECTED_ITEMS = "selectedItems";
 
   private static final String BUNDLE_SELECTED_ITEMS = "selectedItems";
 
 //  public static final String RETURN_ITEMS = "items";
 
-//  public static <I extends SelectableItem, T extends SelectGroup.Tab> Intent intent(
-//      Class<? extends GActivity> cls, List<I> selectedItems, boolean multiselect) {
-//    Intent intent = new Intent(Ui.context(), cls);
-//    intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-//    intent.putExtra(FragmentItemSelect.PARAM_SELECTED_ITEMS, (Serializable) selectedItems);
+  public static <I extends SelectableItem, T extends SelectGroup.Tab> Intent intent(
+      Class<? extends GActivity> cls, List<I> currentSelection) {
+    Intent intent = new Intent(Ui.context(), cls);
+    intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+    intent.putExtra(PARAM_SELECTED_ITEMS, (Serializable) currentSelection);
 //    intent.putExtra(FragmentItemSelect.PARAM_MULTISELECT, multiselect);
-//    return intent;
-//  }
+    return intent;
+  }
 
   private GActivity activity;
   private FragmentItemSelect<I, T> fragment;
@@ -45,13 +45,13 @@ public class ItemSelectScreenHelper<I extends SelectableItem, T extends SelectGr
   private boolean multiselect;
 
   public ItemSelectScreenHelper(GActivity activity, Bundle savedInstanceState, FragmentItemSelect<I, T> fragment,
-                                boolean multiselect, List<I> initialSelection) {
+                                boolean multiselect) {
     this.activity = activity;
     this.fragment = fragment;
     this.multiselect = multiselect;
     this.selectedItems = (savedInstanceState == null)?
-//        new LinkedHashSet<I>((List<I>) activity.getIntent().getSerializableExtra(PARAM_SELECTED_ITEMS)) :
-        new LinkedHashSet<I>((List<I>) initialSelection) :
+        new LinkedHashSet<I>((List<I>) activity.getIntent().getSerializableExtra(PARAM_SELECTED_ITEMS)) :
+//        new LinkedHashSet<I>((List<I>) initialSelection) :
         (LinkedHashSet<I>) savedInstanceState.getSerializable(BUNDLE_SELECTED_ITEMS);
 
 //    onCreate(savedInstanceState);

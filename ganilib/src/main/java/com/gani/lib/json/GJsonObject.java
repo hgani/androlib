@@ -141,6 +141,15 @@ public abstract class GJsonObject<JO extends GJsonObject, JA extends GJsonArray>
     return backend.getBoolean(name);
   }
 
+  public boolean getBoolean(String name, boolean defaultValue){
+    try {
+      return backend.isNull(name) ? null : getBoolean(name);
+    }
+    catch (JSONException e) {
+      return defaultValue;
+    }
+  }
+
   @NonNull
   public double getDouble(String name) throws JSONException {
     return backend.getDouble(name);

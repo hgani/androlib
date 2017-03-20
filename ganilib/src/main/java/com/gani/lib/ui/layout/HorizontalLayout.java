@@ -1,6 +1,7 @@
 package com.gani.lib.ui.layout;
 
 import android.content.Context;
+import android.support.v4.view.ViewCompat;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -21,5 +22,10 @@ public class HorizontalLayout extends AbstractLinearLayout<HorizontalLayout> {
     params.width = 0;
     params.weight = weight;
     child.setLayoutParams(params);
+  }
+
+  public HorizontalLayout rtl() {
+    ViewCompat.setLayoutDirection(this, ViewCompat.LAYOUT_DIRECTION_RTL);
+    return this;
   }
 }

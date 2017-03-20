@@ -24,7 +24,7 @@ import java.util.regex.Pattern;
 
 import static android.R.attr.button;
 
-public class GTextView extends AppCompatTextView {
+public class GTextView<T extends GTextView> extends AppCompatTextView {
   private ViewHelper helper;
 
   public GTextView(Context context) {
@@ -39,6 +39,20 @@ public class GTextView extends AppCompatTextView {
 
   private void init() {
     this.helper = new ViewHelper(this);
+  }
+
+  private T self() {
+    return (T) this;
+  }
+
+  public T relative() {
+    helper.relative();
+    return self();
+  }
+
+  public T alignParentRight() {
+    helper.alignParentRight();
+    return self();
   }
 
   public GTextView spec(Spec spec) {

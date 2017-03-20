@@ -34,6 +34,10 @@ public class GBundle {
     return backend.getLong(key);
   }
 
+  public final int getInt(String key) {
+    return backend.getInt(key);
+  }
+
   public final boolean getBoolean(String key) {
     if (!containsKey(key)) {
       throw new IllegalArgumentException("Bundle key not specified: " + key);

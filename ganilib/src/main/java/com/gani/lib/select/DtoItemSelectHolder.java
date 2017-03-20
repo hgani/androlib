@@ -5,6 +5,7 @@ import android.widget.CheckBox;
 
 import com.gani.lib.R;
 import com.gani.lib.logging.GLog;
+import com.gani.lib.ui.list.DtoBindingHolder;
 
 public abstract class DtoItemSelectHolder<I extends SelectableItem> extends DtoBindingHolder<I> {
   private ItemSelectScreenHelper<I, ?> helper;

@@ -40,12 +40,27 @@ public class GImageView extends AppCompatImageView {
     this.helper = new ViewHelper(this);
   }
 
+  // TODO: Remove once we make sure none of our projects is using this anymore
   public void setImageUrl(String url) {
     if (url != null) {
       Glide.with(getContext())
           .load(url)
           .into(this);
     }
+  }
+
+  public GImageView imageUrl(String url) {
+    if (url != null) {
+      Glide.with(getContext())
+          .load(url)
+          .into(this);
+    }
+    return this;
+  }
+
+  public GImageView size(Integer width, Integer height) {
+    helper.size(width, height);
+    return this;
   }
 
   public GImageView background(String code) {
@@ -60,6 +75,11 @@ public class GImageView extends AppCompatImageView {
 
   public GImageView drawable(Drawable drawable) {
     setImageDrawable(drawable);
+    return this;
+  }
+
+  public GImageView drawable(int resId) {
+    setImageDrawable(Ui.drawable(resId));
     return this;
   }
 

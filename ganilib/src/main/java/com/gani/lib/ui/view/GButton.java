@@ -7,10 +7,12 @@ import android.media.MediaPlayer;
 import android.support.v7.widget.AppCompatButton;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import com.gani.lib.ui.Ui;
 
-public class GButton extends AppCompatButton {
+public class GButton<T extends GButton> extends AppCompatButton {
   private static Spec defaultSpec = new Spec();
 
   public static void setDefaultSpec(Spec defaultSpec) {
@@ -28,6 +30,12 @@ public class GButton extends AppCompatButton {
   public GButton(Context context, AttributeSet attrs) {
     super(context, attrs);
     init();
+  }
+
+  public T relative() {
+    helper.relative();
+//    setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+    return self();
   }
 
   private void init() {
@@ -129,6 +137,22 @@ public class GButton extends AppCompatButton {
     customClickSound.setVolume(1.0f, 1.0f);
     setSoundEffectsEnabled(false);
     return this;
+  }
+
+//  @Override
+//  public RelativeLayout.LayoutParams getLayoutParams() {
+//    return (RelativeLayout.LayoutParams) super.getLayoutParams();
+//  }
+
+  private T self() {
+    return (T) this;
+  }
+
+  public GButton alignParentRight() {
+//    RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) getLayoutParams();
+//    params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+    helper.alignParentRight();
+    return self();
   }
 
 

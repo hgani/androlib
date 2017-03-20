@@ -19,7 +19,7 @@ public abstract class FormField extends HorizontalLayout {
     super(context);
 
     setGravity(Gravity.CENTER_VERTICAL);
-    size(ViewGroup.LayoutParams.MATCH_PARENT, null).padding(0, 60, 0, 0);
+    size(ViewGroup.LayoutParams.MATCH_PARENT, null).padding(0, 20, 0, 0);
 
     this.label = createLabel(context).spec(labelSpec);
     this.editView = createEditView(context);

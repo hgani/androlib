@@ -1,4 +1,4 @@
-package com.gani.lib.select;
+package com.gani.lib.ui.list;
 
 import android.view.View;
 

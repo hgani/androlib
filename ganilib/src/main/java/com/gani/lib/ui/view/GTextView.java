@@ -9,6 +9,7 @@ import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.style.StyleSpan;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -137,8 +138,14 @@ public class GTextView<T extends GTextView> extends AppCompatTextView {
 
   public GTextView textSize(float textSize) {
     setTextSize(textSize);
+//    setTextSize(TypedValue.COMPLEX_UNIT_SP, textSize);
     return this;
   }
+
+//  public GTextView textSize(int unit, float textSize) {
+//    setTextSize(unit, textSize);
+//    return this;
+//  }
 
   public GTextView gravity(int alignment) {
     setGravity(alignment);

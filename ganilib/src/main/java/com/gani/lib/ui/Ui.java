@@ -93,6 +93,6 @@ public class Ui {
   }
 
   public static Typeface ttf(String ttf) {
-    return Typeface.createFromAsset(appContext.getAssets(), "Eras_Demi_ITC.ttf");
+    return Typeface.createFromAsset(appContext.getAssets(), ttf);
   }
 }

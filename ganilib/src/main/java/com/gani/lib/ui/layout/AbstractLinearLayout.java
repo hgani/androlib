@@ -52,8 +52,8 @@ public class AbstractLinearLayout<T extends AbstractLinearLayout> extends Linear
     return (T) this;
   }
 
-  public T padding(int left, int top, int right, int bottom) {
-    setPadding(left, top, right, bottom);
+  public T padding(Integer left, Integer top, Integer right, Integer bottom) {
+    helper.padding(left, top, right, bottom);
     return (T) this;
   }
 

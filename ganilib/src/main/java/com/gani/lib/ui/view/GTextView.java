@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.gani.lib.ui.Ui;
+import com.gani.lib.ui.menu.GMenu;
 import com.gani.lib.ui.style.Length;
 
 import java.util.ArrayList;
@@ -151,6 +152,13 @@ public class GTextView<T extends GTextView> extends AppCompatTextView {
     setGravity(alignment);
     return this;
   }
+
+  public GTextView click(OnClickListener listener) {
+    helper.click(listener);
+    return this;
+  }
+
+
 
 
 //  EnumSet<FileAccess> readWrite = EnumSet.of(FileAccess.Read, FileAccess.Write);

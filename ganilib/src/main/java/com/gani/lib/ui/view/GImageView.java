@@ -18,6 +18,8 @@ import com.bumptech.glide.Glide;
 import com.gani.lib.ui.Ui;
 import com.gani.lib.ui.style.Length;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -85,6 +87,11 @@ public class GImageView extends AppCompatImageView {
 
   public GImageView margin(Integer left, Integer top, Integer right, Integer bottom) {
     helper.margin(left, top, right, bottom);
+    return this;
+  }
+
+  public GImageView adjustViewBounds() {
+    setAdjustViewBounds(true);
     return this;
   }
 }

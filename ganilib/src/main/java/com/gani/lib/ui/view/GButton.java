@@ -102,12 +102,12 @@ public class GButton<T extends GButton> extends AppCompatButton {
     return this;
   }
 
-  public GButton padding(int left, int top, int right, int bottom) {
-    setPadding(left, top, right, bottom);
+  public GButton padding(Integer left, Integer top, Integer right, Integer bottom) {
+    helper.padding(left, top, right, bottom);
     return this;
   }
 
-  public GButton margin(int left, int top, int right, int bottom) {
+  public GButton margin(Integer left, Integer top, Integer right, Integer bottom) {
     helper.margin(left, top, right, bottom);
     return this;
   }

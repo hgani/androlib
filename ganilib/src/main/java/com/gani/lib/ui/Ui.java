@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import static android.R.attr.name;
 
@@ -90,6 +91,10 @@ public class Ui {
   // Ensure that listeners are executed on UI thread
   public static void run(Runnable command) {
     uiHandler.post(command);
+  }
+
+  public static void delay(Runnable command, int delayInMillis) {
+    uiHandler.postDelayed(command, delayInMillis);
   }
 
   public static Typeface ttf(String ttf) {

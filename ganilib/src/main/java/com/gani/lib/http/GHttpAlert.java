@@ -2,6 +2,8 @@ package com.gani.lib.http;
 
 import android.content.Context;
 
+import com.gani.lib.notification.Alert;
+
 import org.json.JSONException;
 
 public abstract class GHttpAlert<HR extends GHttpResponse, RR extends GRestResponse> {
@@ -76,13 +78,43 @@ public abstract class GHttpAlert<HR extends GHttpResponse, RR extends GRestRespo
 ////    ToastUtils.showNormal(s, r.getJsonResult().getString(ParamKeys.MESSAGE));
 //  }
 
-  public abstract void reportCodeError(HR r) throws JSONException;
-  public abstract void reportJsonError(RR r, JSONException e);
-  public abstract String messageForJsonError(String url, JSONException ex);
-  public abstract void alertJsonError(Context c, RR r, JSONException e);
-  public abstract void alertCommonError(Context context, HR r) throws JSONException;
+//  public abstract void reportCodeError(HR r) throws JSONException;
+//  public abstract void reportJsonError(RR r, JSONException e);
+//  public abstract String messageForJsonError(String url, JSONException ex);
+//  public abstract void alertJsonError(Context c, RR r, JSONException e);
+//  public abstract void alertCommonError(Context context, HR r) throws JSONException;
+//
+//  public void alertFormParsingError(Context context, HR response) {
+//    // Do nothing by default
+//  }
 
-  public void alertFormParsingError(Context context, HR response) {
-    // Do nothing by default
+
+  // To be overridden
+  public void reportCodeError(HR r) throws JSONException {
+
+  }
+
+  // To be overridden
+  public void reportJsonError(RR r, JSONException e) {
+
+  }
+
+  // To be overridden
+  public String messageForJsonError(String url, JSONException ex) {
+    return "Failed communicating with server";
+  }
+
+  // To be overridden
+  public void alertJsonError(Context c, RR r, JSONException e) {
+  }
+
+  // To be overridden
+  public void alertCommonError(Context c, HR r) throws JSONException {
+//    Alert.display(c, r.asRestResponse().getResult().getString(MaRestResponse.MESSAGE_KEY));
+  }
+
+  // To be overridden
+  public void alertFormParsingError(Context c, HR r) {
+    Alert.display(c, r.getError().getMessage());
   }
 }

@@ -1,10 +1,13 @@
 package com.gani.lib.http;
 
+import android.content.Context;
 import android.webkit.WebView;
 
 import com.gani.lib.io.PersistentCookieStore;
 import com.gani.lib.io.WebkitCookieManagerProxy;
 import com.gani.lib.ui.Ui;
+
+import org.json.JSONException;
 
 import java.io.IOException;
 import java.net.CookieHandler;
@@ -49,9 +52,42 @@ public abstract class GHttp {
   }
 
   protected abstract void prepareConnection(HttpURLConnection connection, GParams params, HttpMethod method);
-  protected abstract GHttpResponse createHttpResponse(String url);
 
-  public abstract GHttpAlert alertHelper();
+  // To be overridden
+  protected GHttpResponse createHttpResponse(String url) {
+    return new GHttpResponse(url);
+  }
+
+  // To be overridden
+  public GHttpAlert alertHelper() {
+    return new GHttpAlert() {
+      @Override
+      public void reportCodeError(GHttpResponse r) throws JSONException {
+
+      }
+
+      @Override
+      public void reportJsonError(GRestResponse r, JSONException e) {
+
+      }
+
+      @Override
+      public String messageForJsonError(String url, JSONException ex) {
+        return null;
+      }
+
+      @Override
+      public void alertJsonError(Context c, GRestResponse r, JSONException e) {
+
+      }
+
+      @Override
+      public void alertCommonError(Context context, GHttpResponse r) throws JSONException {
+
+      }
+    };
+  }
+
   public abstract String baseUrl();
 
   public void prepareWebView(WebView webView) {

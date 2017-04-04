@@ -10,7 +10,7 @@ import java.io.InputStream;
 import java.io.Serializable;
 import java.net.HttpURLConnection;
 
-public abstract class GHttpResponse<RR extends GRestResponse> implements Serializable {
+public class GHttpResponse<RR extends GRestResponse> implements Serializable {
   private static final long serialVersionUID = 1L;
   
   private byte[] binary;
@@ -60,8 +60,15 @@ public abstract class GHttpResponse<RR extends GRestResponse> implements Seriali
     return restReponse;
   }
 
-  protected abstract RR createRestResponse(String jsonString);
-  protected abstract GHttpError createError();
+  // To be overridden
+  protected RR createRestResponse(String jsonString) {
+    return (RR) new GRestResponse(jsonString, this);
+  }
+
+  // To be overridden
+  protected GHttpError createError() {
+    return new GHttpError(this);
+  }
 
   void extractFrom(HttpURLConnection connection) throws IOException {
     int code = connection.getResponseCode();

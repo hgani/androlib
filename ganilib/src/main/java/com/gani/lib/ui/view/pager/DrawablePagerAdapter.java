@@ -40,7 +40,7 @@
 //    public Object instantiateItem(ViewGroup container, int position) {
 ////      View view = children.get(position);
 //      GLog.t(getClass(), "* INSTANTIE " + position);
-//      View view = new GImageView(container.getContext()).size(null, 20).adjustViewBounds().drawable(drawables.get(position)).background(Color.RED);
+//      View view = new GImageView(container.getContext()).size(null, 20).adjustViewBounds().drawable(drawables.get(position)).bgColor(Color.RED);
 //      container.addView(view);
 //      return view;
 //    }

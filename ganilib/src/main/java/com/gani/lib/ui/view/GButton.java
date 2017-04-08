@@ -43,76 +43,68 @@ public class GButton<T extends GButton> extends AppCompatButton {
     defaultSpec.init(this);
   }
 
-  public GButton size(Integer width, Integer height) {
-//    ViewGroup.LayoutParams params = getLayoutParams();
-//    if (width != null) {
-//      params.width = Length.dpToPx(width);
-//    }
-//    if (height != null) {
-//      params.height = Length.dpToPx(height);
-//    }
-//    setLayoutParams(params);
+  public T size(Integer width, Integer height) {
     helper.size(width, height);
-    return this;
+    return self();
   }
 
-  public GButton spec(Spec spec) {
+  public T spec(Spec spec) {
     spec.init(this);
-    return this;
+    return self();
   }
 
-  public GButton background(String code) {
+  public T background(String code) {
     background(Ui.color(code));
-    return this;
+    return self();
   }
 
-  public GButton background(int color) {
+  public T background(int color) {
     // Alternative implementation: http://stackoverflow.com/questions/1521640/standard-android-button-with-a-different-color
      getBackground().setColorFilter(color, PorterDuff.Mode.MULTIPLY);
 //    ViewCompat.setBackgroundTintList(this, ContextCompat.getColorStateList(getContext(), colorResId));
-    return this;
+    return self();
   }
 
-  public GButton color(String code) {
+  public T color(String code) {
     color(Ui.color(code));
-    return this;
+    return self();
   }
 
-  public GButton color(int color) {
+  public T color(int color) {
     setTextColor(color);
-    return this;
+    return self();
   }
 
-  public GButton text(String text) {
+  public T text(String text) {
     setText(text);
-    return this;
+    return self();
   }
 
-  public GButton textSize(float textSize) {
+  public T textSize(float textSize) {
     setTextSize(textSize);
-    return this;
+    return self();
   }
 
-  public GButton bold() {
+  public T bold() {
     return typeface(Typeface.DEFAULT_BOLD);
   }
 
-  public GButton typeface(Typeface typeface) {
+  public T typeface(Typeface typeface) {
     setTypeface(typeface);
-    return this;
+    return self();
   }
 
-  public GButton padding(Integer left, Integer top, Integer right, Integer bottom) {
+  public T padding(Integer left, Integer top, Integer right, Integer bottom) {
     helper.padding(left, top, right, bottom);
-    return this;
+    return self();
   }
 
-  public GButton margin(Integer left, Integer top, Integer right, Integer bottom) {
+  public T margin(Integer left, Integer top, Integer right, Integer bottom) {
     helper.margin(left, top, right, bottom);
-    return this;
+    return self();
   }
 
-  public GButton click(final View.OnClickListener listener) {
+  public T click(final View.OnClickListener listener) {
     if (customClickSound == null) {
       helper.click(listener);
     }
@@ -125,10 +117,10 @@ public class GButton<T extends GButton> extends AppCompatButton {
         }
       });
     }
-    return this;
+    return self();
   }
 
-  public GButton sound(MediaPlayer customClickSound) {
+  public T sound(MediaPlayer customClickSound) {
     this.customClickSound = customClickSound;
 //        int maxVolume = 10;
 //        mp.setVolume();
@@ -136,7 +128,7 @@ public class GButton<T extends GButton> extends AppCompatButton {
 //        mp.setVolume(1-log1);
     customClickSound.setVolume(1.0f, 1.0f);
     setSoundEffectsEnabled(false);
-    return this;
+    return self();
   }
 
 //  @Override
@@ -148,7 +140,7 @@ public class GButton<T extends GButton> extends AppCompatButton {
     return (T) this;
   }
 
-  public GButton alignParentRight() {
+  public T alignParentRight() {
 //    RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) getLayoutParams();
 //    params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
     helper.alignParentRight();
@@ -159,7 +151,7 @@ public class GButton<T extends GButton> extends AppCompatButton {
 
   public static class Spec {
     public void init(GButton button) {
-//      button.background(Ui.color(R.color.colorAccent));
+//      button.bgColor(Ui.color(R.color.colorAccent));
 
       Integer backgroundColor = backgroundColor();
       if (backgroundColor != null) {

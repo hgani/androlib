@@ -53,12 +53,12 @@ public class GSpinner extends AppCompatSpinner {
 //    return this;
 //  }
 //
-//  public GSpinner background(String code) {
-//    background(Ui.color(code));
+//  public GSpinner bgColor(String code) {
+//    bgColor(Ui.color(code));
 //    return this;
 //  }
 //
-//  public GSpinner background(int color) {
+//  public GSpinner bgColor(int color) {
 //    // Alternative implementation: http://stackoverflow.com/questions/1521640/standard-android-button-with-a-different-color
 //     getBackground().setColorFilter(color, PorterDuff.Mode.MULTIPLY);
 ////    ViewCompat.setBackgroundTintList(this, ContextCompat.getColorStateList(getContext(), colorResId));
@@ -104,11 +104,11 @@ public class GSpinner extends AppCompatSpinner {
 //
 //  public static class Spec {
 //    public void init(GSpinner button) {
-////      button.background(Ui.color(R.color.colorAccent));
+////      button.bgColor(Ui.color(R.color.colorAccent));
 //
 //      Integer backgroundColor = backgroundColor();
 //      if (backgroundColor != null) {
-//        button.background(backgroundColor);
+//        button.bgColor(backgroundColor);
 //      }
 //
 //      Integer color = color();

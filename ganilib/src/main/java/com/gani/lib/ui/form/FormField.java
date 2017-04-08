@@ -2,16 +2,23 @@ package com.gani.lib.ui.form;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.support.v4.view.ViewCompat;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+//import com.clsreview.clsreview.R;
+import com.gani.lib.R;
+import com.gani.lib.ui.Ui;
+import com.gani.lib.ui.layout.AbstractHorizontalLayout;
+import com.gani.lib.ui.layout.AbstractLinearLayout;
 import com.gani.lib.ui.layout.HorizontalLayout;
 import com.gani.lib.ui.layout.VerticalLayout;
 import com.gani.lib.ui.view.GTextView;
 
-public abstract class FormField extends HorizontalLayout {
+public abstract class FormField extends AbstractHorizontalLayout<FormField> {
   private TextView label;
   private View editView;
 
@@ -19,7 +26,7 @@ public abstract class FormField extends HorizontalLayout {
     super(context);
 
     setGravity(Gravity.CENTER_VERTICAL);
-    size(ViewGroup.LayoutParams.MATCH_PARENT, null).padding(0, 20, 0, 0);
+    size(ViewGroup.LayoutParams.MATCH_PARENT, null).padding(0, 10, 0, 10);
 
     this.label = createLabel(context).spec(labelSpec);
     this.editView = createEditView(context);
@@ -35,6 +42,8 @@ public abstract class FormField extends HorizontalLayout {
 
     addView(label);
     addView(editLayout);
+
+//    setBackground(Ui.drawable(R.drawable.border_set));
 
     label(labelText);
   }

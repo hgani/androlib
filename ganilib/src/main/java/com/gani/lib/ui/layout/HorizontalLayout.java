@@ -8,24 +8,8 @@ import android.widget.LinearLayout;
 
 import com.gani.lib.ui.style.Length;
 
-public class HorizontalLayout extends AbstractLinearLayout<HorizontalLayout> {
+public final class HorizontalLayout extends AbstractHorizontalLayout<HorizontalLayout> {
   public HorizontalLayout(Context context) {
     super(context);
-  }
-
-  public void setWeightOf(View child, int weight) {
-    LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) child.getLayoutParams();
-    if (params == null) {
-      params = new LinearLayout.LayoutParams(
-          ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-    }
-    params.width = 0;
-    params.weight = weight;
-    child.setLayoutParams(params);
-  }
-
-  public HorizontalLayout rtl() {
-    ViewCompat.setLayoutDirection(this, ViewCompat.LAYOUT_DIRECTION_RTL);
-    return this;
   }
 }

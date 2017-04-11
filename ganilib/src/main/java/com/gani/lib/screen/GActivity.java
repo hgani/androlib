@@ -22,6 +22,7 @@ import com.gani.lib.model.GBundle;
 import com.gani.lib.ui.Ui;
 
 import java.io.Serializable;
+import java.util.LinkedList;
 
 public class GActivity extends AppCompatActivity implements RichContainer {
   protected Tracker tracker;
@@ -350,6 +351,12 @@ public class GActivity extends AppCompatActivity implements RichContainer {
 
     public IntentBuilder withFlags(int flags) {
       intent.addFlags(flags);
+      return this;
+    }
+
+    public <T> IntentBuilder withArg(String key, T[] value) {
+      GLog.t(getClass(), "***WITH ARG: " + value);
+      intent.putExtra(key, new GBundle.ArrayWrapper(value));
       return this;
     }
 

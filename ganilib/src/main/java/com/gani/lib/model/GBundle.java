@@ -19,7 +19,13 @@ public class GBundle {
   }
 
   public final Serializable getSerializable(String key) {
-    return backend.getSerializable(key);
+    Serializable object = backend.getSerializable(key);
+    // In lower API levels (e.g. Kitkat), T[] is returned as Object[] so we use a wrapper to retain the original array type.
+    // See http://stackoverflow.com/questions/30154807/java-lang-classcastexception-java-lang-object-cannot-be-cast-to-pfe-essat-obj
+    if (object instanceof ArrayWrapper) {
+      return ((ArrayWrapper) object).array;
+    }
+    return object;
   }
 
   public final Intent getIntent(String key) {
@@ -66,5 +72,15 @@ public class GBundle {
 
   public GImmutableParams getParams(String key) {
     return (GImmutableParams) backend.getSerializable(key);
+  }
+
+
+
+  public static class ArrayWrapper<T> implements Serializable {
+    private T[] array;
+
+    public ArrayWrapper(T[] array) {
+      this.array = array;
+    }
   }
 }

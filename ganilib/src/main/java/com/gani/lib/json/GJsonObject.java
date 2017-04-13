@@ -56,6 +56,20 @@ public abstract class GJsonObject<JO extends GJsonObject, JA extends GJsonArray>
     return elements;
   }
 
+  public String[] getNullableStringArray(String name) throws JSONException{
+    try {
+      JSONArray arr = backend.getJSONArray(name);
+      String[] elements = new String[arr.length()];
+      for (int i = 0; i < elements.length; ++i) {
+        elements[i] = arr.getString(i);
+      }
+      return elements;
+    }
+    catch(JSONException e){
+      return null;
+    }
+  }
+
   @NonNull
   public JO getObject(String name) throws JSONException {
     return createObject(getRawObject(name));

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.widget.TextView;
 
 import com.gani.lib.R;
+import com.gani.lib.logging.GLog;
 import com.gani.lib.model.GBundle;
 import com.gani.lib.screen.GActivity;
 import com.gani.lib.ui.ProgressIndicator;
@@ -42,9 +43,14 @@ public abstract class GDialogProgress extends GActivity implements ProgressIndic
   }
 
   private final void setupViews() {
-    setContentView(contentView());
+//    setContentView(contentView());
+    setContentForDialog(contentView());
     setTitle(title());
-    setText(text());
+
+    String text = text();
+    if (text != null) {
+      setText(text);
+    }
   }
   
   protected int contentView() {
@@ -55,8 +61,9 @@ public abstract class GDialogProgress extends GActivity implements ProgressIndic
     return R.string.title_progress;
   }
 
-  protected abstract String text();
-//  protected abstract GBundle args();
+  protected String text() {
+    return null;
+  }
 
   protected void onCancel() {
     // Do nothing by default
@@ -80,6 +87,6 @@ public abstract class GDialogProgress extends GActivity implements ProgressIndic
   }
 
   private void setText(String text) {
-    ((TextView) findViewById(R.id.message)).setText(text);
+    ((TextView) findBodyView(R.id.message)).setText(text);
   }
 }

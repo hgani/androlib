@@ -1,7 +1,9 @@
 package com.gani.lib.screen;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.annotation.IdRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
@@ -76,6 +78,12 @@ public class GActivity extends AppCompatActivity implements RichContainer {
   protected final void onCreateForDialog(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     initOnCreate(savedInstanceState);
+    this.container = new GScreenView(this) {
+      @Override
+      protected void initNavigation(boolean topNavigation, ActionBar actionBar) {
+        // Not relevant for dialog.
+      }
+    };
   }
 
   public final ActionBar getNavBar() {
@@ -122,6 +130,12 @@ public class GActivity extends AppCompatActivity implements RichContainer {
     Intent extras = new Intent();
     extras.putExtra(resultKey, resultValue);
     setResult(RESULT_OK, extras);
+
+
+//    Intent data = new Intent();
+//    data.putExtra(RESULT_DATA, result);
+//    setResult(RESULT_OK,data);
+//    finish();
   }
   
   public final void finish(String resultKey, Serializable resultValue) {
@@ -162,6 +176,10 @@ public class GActivity extends AppCompatActivity implements RichContainer {
     container.setBody(resId);
   }
 
+  protected View findBodyView(int resId) {
+    return container.findViewById(resId);
+  }
+
   public void setContentWithToolbar(int resId, boolean topNavigation) {
     this.topNavigation = topNavigation;
     setContent(resId);
@@ -194,12 +212,15 @@ public class GActivity extends AppCompatActivity implements RichContainer {
   //
   // In the future, if we want to look into this again, beware that theming is time consuming and causes weird errors (with useless stacktraces).
   public void setContentForDialog(int resId) {
-    setContentView(resId);
+//    setContentView(resId);
+    this.topNavigation = false;
+    setContent(resId);
   }
 
   protected final void setSubtitle(String subtitle) {
     getSupportActionBar().setSubtitle(subtitle);
   }
+
 
 //  protected final Bundle rawArguments() {
 //    return arguments;

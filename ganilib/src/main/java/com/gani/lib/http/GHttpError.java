@@ -10,7 +10,7 @@ import org.json.JSONException;
 import java.io.IOException;
 import java.io.Serializable;
 
-public abstract class GHttpError<HR extends GHttpResponse> implements Serializable {
+public class GHttpError<HR extends GHttpResponse> implements Serializable {
   private static final long serialVersionUID = 1L;
 
   public enum ErrorType {
@@ -95,7 +95,9 @@ public abstract class GHttpError<HR extends GHttpResponse> implements Serializab
     return setError(ErrorType.AUTH, ErrorType.AUTH.name(), logMessagePrefix + " -- logging out (" + getUrl() + ") ...");
   }
 
-  public abstract void handleDefault(Context context);
+  public void handleDefault(Context context) {
+    // To be overidden
+  }
 
 
 

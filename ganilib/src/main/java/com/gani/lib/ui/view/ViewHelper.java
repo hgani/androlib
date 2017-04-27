@@ -3,6 +3,7 @@ package com.gani.lib.ui.view;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.gani.lib.logging.GLog;
 import com.gani.lib.ui.style.Length;
@@ -13,11 +14,27 @@ public class ViewHelper {
   private View view;
 
   public ViewHelper(View view) {
+    this(view, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+//    this.view = view;
+//
+//    // Ensure layout params can't be null.
+//    view.setLayoutParams();
+  }
+
+  public ViewHelper(View view, ViewGroup.LayoutParams layoutParams) {
     this.view = view;
 
     // Ensure layout params can't be null.
-    view.setLayoutParams(new LinearLayout.LayoutParams(
-        ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+    view.setLayoutParams(layoutParams);
+  }
+
+  public void relative() {
+    view.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+  }
+
+  public void alignParentRight() {
+    RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) view.getLayoutParams();
+    params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
   }
 
   public void size(Integer width, Integer height) {

@@ -1,12 +1,14 @@
 package com.gani.lib.ui.layout;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.gani.lib.logging.GLog;
+import com.gani.lib.ui.form.FormField;
 import com.gani.lib.ui.style.Length;
 import com.gani.lib.ui.view.GTextView;
 import com.gani.lib.ui.view.ViewHelper;
@@ -14,7 +16,7 @@ import com.gani.lib.ui.view.ViewHelper;
 public class AbstractLinearLayout<T extends AbstractLinearLayout> extends LinearLayout {
   private ViewHelper helper;
 
-  AbstractLinearLayout(Context context) {
+  protected AbstractLinearLayout(Context context) {
     super(context);
 
     init();
@@ -29,26 +31,27 @@ public class AbstractLinearLayout<T extends AbstractLinearLayout> extends Linear
   }
 
   public T size(Integer width, Integer height) {
-    ViewGroup.LayoutParams params = getLayoutParams();
-    if (width != null) {
-      GLog.t(getClass(), "WIDTH: " + width);
-      if (width > 0) {
-        params.width = Length.dpToPx(width);
-      }
-      else {  // Special values such as MATCH_PARENT
-        params.width = width;
-      }
-    }
-    if (height != null) {
-      if (height > 0) {
-        params.height = Length.dpToPx(height);
-      }
-      else {  // Special values such as MATCH_PARENT
-        params.height = height;
-      }
-    }
-    setLayoutParams(params);
+//    ViewGroup.LayoutParams params = getLayoutParams();
+//    if (width != null) {
+//      GLog.t(getClass(), "WIDTH: " + width);
+//      if (width > 0) {
+//        params.width = Length.dpToPx(width);
+//      }
+//      else {  // Special values such as MATCH_PARENT
+//        params.width = width;
+//      }
+//    }
+//    if (height != null) {
+//      if (height > 0) {
+//        params.height = Length.dpToPx(height);
+//      }
+//      else {  // Special values such as MATCH_PARENT
+//        params.height = height;
+//      }
+//    }
+//    setLayoutParams(params);
 
+    helper.size(width, height);
     return (T) this;
   }
 
@@ -68,8 +71,21 @@ public class AbstractLinearLayout<T extends AbstractLinearLayout> extends Linear
     return (T) this;
   }
 
-  public T background(int color) {
+  public T bgColor(int color) {
     setBackgroundColor(color);
+    return (T) this;
+  }
+
+  public T bg(Drawable drawable) {
+    int sdk = android.os.Build.VERSION.SDK_INT;
+    if(sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+      setBackgroundDrawable(drawable);
+    } else {
+      setBackground(drawable);
+    }
+
+    // Not sure why this doesn't work
+//    ViewCompat.setBackground(this, drawable);
     return (T) this;
   }
 

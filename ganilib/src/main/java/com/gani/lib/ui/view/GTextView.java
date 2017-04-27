@@ -9,11 +9,13 @@ import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.style.StyleSpan;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.gani.lib.ui.Ui;
+import com.gani.lib.ui.menu.GMenu;
 import com.gani.lib.ui.style.Length;
 
 import java.util.ArrayList;
@@ -24,7 +26,7 @@ import java.util.regex.Pattern;
 
 import static android.R.attr.button;
 
-public class GTextView extends AppCompatTextView {
+public class GTextView<T extends GTextView> extends AppCompatTextView {
   private ViewHelper helper;
 
   public GTextView(Context context) {
@@ -39,6 +41,20 @@ public class GTextView extends AppCompatTextView {
 
   private void init() {
     this.helper = new ViewHelper(this);
+  }
+
+  private T self() {
+    return (T) this;
+  }
+
+  public T relative() {
+    helper.relative();
+    return self();
+  }
+
+  public T alignParentRight() {
+    helper.alignParentRight();
+    return self();
   }
 
   public GTextView spec(Spec spec) {
@@ -123,13 +139,26 @@ public class GTextView extends AppCompatTextView {
 
   public GTextView textSize(float textSize) {
     setTextSize(textSize);
+//    setTextSize(TypedValue.COMPLEX_UNIT_SP, textSize);
     return this;
   }
+
+//  public GTextView textSize(int unit, float textSize) {
+//    setTextSize(unit, textSize);
+//    return this;
+//  }
 
   public GTextView gravity(int alignment) {
     setGravity(alignment);
     return this;
   }
+
+  public GTextView click(OnClickListener listener) {
+    helper.click(listener);
+    return this;
+  }
+
+
 
 
 //  EnumSet<FileAccess> readWrite = EnumSet.of(FileAccess.Read, FileAccess.Write);

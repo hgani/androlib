@@ -1,26 +1,13 @@
 package com.gani.lib.ui.list;
 
 import android.content.Context;
-import android.database.ContentObserver;
-import android.database.Cursor;
-import android.database.DataSetObserver;
-import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
-import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Filter;
-import android.widget.FilterQueryProvider;
-import android.widget.Filterable;
 
 import com.gani.lib.R;
-import com.gani.lib.logging.GLog;
-import com.gani.lib.select.DtoBindingHolder;
-import com.gani.lib.ui.Ui;
 
 import java.util.List;
-
-import static com.gani.lib.ui.list.AbstractBindingHolder.inflate;
 
 public abstract class DtoRecyclerAdapter<DO, VH
     extends DtoBindingHolder<DO>> extends RecyclerView.Adapter<RecyclerView.ViewHolder> {

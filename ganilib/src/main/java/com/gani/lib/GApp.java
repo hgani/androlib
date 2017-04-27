@@ -45,6 +45,7 @@ public abstract class GApp {
   private String deviceId;
   private int apiVersion;
 
+  // NOTE: Make sure the handler is created in UI thread.
   public GApp(Context c, Handler h, String cn, int av) {
     Ui.init(c, h);
 

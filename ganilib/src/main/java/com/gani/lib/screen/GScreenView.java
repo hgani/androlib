@@ -19,7 +19,7 @@ import com.gani.lib.R;
 import com.gani.lib.ui.icon.GIcon;
 
 
-public class GScreenView extends FrameLayout {
+public class GScreenView extends IScreenView {
   private static int GROUP_PRIMARY = 1;
   private static int GROUP_SECONDARY = 2;
 

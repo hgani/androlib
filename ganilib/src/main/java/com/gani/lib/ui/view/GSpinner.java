@@ -1,14 +1,11 @@
 package com.gani.lib.ui.view;
 
 import android.content.Context;
-import android.graphics.PorterDuff;
-import android.support.v7.widget.AppCompatButton;
+import android.content.res.ColorStateList;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.AppCompatSpinner;
 import android.util.AttributeSet;
-import android.view.ViewGroup;
-
-import com.gani.lib.ui.Ui;
-import com.gani.lib.ui.style.Length;
+import android.widget.SpinnerAdapter;
 
 public class GSpinner extends AppCompatSpinner {
 //  private static Spec defaultSpec = new Spec();
@@ -45,6 +42,26 @@ public class GSpinner extends AppCompatSpinner {
 //    setLayoutParams(params);
 
     helper.size(width, height);
+    return this;
+  }
+
+  public GSpinner adapter(SpinnerAdapter adapter) {
+    setAdapter(adapter);
+    return this;
+  }
+
+  public GSpinner bgResource(int resId) {
+    setBackgroundResource(resId);
+    return this;
+  }
+
+  public GSpinner bgTintList(ColorStateList colorStateList) {
+    ViewCompat.setBackgroundTintList(this, colorStateList);
+    return this;
+  }
+
+  public GSpinner enabled(boolean enabled) {
+    setEnabled(enabled);
     return this;
   }
 
@@ -90,13 +107,19 @@ public class GSpinner extends AppCompatSpinner {
 //    return this;
 //  }
 //
-  public GSpinner margin(int left, int top, int right, int bottom) {
+  public GSpinner margin(Integer left, Integer top, Integer right, Integer bottom) {
     helper.margin(left, top, right, bottom);
     return this;
   }
+
+  public GSpinner onItemSelected(OnItemSelectedListener listener) {
+    setOnItemSelectedListener(listener);
+    return this;
+  }
+
 //
-//  public GSpinner click(OnClickListener listener) {
-//    helper.click(listener);
+//  public GSpinner onClick(OnClickListener listener) {
+//    helper.onClick(listener);
 //    return this;
 //  }
 //

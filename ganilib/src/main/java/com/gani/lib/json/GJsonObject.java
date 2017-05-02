@@ -1,13 +1,8 @@
 package com.gani.lib.json;
 
-import android.graphics.Color;
-import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.gani.lib.http.GRestResponse;
-import com.gani.lib.logging.GLog;
-import com.gani.lib.screen.GActivity;
 import com.gani.lib.ui.Ui;
 
 import org.json.JSONArray;
@@ -15,6 +10,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public abstract class GJsonObject<JO extends GJsonObject, JA extends GJsonArray> {
@@ -80,6 +76,15 @@ public abstract class GJsonObject<JO extends GJsonObject, JA extends GJsonArray>
     catch (JSONException e) {
       return null;
     }
+  }
+
+  public Iterable<String> keys() {
+    return new Iterable<String>() {
+      @Override
+      public Iterator<String> iterator() {
+        return backend.keys();
+      }
+    };
   }
 
   // TODO: Deprecate. As much as possible, use getImage()
@@ -261,6 +266,10 @@ public abstract class GJsonObject<JO extends GJsonObject, JA extends GJsonArray>
 
 
   public static class Default extends GJsonObject<GJsonObject.Default, GJsonArray.Default> {
+    public Default(String str) throws JSONException {
+      super(str);
+    }
+
     public Default(JSONObject object) {
       super(object);
     }

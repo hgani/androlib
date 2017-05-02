@@ -83,8 +83,12 @@ public abstract class GJsonArray<JO extends GJsonObject> implements Iterable<JO>
 //  }
 
 
-  static class Default extends GJsonArray<GJsonObject.Default> {
-    Default(JSONArray array) throws JSONException {
+  public static class Default extends GJsonArray<GJsonObject.Default> {
+    public Default(String str) throws JSONException {
+      super(str);
+    }
+
+    public Default(JSONArray array) throws JSONException {
       super(array);
     }
 

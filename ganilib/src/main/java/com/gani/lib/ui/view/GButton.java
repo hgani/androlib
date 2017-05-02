@@ -3,12 +3,11 @@ package com.gani.lib.ui.view;
 import android.content.Context;
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.support.v7.widget.AppCompatButton;
 import android.util.AttributeSet;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.RelativeLayout;
 
 import com.gani.lib.ui.Ui;
 
@@ -94,6 +93,11 @@ public class GButton<T extends GButton> extends AppCompatButton {
     return self();
   }
 
+  public T gravity(int alignment) {
+    setGravity(alignment);
+    return self();
+  }
+
   public T padding(Integer left, Integer top, Integer right, Integer bottom) {
     helper.padding(left, top, right, bottom);
     return self();
@@ -104,7 +108,7 @@ public class GButton<T extends GButton> extends AppCompatButton {
     return self();
   }
 
-  public T click(final View.OnClickListener listener) {
+  public T onClick(final View.OnClickListener listener) {
     if (customClickSound == null) {
       helper.click(listener);
     }
@@ -120,7 +124,12 @@ public class GButton<T extends GButton> extends AppCompatButton {
     return self();
   }
 
-  public T sound(MediaPlayer customClickSound) {
+  // NOTE: Deprecated.
+  public T click(final View.OnClickListener listener) {
+    return onClick(listener);
+  }
+
+    public T sound(MediaPlayer customClickSound) {
     this.customClickSound = customClickSound;
 //        int maxVolume = 10;
 //        mp.setVolume();
@@ -144,6 +153,11 @@ public class GButton<T extends GButton> extends AppCompatButton {
 //    RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) getLayoutParams();
 //    params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
     helper.alignParentRight();
+    return self();
+  }
+
+  public T compoundDrawables(Drawable left, Drawable top, Drawable right, Drawable bottom) {
+    setCompoundDrawables(left, top, right, bottom);
     return self();
   }
 

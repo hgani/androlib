@@ -43,8 +43,8 @@ public abstract class GDialogProgress extends GActivity implements ProgressIndic
   }
 
   private final void setupViews() {
-//    setContentView(contentView());
     setContentForDialog(contentView());
+
     setTitle(title());
 
     String text = text();
@@ -57,10 +57,11 @@ public abstract class GDialogProgress extends GActivity implements ProgressIndic
     return R.layout.dialog_progress;
   }
   
-  protected int title() {
-    return R.string.title_progress;
-  }
+//  protected int title() {
+//    return R.string.title_progress;
+//  }
 
+  protected String title() { return null; }
   protected String text() {
     return null;
   }
@@ -87,6 +88,6 @@ public abstract class GDialogProgress extends GActivity implements ProgressIndic
   }
 
   private void setText(String text) {
-    ((TextView) findBodyView(R.id.message)).setText(text);
+    ((TextView) findViewById(R.id.message)).setText(text);
   }
 }

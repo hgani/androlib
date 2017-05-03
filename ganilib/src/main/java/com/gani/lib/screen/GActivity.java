@@ -8,10 +8,13 @@ import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -28,7 +31,7 @@ import java.util.LinkedList;
 
 public class GActivity extends AppCompatActivity implements RichContainer {
   protected Tracker tracker;
-  private GScreenView container;
+  private IScreenView container;
   private Boolean topNavigation;
   private Bundle arguments;
 
@@ -78,12 +81,34 @@ public class GActivity extends AppCompatActivity implements RichContainer {
   protected final void onCreateForDialog(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     initOnCreate(savedInstanceState);
-    this.container = new GScreenView(this) {
+//    this.container = new GScreenView(this) {
+//      @Override
+//      protected void initNavigation(boolean topNavigation, ActionBar actionBar) {
+//        // Not relevant for dialog.
+//      }
+//    };
+    this.container = new IScreenView(this) {
       @Override
       protected void initNavigation(boolean topNavigation, ActionBar actionBar) {
-        // Not relevant for dialog.
+        // Not applicable to dialog
+      }
+
+      @Override
+      public void setBody(int resId) {
+        LayoutInflater.from(getContext()).inflate(resId, this);
+      }
+
+      @Override
+      public Toolbar getToolbar() {
+        return null;  // Not applicable to dialog
+      }
+
+      @Override
+      public void openDrawer() {
+        // Not applicable to dialog
       }
     };
+    super.setContentView(container);
   }
 
   public final ActionBar getNavBar() {
@@ -94,6 +119,7 @@ public class GActivity extends AppCompatActivity implements RichContainer {
     return new GBundle(arguments);
   }
 
+  @Override
   protected void onCreate(@Nullable Bundle savedInstanceState) {
     throw new UnsupportedOperationException("Should be overridden in child class");
   }
@@ -176,9 +202,9 @@ public class GActivity extends AppCompatActivity implements RichContainer {
     container.setBody(resId);
   }
 
-  protected View findBodyView(int resId) {
-    return container.findViewById(resId);
-  }
+//  protected View findBodyView(int resId) {
+//    return container.findViewById(resId);
+//  }
 
   public void setContentWithToolbar(int resId, boolean topNavigation) {
     this.topNavigation = topNavigation;
@@ -211,8 +237,12 @@ public class GActivity extends AppCompatActivity implements RichContainer {
   // So we'll stick to setting theme in manifest and calling the right dialog method here. Ideally both can be done in this method.
   //
   // In the future, if we want to look into this again, beware that theming is time consuming and causes weird errors (with useless stacktraces).
+  //
+  // Put this in themes.xml:
+  // <style name="FakeDialog" parent="Theme.AppCompat.Light.Dialog">
+  //   <item name="windowNoTitle">true</item>
+  // </style>
   public void setContentForDialog(int resId) {
-//    setContentView(resId);
     this.topNavigation = false;
     setContent(resId);
   }

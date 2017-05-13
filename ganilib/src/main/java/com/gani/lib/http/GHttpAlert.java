@@ -2,6 +2,7 @@ package com.gani.lib.http;
 
 import android.content.Context;
 
+import com.gani.lib.logging.GLog;
 import com.gani.lib.notification.Alert;
 
 import org.json.JSONException;
@@ -106,6 +107,7 @@ public abstract class GHttpAlert<HR extends GHttpResponse, RR extends GRestRespo
 
   // To be overridden
   public void alertJsonError(Context c, RR r, JSONException e) {
+    GLog.e(getClass(), "Failed parsing JSON", e);
   }
 
   // To be overridden

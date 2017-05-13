@@ -28,6 +28,7 @@ import com.gani.lib.ui.Ui;
 
 import java.io.Serializable;
 import java.util.LinkedList;
+import java.util.List;
 
 public class GActivity extends AppCompatActivity implements RichContainer {
   protected Tracker tracker;
@@ -413,6 +414,11 @@ public class GActivity extends AppCompatActivity implements RichContainer {
 
     public IntentBuilder withArg(String key, Serializable value) {
       intent.putExtra(key, value);
+      return this;
+    }
+
+    public IntentBuilder withArg(String key, List value) {
+      intent.putExtra(key, (Serializable) value);
       return this;
     }
 

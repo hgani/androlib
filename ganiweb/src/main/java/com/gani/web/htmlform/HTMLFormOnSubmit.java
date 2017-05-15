@@ -225,7 +225,7 @@ public abstract class HTMLFormOnSubmit implements HTMLFormOnSubmitListener {
     }
   }
 
-  private GParams getParams(HTMLForm form) {
+  public GParams getParams(HTMLForm form) {
 //        LinearLayout layout = form.getLayout();
 ////        JSONObject params = new JSONObject();
 //        Map<String, Object> params = new HashMap<String, Object>();

@@ -72,6 +72,10 @@ public class HTMLForm {
     this.mURL = url;
   }
 
+  public String getURL() {
+    return mURL;
+  }
+
   public Element getFormElement() {
     return mForm;
   }
@@ -344,11 +348,17 @@ public class HTMLForm {
   }
 
   private void addLabel(Element field) {
-    if (field.parent().getElementsByTag("label").size() > 0) {
+    Elements label = field.parent().getElementsByTag("label");
+
+    if (label.size() == 0) {
+      label = field.parent().parent().getElementsByTag("label");
+    }
+
+    if (label.size() > 0) {
       TextView textView = new TextView(mContext);
       textView.setTextColor(Color.BLACK);
       textView.setTypeface(null, Typeface.BOLD);
-      textView.setText(field.parent().getElementsByTag("label").text());
+      textView.setText(label.text());
       mLayout.addView(textView);
     }
   }

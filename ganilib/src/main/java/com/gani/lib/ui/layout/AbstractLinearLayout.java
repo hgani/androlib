@@ -2,15 +2,9 @@ package com.gani.lib.ui.layout;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.view.Gravity;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
-import com.gani.lib.logging.GLog;
-import com.gani.lib.ui.form.FormField;
-import com.gani.lib.ui.style.Length;
-import com.gani.lib.ui.view.GTextView;
+import com.gani.lib.ui.Ui;
 import com.gani.lib.ui.view.ViewHelper;
 
 public class AbstractLinearLayout<T extends AbstractLinearLayout> extends LinearLayout {
@@ -74,6 +68,10 @@ public class AbstractLinearLayout<T extends AbstractLinearLayout> extends Linear
   public T bgColor(int color) {
     setBackgroundColor(color);
     return (T) this;
+  }
+
+  public T bgColor(String color) {
+    return bgColor(Ui.color(color));
   }
 
   public T bg(Drawable drawable) {

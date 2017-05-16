@@ -8,6 +8,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.gani.lib.R;
+import com.gani.lib.ui.Ui;
 import com.gani.lib.ui.view.ViewHelper;
 
 import static android.R.attr.button;
@@ -53,6 +54,10 @@ public class GRelativeLayout<T extends GRelativeLayout> extends RelativeLayout {
   public T bgColor(int color) {
     setBackgroundColor(color);
     return self();
+  }
+
+  public T bgColor(String color) {
+    return bgColor(Ui.color(color));
   }
 
   public T bg(Drawable drawable) {

@@ -225,7 +225,7 @@ public abstract class HTMLFormOnSubmit implements HTMLFormOnSubmitListener {
     }
   }
 
-  private GParams getParams(HTMLForm form) {
+  public GParams getParams(HTMLForm form) {
 //        LinearLayout layout = form.getLayout();
 ////        JSONObject params = new JSONObject();
 //        Map<String, Object> params = new HashMap<String, Object>();
@@ -306,6 +306,9 @@ public abstract class HTMLFormOnSubmit implements HTMLFormOnSubmitListener {
   protected abstract Intent createTurbolinksIntent(PathSpec pathSpec);
 //  public abstract void execute   (TaRichActivity activity, TaJsonObject params) throws JSONException;
 
+
+  @Override
+  public void afterBuild(HTMLForm form) { }
 
   @Override
   public void onSubmit(final HTMLForm form) {

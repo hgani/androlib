@@ -2,6 +2,7 @@ package com.gani.lib.ui.layout;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,11 @@ public class AbstractLinearLayout<T extends AbstractLinearLayout> extends Linear
 //    // Ensure layout params can't be null.
 //    setLayoutParams(new LinearLayout.LayoutParams(
 //        ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+  }
+
+  public AbstractLinearLayout(Context context, AttributeSet attrs) {
+    super(context, attrs);
+    init();
   }
 
   private void init() {

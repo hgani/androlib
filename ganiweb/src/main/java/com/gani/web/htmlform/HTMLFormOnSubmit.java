@@ -308,6 +308,9 @@ public abstract class HTMLFormOnSubmit implements HTMLFormOnSubmitListener {
 
 
   @Override
+  public void afterBuild(HTMLForm form) { }
+
+  @Override
   public void onSubmit(final HTMLForm form) {
     String endpoint = GHttp.instance().baseUrl() + form.getFormElement().attr("action") + ".json";
 

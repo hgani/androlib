@@ -344,6 +344,8 @@ public class HTMLForm {
                 }
 
       }
+
+      mListener.afterBuild(getCurrentForm());
     }
   }
 

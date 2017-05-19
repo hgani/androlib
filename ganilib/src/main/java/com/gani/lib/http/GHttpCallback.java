@@ -1,18 +1,11 @@
 package com.gani.lib.http;
 
-import android.content.Context;
-import android.os.AsyncTask;
-
-import com.gani.lib.R;
-import com.gani.lib.dialog.GDialogProgress;
-import com.gani.lib.logging.GLog;
-import com.gani.lib.screen.GFragment;
-import com.gani.lib.ui.ProgressIndicator;
-
 import org.json.JSONException;
 
+import java.io.Serializable;
 
-public interface GHttpCallback<HR extends GHttpResponse, HE extends GHttpError> {
+
+public interface GHttpCallback<HR extends GHttpResponse, HE extends GHttpError> extends Serializable {
   public void onHttpSuccess(HR response);
   public void onHttpFailure(HE error);
 

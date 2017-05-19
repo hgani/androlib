@@ -407,7 +407,6 @@ public class GActivity extends AppCompatActivity implements RichContainer {
     }
 
     public <T> IntentBuilder withArg(String key, T[] value) {
-      GLog.t(getClass(), "***WITH ARG: " + value);
       intent.putExtra(key, new GBundle.ArrayWrapper(value));
       return this;
     }

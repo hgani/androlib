@@ -1,7 +1,32 @@
 package com.gani.lib.http;
 
 public enum HttpMethod {
-  POST, PATCH, DELETE, GET;
+  POST {
+    @Override
+    public HttpAsync async(String url, GImmutableParams params, GHttpCallback callback) {
+      return new HttpAsyncPost(url, params, HttpHook.DUMMY, POST, callback);
+    }
+  },
+  PATCH {
+    @Override
+    public HttpAsync async(String url, GImmutableParams params, GHttpCallback callback) {
+      return new HttpAsyncPost(url, params, HttpHook.DUMMY, PATCH, callback);
+    }
+  },
+  DELETE {
+    @Override
+    public HttpAsync async(String url, GImmutableParams params, GHttpCallback callback) {
+      return new HttpAsyncPost(url, params, HttpHook.DUMMY, DELETE, callback);
+    }
+  },
+  GET {
+    @Override
+    public HttpAsync async(String url, GImmutableParams params, GHttpCallback callback) {
+      return new HttpAsyncGet(url, params, HttpHook.DUMMY, callback);
+    }
+  };
+
+  public abstract HttpAsync async(String url, GImmutableParams params, GHttpCallback callback);
 
   public static HttpMethod from(String method) {
     switch (method) {
@@ -23,4 +48,6 @@ public enum HttpMethod {
     }
     return from(method);
   }
+
+
 }

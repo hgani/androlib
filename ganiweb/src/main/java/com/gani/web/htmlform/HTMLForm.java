@@ -36,19 +36,21 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class HTMLForm {
-  private final String TAG          = HTMLForm.class.getName();
-  private final String INPUT_TAG    = "input";
+  private final String TAG = HTMLForm.class.getName();
+  private final String INPUT_TAG = "input";
   private final String TEXTAREA_TAG = "textarea";
-  private final String SELECT_TAG   = "select";
+  private final String SELECT_TAG = "select";
 
-  private final String TEXT_TYPE     = "text";
-  private final String URL_TYPE      = "url";
-  private final String HIDDEN_TYPE   = "hidden";
-  private final String SUBMIT_TYPE   = "submit";
-  private final String RADIO_TYPE    = "radio";
+  private final String TEXT_TYPE = "text";
+  private final String URL_TYPE = "url";
+  private final String HIDDEN_TYPE = "hidden";
+  private final String SUBMIT_TYPE = "submit";
+  private final String RADIO_TYPE = "radio";
   private final String CHECKBOX_TYPE = "checkbox";
-  private final String EMAIL_TYPE    = "email";
+  private final String EMAIL_TYPE = "email";
   private final String PASSWORD_TYPE = "password";
+  private final String DATALIST_TYPE = "data_list";
+  private final String TEL_TYPE = "tel";
 
   public static final String NAME_ATTR = "name";
 
@@ -141,6 +143,18 @@ public class HTMLForm {
       switch (field.tagName()) {
         case INPUT_TAG:
           switch (field.attr("type")) {
+            case DATALIST_TYPE:
+              addLabel(field);
+              HTMLDataList htmlDataList = new HTMLDataList(mContext, field);
+              mLayout.addView(htmlDataList);
+              break;
+            case TEL_TYPE:
+              addLabel(field);
+              htmlEditText = new HTMLEditText(mContext, field);
+              htmlEditText.setSingleLine(true);
+              htmlEditText.setInputType(InputType.TYPE_CLASS_PHONE);
+              mLayout.addView(htmlEditText);
+              break;
             case TEXT_TYPE:
               addLabel(field);
               htmlEditText = new HTMLEditText(mContext, field);
@@ -235,62 +249,11 @@ public class HTMLForm {
     if (tokenElement != null) {
       csrfToken = tokenElement.attr("content");
     }
-//    GLog.t(getClass(), "TOKEN: " + csrfToken);
   }
 
   public String getCsrfToken() {
     return csrfToken;
   }
-
-  //  private void addHidden() {
-//
-//    HTMLEditText htmlEditText = new HTMLEditText(mContext, field);
-//    htmlEditText.setVisibility(View.GONE);
-//    mLayout.addView(htmlEditText);
-//  }
-
-//    private class ParseForm extends AsyncTask<String, Void, Document> {
-//    @Override
-//    protected Document doInBackground(String... args) {
-//      Document doc = null;
-//      try {
-//        Uri uri = Uri.parse(args[0]);
-//        Connection conn = Jsoup.connect(args[0]);
-//
-//        CookieManager cookieManager = CookieManager.getInstance();
-//        String cookieStr = cookieManager.getCookie(uri.getHost());
-//        Map<String, String> cookies = new HashMap<>();
-//
-//        if (cookieStr != null) {
-//          for (String cookie : cookieStr.split(";")) {
-//            String[] temp = cookie.split("=");
-//            cookies.put(temp[0], temp[1]);
-//          }
-//
-//          if (!cookies.isEmpty()) {
-//            conn.cookies(cookies);
-//          }
-//        }
-//
-//        doc = conn.get();
-//      } catch (IOException e) {
-//        e.printStackTrace();
-//      }
-//      return doc;
-//    }
-//
-//
-////        @Override
-////        protected void onPostExecute(Document document) {
-////            super.onPostExecute(document);
-////
-//////            mDocument = document;
-////
-////      }
-////
-////      mListener.afterBuild(getCurrentForm());
-////    }
-//  }
 
   private void addLabel(Element field) {
     Elements label = field.parent().getElementsByTag("label");

@@ -59,11 +59,12 @@ public class HTMLForm {
   private Context mContext;
   private LinearLayout mLayout;
   private String mURL;
-  private ArrayList<Integer> mViewIds = new ArrayList<>();
-  private Document mDocument;
+//  private ArrayList<Integer> mViewIds = new ArrayList<>();
+//  private Document mDocument;
   private Element mForm;
   private Elements mFields;
   private HTMLFormOnSubmitListener mListener;
+  private String csrfToken;
 
   public HTMLForm(GFragment fragment, LinearLayout layout, String url) {
     this.fragment = fragment;
@@ -72,9 +73,9 @@ public class HTMLForm {
     this.mURL = url;
   }
 
-  public String getURL() {
-    return mURL;
-  }
+//  public String getURL() {
+//    return mURL;
+//  }
 
   public Element getFormElement() {
     return mForm;
@@ -84,26 +85,21 @@ public class HTMLForm {
     return fragment;
   }
 
-  public Document getDocument() {
-    return mDocument;
-  }
+//  public Document getDocument() {
+//    return mDocument;
+//  }
 
   public LinearLayout getLayout() {
     return mLayout;
   }
 
   public void buildFields() {
-//        new ParseForm().execute(mURL);
-    GLog.t(getClass(), "BUILD FIELDS");
-
     GHttpCallback callback = new GHttpCallback<GHttpResponse, GHttpError>() {
       @Override
       public void onHttpSuccess(GHttpResponse response) {
-        GLog.t(getClass(), "FORM RESPONSE: " + response.hasError());
         if (!response.hasError()) {
           Document document = Jsoup.parse(response.asString());
-//                    parse(document);
-          new ParseForm().onPostExecute(document);
+          parse(document);
         } else {
           GHttp.instance().alertHelper().alertFormParsingError(mContext, response);
         }
@@ -134,220 +130,167 @@ public class HTMLForm {
     return this;
   }
 
-  private class ParseForm extends AsyncTask<String, Void, Document> {
-    @Override
-    protected Document doInBackground(String... args) {
-      Document doc = null;
-      try {
-        Uri uri = Uri.parse(args[0]);
-        Connection conn = Jsoup.connect(args[0]);
+  private void parse(Document document) {
+    mForm = document.select("form").first();
+    mFields = mForm.select("input, textarea, select");
 
-        CookieManager cookieManager = CookieManager.getInstance();
-        String cookieStr = cookieManager.getCookie(uri.getHost());
-        Map<String, String> cookies = new HashMap<>();
+    for (int index = 0; index < mFields.size(); index++) {
+      HTMLEditText htmlEditText;
+      Element field = mFields.get(index);
 
-        if (cookieStr != null) {
-          for (String cookie : cookieStr.split(";")) {
-            String[] temp = cookie.split("=");
-            cookies.put(temp[0], temp[1]);
-          }
-
-          if (!cookies.isEmpty()) {
-            conn.cookies(cookies);
-          }
-        }
-
-        doc = conn.get();
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
-      return doc;
-    }
-
-//    @Override
-//    protected void onPostExecute(Document document) {
-//      super.onPostExecute(document);
-//
-//      mDocument = document;
-//      mForm = document.select("form").first();
-//      mFields = mForm.select("input, textarea, select");
-//
-//      for (int index = 0; index < mFields.size(); index++) {
-//        HTMLEditText htmlEditText;
-//        Element field = mFields.get(index);
-//
-//        switch (field.tagName()) {
-//          case INPUT_TAG:
-//            switch (field.attr("type")) {
-//              case TEXT_TYPE:
-//                addLabel(field);
-//                htmlEditText = new HTMLEditText(mContext, field);
-//                htmlEditText.setSingleLine(true);
-//                mLayout.addView(htmlEditText);
-//                break;
-//              case EMAIL_TYPE:
-//                addLabel(field);
-//                htmlEditText = new HTMLEditText(mContext, field);
-//                htmlEditText.setSingleLine(true);
-//                htmlEditText.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
-//                mLayout.addView(htmlEditText);
-//                break;
-//              case PASSWORD_TYPE:
-//                addLabel(field);
-//                htmlEditText = new HTMLEditText(mContext, field);
-//                htmlEditText.setSingleLine(true);
-//                htmlEditText.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
-//                mLayout.addView(htmlEditText);
-//                break;
-//              case URL_TYPE:
-//                addLabel(field);
-//                htmlEditText = new HTMLEditText(mContext, field);
-//                htmlEditText.setSingleLine(true);
-//                htmlEditText.setInputType(InputType.TYPE_TEXT_VARIATION_URI);
-//                mLayout.addView(htmlEditText);
-//                break;
-//              case HIDDEN_TYPE:
-//                htmlEditText = new HTMLEditText(mContext, field);
-//                htmlEditText.setVisibility(View.GONE);
-//                mLayout.addView(htmlEditText);
-//                break;
-//              case CHECKBOX_TYPE:
-//                HTMLCheckBox htmlCheckBox = new HTMLCheckBox(mContext, field);
-//                mLayout.addView(htmlCheckBox);
-//                break;
-//              case RADIO_TYPE:
-//                HTMLRadioButton htmlRadioButton = new HTMLRadioButton(mContext, field);
-//                mLayout.addView(htmlRadioButton);
-//                break;
-//              case SUBMIT_TYPE:
-//                Button button = new Button(mContext);
-//                button.setText(field.val());
-//                button.setOnClickListener(new View.OnClickListener() {
-//                  @Override
-//                  public void onClick(View view) {
-//                    mListener.onSubmit(getCurrentForm());
-//                  }
-//                });
-//                mLayout.addView(button);
-//                break;
-//            }
-//            break;
-//          case TEXTAREA_TAG:
-//            addLabel(field);
-//            htmlEditText = new HTMLEditText(mContext, field);
-//            htmlEditText.setLines(3);
-//            mLayout.addView(htmlEditText);
-//            break;
-//          case SELECT_TAG:
-//            addLabel(field);
-//            HTMLSpinner htmlSpinner = new HTMLSpinner(mContext, field);
-//            mLayout.addView(htmlSpinner);
-//            break;
-//        }
-
-        @Override
-        protected void onPostExecute(Document document) {
-            super.onPostExecute(document);
-
-            mDocument = document;
-            mForm = document.select("form").first();
-            mFields = mForm.select("input, textarea, select");
-
-            for(int index = 0; index < mFields.size(); index++) {
-                HTMLEditText htmlEditText;
-                Element field = mFields.get(index);
-
-                switch (field.tagName()) {
-                    case INPUT_TAG:
-                        switch (field.attr("type")) {
-                            case TEXT_TYPE:
-                                addLabel(field);
-                                htmlEditText = new HTMLEditText(mContext, field);
-                                htmlEditText.setSingleLine(true);
-                                mLayout.addView(htmlEditText);
-                                break;
-                            case EMAIL_TYPE:
-                                addLabel(field);
-                                htmlEditText = new HTMLEditText(mContext, field);
-                                htmlEditText.setSingleLine(true);
-                                htmlEditText.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
-                                mLayout.addView(htmlEditText);
-                                break;
-                            case PASSWORD_TYPE:
-                                addLabel(field);
-                                htmlEditText = new HTMLEditText(mContext, field);
-                                htmlEditText.setSingleLine(true);
-                                htmlEditText.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
-                                mLayout.addView(htmlEditText);
-                                break;
-                            case URL_TYPE:
-                                addLabel(field);
-                                htmlEditText = new HTMLEditText(mContext, field);
-                                htmlEditText.setSingleLine(true);
-                                htmlEditText.setInputType(InputType.TYPE_TEXT_VARIATION_URI);
-                                mLayout.addView(htmlEditText);
-                                break;
-                            case HIDDEN_TYPE:
-                                htmlEditText = new HTMLEditText(mContext, field);
-                                htmlEditText.setVisibility(View.GONE);
-                                mLayout.addView(htmlEditText);
-                                break;
-                            case CHECKBOX_TYPE:
-                                HTMLCheckBox htmlCheckBox = new HTMLCheckBox(mContext, field);
-                                mLayout.addView(htmlCheckBox);
-                                break;
-                            case RADIO_TYPE:
+      switch (field.tagName()) {
+        case INPUT_TAG:
+          switch (field.attr("type")) {
+            case TEXT_TYPE:
+              addLabel(field);
+              htmlEditText = new HTMLEditText(mContext, field);
+              htmlEditText.setSingleLine(true);
+              mLayout.addView(htmlEditText);
+              break;
+            case EMAIL_TYPE:
+              addLabel(field);
+              htmlEditText = new HTMLEditText(mContext, field);
+              htmlEditText.setSingleLine(true);
+              htmlEditText.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
+              mLayout.addView(htmlEditText);
+              break;
+            case PASSWORD_TYPE:
+              addLabel(field);
+              htmlEditText = new HTMLEditText(mContext, field);
+              htmlEditText.setSingleLine(true);
+              htmlEditText.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
+              mLayout.addView(htmlEditText);
+              break;
+            case URL_TYPE:
+              addLabel(field);
+              htmlEditText = new HTMLEditText(mContext, field);
+              htmlEditText.setSingleLine(true);
+              htmlEditText.setInputType(InputType.TYPE_TEXT_VARIATION_URI);
+              mLayout.addView(htmlEditText);
+              break;
+            case HIDDEN_TYPE:
+              htmlEditText = new HTMLEditText(mContext, field);
+              htmlEditText.setVisibility(View.GONE);
+              mLayout.addView(htmlEditText);
+              break;
+            case CHECKBOX_TYPE:
+              HTMLCheckBox htmlCheckBox = new HTMLCheckBox(mContext, field);
+              mLayout.addView(htmlCheckBox);
+              break;
+            case RADIO_TYPE:
 //                                HTMLRadioButton htmlRadioButton = new HTMLRadioButton(mContext, field);
 //                                mLayout.addView(htmlRadioButton);
-                                RadioGroup radioGroup = new RadioGroup(mContext);
-                                radioGroup.setTag(field.attr(NAME_ATTR));
-                                mLayout.addView(radioGroup);
+              RadioGroup radioGroup = new RadioGroup(mContext);
+              radioGroup.setTag(field.attr(NAME_ATTR));
+              mLayout.addView(radioGroup);
 
-                                Elements radioButtons = mForm.getElementsByAttributeValue(NAME_ATTR, field.attr(NAME_ATTR));
-                                radioButtons = radioButtons.select(RADIO_TYPE_QUERY);
+              Elements radioButtons = mForm.getElementsByAttributeValue(NAME_ATTR, field.attr(NAME_ATTR));
+              radioButtons = radioButtons.select(RADIO_TYPE_QUERY);
 
-                                for(int i = 0; i < radioButtons.size(); i++) {
-                                    Element radio = mFields.get(index + i);
-                                    HTMLRadioButton htmlRadioButton = new HTMLRadioButton(mContext, radio);
-                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-                                        htmlRadioButton.setId(View.generateViewId());
-                                    }
-                                    radioGroup.addView(htmlRadioButton);
-                                }
-
-                                index = index + (radioButtons.size() - 1);
-                                break;
-                            case SUBMIT_TYPE:
-                                Button button = new Button(mContext);
-                                button.setText(field.val());
-                                button.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View view) {
-                                        mListener.onSubmit(getCurrentForm());
-                                    }
-                                });
-                                mLayout.addView(button);
-                                break;
-                        }
-                        break;
-                    case TEXTAREA_TAG:
-                        addLabel(field);
-                        htmlEditText = new HTMLEditText(mContext, field);
-                        htmlEditText.setLines(3);
-                        mLayout.addView(htmlEditText);
-                        break;
-                    case SELECT_TAG:
-                        addLabel(field);
-                        HTMLSpinner htmlSpinner = new HTMLSpinner(mContext, field);
-                        mLayout.addView(htmlSpinner);
-                        break;
+              for (int i = 0; i < radioButtons.size(); i++) {
+                Element radio = mFields.get(index + i);
+                HTMLRadioButton htmlRadioButton = new HTMLRadioButton(mContext, radio);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                  htmlRadioButton.setId(View.generateViewId());
                 }
+                radioGroup.addView(htmlRadioButton);
+              }
 
+              index = index + (radioButtons.size() - 1);
+              break;
+            case SUBMIT_TYPE:
+              Button button = new Button(mContext);
+              button.setText(field.val());
+              button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                  mListener.onSubmit(getCurrentForm());
+                }
+              });
+              mLayout.addView(button);
+              break;
+          }
+          break;
+        case TEXTAREA_TAG:
+          addLabel(field);
+          htmlEditText = new HTMLEditText(mContext, field);
+          htmlEditText.setLines(3);
+          mLayout.addView(htmlEditText);
+          break;
+        case SELECT_TAG:
+          addLabel(field);
+          HTMLSpinner htmlSpinner = new HTMLSpinner(mContext, field);
+          mLayout.addView(htmlSpinner);
+          break;
       }
 
-      mListener.afterBuild(getCurrentForm());
     }
+
+    extractCsrfToken(document);
+    mListener.afterBuild(getCurrentForm());
   }
+
+  private void extractCsrfToken(Document document) {
+    Element tokenElement  = document.select("meta[name=csrf-token]").first();
+    if (tokenElement != null) {
+      csrfToken = tokenElement.attr("content");
+    }
+//    GLog.t(getClass(), "TOKEN: " + csrfToken);
+  }
+
+  public String getCsrfToken() {
+    return csrfToken;
+  }
+
+  //  private void addHidden() {
+//
+//    HTMLEditText htmlEditText = new HTMLEditText(mContext, field);
+//    htmlEditText.setVisibility(View.GONE);
+//    mLayout.addView(htmlEditText);
+//  }
+
+//    private class ParseForm extends AsyncTask<String, Void, Document> {
+//    @Override
+//    protected Document doInBackground(String... args) {
+//      Document doc = null;
+//      try {
+//        Uri uri = Uri.parse(args[0]);
+//        Connection conn = Jsoup.connect(args[0]);
+//
+//        CookieManager cookieManager = CookieManager.getInstance();
+//        String cookieStr = cookieManager.getCookie(uri.getHost());
+//        Map<String, String> cookies = new HashMap<>();
+//
+//        if (cookieStr != null) {
+//          for (String cookie : cookieStr.split(";")) {
+//            String[] temp = cookie.split("=");
+//            cookies.put(temp[0], temp[1]);
+//          }
+//
+//          if (!cookies.isEmpty()) {
+//            conn.cookies(cookies);
+//          }
+//        }
+//
+//        doc = conn.get();
+//      } catch (IOException e) {
+//        e.printStackTrace();
+//      }
+//      return doc;
+//    }
+//
+//
+////        @Override
+////        protected void onPostExecute(Document document) {
+////            super.onPostExecute(document);
+////
+//////            mDocument = document;
+////
+////      }
+////
+////      mListener.afterBuild(getCurrentForm());
+////    }
+//  }
 
   private void addLabel(Element field) {
     Elements label = field.parent().getElementsByTag("label");

@@ -300,6 +300,12 @@ public abstract class HTMLFormOnSubmit implements HTMLFormOnSubmitListener {
       }
     }
 
+    // For Rails
+    String token = form.getCsrfToken();
+    if (token != null) {
+      params.put("authenticity_token", token);
+    }
+
     return params;
   }
 

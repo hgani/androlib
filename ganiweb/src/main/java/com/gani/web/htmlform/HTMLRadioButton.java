@@ -44,6 +44,6 @@ public class HTMLRadioButton extends RadioButton {
         setTag(mField.attr(ATTR_NAME));
         setText(mField.parent().text());
 
-        setOnCheckedChangeListener(new HTMLFieldValidation(mField, this));
+//        setOnCheckedChangeListener(new HTMLFieldValidation(mField, this));
     }
 }

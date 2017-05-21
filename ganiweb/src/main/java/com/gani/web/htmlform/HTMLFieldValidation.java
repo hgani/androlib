@@ -19,8 +19,7 @@ import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class HTMLFieldValidation
-    implements TextWatcher, Spinner.OnItemSelectedListener, CompoundButton.OnCheckedChangeListener {
+public abstract class HTMLFieldValidation implements CompoundButton.OnCheckedChangeListener {
   private static final String ATTR_VALIDATE = "data-validate";
 
   private static final String JSON_MESSAGES = "messages";
@@ -36,80 +35,47 @@ public class HTMLFieldValidation
 
   private static final String MESSAGES_BLANK = "blank";
   private static final String MESSAGES_TOO_LONG = "too_long";
+//
+//  private static final String DATETIME_PICKER_TYPE = "datetime_picker";
+//  private static final String DATE_PICKER_TYPE = "date_picker";
+//  private static final String TIME_PICKER_TYPE = "time_picker";
+//
+//  private static final String DATE_FORMAT = "\\d{4}-\\d{2}-\\d{2}";
+//  private static final String TIME_FORMAT = "\\d{2}:\\d{2}";
+//  private static final String DATETIME_FORMAT = DATE_FORMAT + "\\s" + TIME_FORMAT;
 
-  private static final String DATETIME_PICKER_TYPE = "datetime_picker";
-  private static final String DATE_PICKER_TYPE = "date_picker";
-  private static final String TIME_PICKER_TYPE = "time_picker";
-
-  private static final String DATE_FORMAT = "\\d{4}-\\d{2}-\\d{2}";
-  private static final String TIME_FORMAT = "\\d{2}:\\d{2}";
-  private static final String DATETIME_FORMAT = DATE_FORMAT + "\\s" + TIME_FORMAT;
-
+  private HTMLForm form;
   private Element mField;
-  private HTMLEditText mHtmlEditText;
-  private HTMLSpinner mHtmlSpinner;
-  private HTMLCheckBox mHtmlCheckBox;
-  private HTMLRadioButton mHtmlRadioButton;
+//  private HTMLEditText mHtmlEditText;
+//  private HTMLSpinner mHtmlSpinner;
+//  private HTMLCheckBox mHtmlCheckBox;
+//  private HTMLRadioButton mHtmlRadioButton;
   private ArrayList<String> mErrorMessages = new ArrayList<>();
 
-  public HTMLFieldValidation(Element field, HTMLSpinner htmlSpinner) {
+  public HTMLFieldValidation(HTMLForm form, Element field) {
+    this.form = form;
     this.mField = field;
-    this.mHtmlSpinner = htmlSpinner;
   }
 
-  public HTMLFieldValidation(Element field, HTMLEditText htmlEditText) {
-    this.mField = field;
-    this.mHtmlEditText = htmlEditText;
-  }
-
-  public HTMLFieldValidation(Element field, HTMLCheckBox htmlCheckBox) {
-    this.mField = field;
-    this.mHtmlCheckBox = htmlCheckBox;
-  }
-
-  public HTMLFieldValidation(Element field, HTMLRadioButton htmlRadioButton) {
-    this.mField = field;
-    this.mHtmlRadioButton = htmlRadioButton;
-  }
-
-  @Override
-  public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//        ignored
-  }
-
-  @Override
-  public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-    validate(mHtmlEditText);
-
-    if (mErrorMessages.size() > 0) {
-      mHtmlEditText.setError(readableErrorMessages());
-    } else {
-      mHtmlEditText.setError(null);
-    }
-
-  }
-
-  @Override
-  public void afterTextChanged(Editable editable) {
-//        ignored
-  }
-
-  @Override
-  public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-    validate(mHtmlSpinner);
-
-    TextView selectedTextView = (TextView) view;
-    if (mErrorMessages.size() > 0) {
-      selectedTextView.setError(readableErrorMessages());
-    } else {
-      selectedTextView.setError(null);
-    }
-  }
-
-  @Override
-  public void onNothingSelected(AdapterView<?> adapterView) {
-//        ignored
-  }
+//  public HTMLFieldValidation(Element field, HTMLSpinner htmlSpinner) {
+//    this.mField = field;
+//    this.mHtmlSpinner = htmlSpinner;
+//  }
+//
+//  public HTMLFieldValidation(Element field, HTMLEditText htmlEditText) {
+//    this.mField = field;
+//    this.mHtmlEditText = htmlEditText;
+//  }
+//
+//  public HTMLFieldValidation(Element field, HTMLCheckBox htmlCheckBox) {
+//    this.mField = field;
+//    this.mHtmlCheckBox = htmlCheckBox;
+//  }
+//
+//  public HTMLFieldValidation(Element field, HTMLRadioButton htmlRadioButton) {
+//    this.mField = field;
+//    this.mHtmlRadioButton = htmlRadioButton;
+//  }
 
   @Override
   public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
@@ -117,40 +83,74 @@ public class HTMLFieldValidation
 //        compoundButton.setError("ASD");
   }
 
-  private String readableErrorMessages() {
+  protected void clearErrorMessages() {
+    mErrorMessages.clear();
+  }
+
+  protected void addErrorMessage(String message) {
+    mErrorMessages.add(message);
+  }
+
+  protected boolean hasErrorMessage() {
+    return mErrorMessages.size() > 0;
+  }
+
+  protected boolean isValid() {
+    return !hasErrorMessage();
+  }
+
+  protected String readableErrorMessages() {
     return TextUtils.join("\n", mErrorMessages);
   }
 
-  private void validate(HTMLSpinner view) {
-    mErrorMessages.clear();
-    String value = view.getSelectedItem().toString();
+  public boolean run(String value, TextView view) {
+    clearErrorMessages();
+//    String value = getText().toString();
+//    String value = view.toString();
     validateField(value);
-  }
+    validateSpecific(value);
 
-  private void validate(HTMLEditText view) {
-    mErrorMessages.clear();
-    String value = view.getText().toString();
-    validateField(value);
-
-    if (mField.classNames().contains(DATE_PICKER_TYPE)) {
-      validateDateTimeFormat(value, DATE_FORMAT);
-    } else if (mField.classNames().contains(TIME_PICKER_TYPE)) {
-      validateDateTimeFormat(value, TIME_FORMAT);
-    } else if (mField.classNames().contains(DATETIME_PICKER_TYPE)) {
-      validateDateTimeFormat(value, DATETIME_FORMAT);
+    boolean valid = !hasErrorMessage();
+    if (valid) {
+      view.setError(null);
+    } else {
+      view.setError(readableErrorMessages());
     }
+    form.updateValid();
+
+//    return hasErrorMessage();
+    return valid;
   }
 
-  private void validateDateTimeFormat(String value, String dateFormat) {
-    Pattern r = Pattern.compile("^" + dateFormat + "$");
-    Matcher m = r.matcher(value);
-
-    if (!m.find()) {
-      mErrorMessages.add("Invalid");
-    }
+  protected void validateSpecific(String value) {
+    // To be overridden
   }
 
-  private void validateField(String value) {
+//
+//  private void validate(HTMLEditText view) {
+//    mErrorMessages.clear();
+//    String value = view.getText().toString();
+//    validateField(value);
+//
+//    if (mField.classNames().contains(DATE_PICKER_TYPE)) {
+//      validateDateTimeFormat(value, DATE_FORMAT);
+//    } else if (mField.classNames().contains(TIME_PICKER_TYPE)) {
+//      validateDateTimeFormat(value, TIME_FORMAT);
+//    } else if (mField.classNames().contains(DATETIME_PICKER_TYPE)) {
+//      validateDateTimeFormat(value, DATETIME_FORMAT);
+//    }
+//  }
+//
+//  private void validateDateTimeFormat(String value, String dateFormat) {
+//    Pattern r = Pattern.compile("^" + dateFormat + "$");
+//    Matcher m = r.matcher(value);
+//
+//    if (!m.find()) {
+//      mErrorMessages.add("Invalid");
+//    }
+//  }
+
+  protected void validateField(String value) {
     if (!mField.attr(ATTR_VALIDATE).equals("")) {
       try {
         JSONArray validateOptions = new JSONArray(mField.attr(ATTR_VALIDATE));

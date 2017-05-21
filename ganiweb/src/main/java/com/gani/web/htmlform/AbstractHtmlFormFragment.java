@@ -28,26 +28,10 @@ public abstract class AbstractHtmlFormFragment extends GFragment {
     VerticalLayout paddedLayout = new VerticalLayout(getContext()).size(ViewGroup.LayoutParams.MATCH_PARENT, null).padding(20, null, 20, null);
     ((ViewGroup) fragmentLayout.findViewById(R.id.content_layout)).addView(paddedLayout);
 
-//    String url = Build.INSTANCE.getPathPrefix() + "/sessions/new";
     htmlForm = new HTMLForm(this, paddedLayout, getUrl());
     htmlForm.setOnSubmitListener(getOnSubmit());
-//    htmlForm.buildFields();
 
     return fragmentLayout;
-
-//    View fragmentLayout = inflater.inflate(R.layout.common_fragment, null);
-//
-//    LinearLayout containerLayout = (LinearLayout) fragmentLayout.findViewById(R.id.container);
-//    containerLayout.setPadding(PADDING, PADDING, PADDING, PADDING);
-//
-//    GBundle bundle = args();
-//    String path = bundle.getString(FORM_PATH);
-//
-//    this.form = new HTMLForm(this, containerLayout, GHttp.instance().baseUrl() + path);
-//    form.setOnSubmitListener(((HTMLFormOnSubmitListener) bundle.getSerializable(SUBMIT_LISTENER)));
-//    form.buildFields();
-//
-//    return fragmentLayout;
   }
 
   @Override

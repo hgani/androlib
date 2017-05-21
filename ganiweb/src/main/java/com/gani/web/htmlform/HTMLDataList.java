@@ -32,27 +32,13 @@ public class HTMLDataList extends AppCompatAutoCompleteTextView {
     setOnTouchListener(new OnTouchListener() {
       @Override
       public boolean onTouch(View view, MotionEvent motionEvent) {
-//        showDropDown();
-//        requestFocus();
-
         if (gestureDetector.onTouchEvent(motionEvent)) {
           showDropDown();
-          return true;
+          return true;  // Prevent keyboard from showing up
         }
         return false;
-//        else {
-//          // your code for move and drag
-//        }
-//        return true;  // Prevent keyboard from showing up
       }
     });
-
-//    setOnClickListener(new OnClickListener() {
-//      @Override
-//      public void onClick(View view) {
-//        showDropDown();
-//      }
-//    });
 
     setOnItemClickListener(new AdapterView.OnItemClickListener() {
       @Override

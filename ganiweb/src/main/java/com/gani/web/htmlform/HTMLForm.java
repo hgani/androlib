@@ -59,6 +59,7 @@ public class HTMLForm {
   private Elements mFields;
   private HTMLFormOnSubmitListener mListener;
   private String csrfToken;
+  private Button submitButton;
 
   public HTMLForm(GFragment fragment, LinearLayout layout, String url) {
     this.fragment = fragment;
@@ -132,6 +133,9 @@ public class HTMLForm {
     return this;
   }
 
+  private void parseInputTag(Element field) {
+  }
+
   private void parse(Document document) {
     mForm = document.select("form").first();
     mFields = mForm.select("input, textarea, select");
@@ -150,27 +154,27 @@ public class HTMLForm {
               break;
             case TEL_TYPE:
               addLabel(field);
-              htmlEditText = new HTMLEditText(mContext, field);
+              htmlEditText = new HTMLEditText(mContext, this, field);
               htmlEditText.setSingleLine(true);
               htmlEditText.setInputType(InputType.TYPE_CLASS_PHONE);
               mLayout.addView(htmlEditText);
               break;
             case TEXT_TYPE:
               addLabel(field);
-              htmlEditText = new HTMLEditText(mContext, field);
+              htmlEditText = new HTMLEditText(mContext, this, field);
               htmlEditText.setSingleLine(true);
               mLayout.addView(htmlEditText);
               break;
             case EMAIL_TYPE:
               addLabel(field);
-              htmlEditText = new HTMLEditText(mContext, field);
+              htmlEditText = new HTMLEditText(mContext, this, field);
               htmlEditText.setSingleLine(true);
               htmlEditText.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
               mLayout.addView(htmlEditText);
               break;
             case PASSWORD_TYPE:
               addLabel(field);
-              htmlEditText = new HTMLEditText(mContext, field);
+              htmlEditText = new HTMLEditText(mContext, this, field);
               htmlEditText.setSingleLine(true);
               // See http://stackoverflow.com/questions/21326790/calling-edittext-setinputtypeinputtype-type-text-variation-password-does-not-c
               htmlEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
@@ -180,13 +184,13 @@ public class HTMLForm {
               break;
             case URL_TYPE:
               addLabel(field);
-              htmlEditText = new HTMLEditText(mContext, field);
+              htmlEditText = new HTMLEditText(mContext, this, field);
               htmlEditText.setSingleLine(true);
               htmlEditText.setInputType(InputType.TYPE_TEXT_VARIATION_URI);
               mLayout.addView(htmlEditText);
               break;
             case HIDDEN_TYPE:
-              htmlEditText = new HTMLEditText(mContext, field);
+              htmlEditText = new HTMLEditText(mContext, this, field);
               htmlEditText.setVisibility(View.GONE);
               mLayout.addView(htmlEditText);
               break;
@@ -221,22 +225,37 @@ public class HTMLForm {
               button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+//                  boolean valid = true;
+//                  for (int i = 0; i < mLayout.getChildCount(); i++) {
+//                    View child = mLayout.getChildAt(i);
+//                    if (child instanceof HtmlFormValidatable) {
+//                      if (!((HtmlFormValidatable) child).validate()) {
+//                        valid = false;
+//                      }
+//                    }
+//                  }
+//
+//                  if (valid) {
+//                    mListener.onSubmit(getCurrentForm());
+//                  }
                   mListener.onSubmit(getCurrentForm());
                 }
               });
               mLayout.addView(button);
+
+              submitButton = button;
               break;
           }
           break;
         case TEXTAREA_TAG:
           addLabel(field);
-          htmlEditText = new HTMLEditText(mContext, field);
+          htmlEditText = new HTMLEditText(mContext, this, field);
           htmlEditText.setLines(3);
           mLayout.addView(htmlEditText);
           break;
         case SELECT_TAG:
           addLabel(field);
-          HTMLSpinner htmlSpinner = new HTMLSpinner(mContext, field);
+          HTMLSpinner htmlSpinner = new HTMLSpinner(mContext, this, field);
           mLayout.addView(htmlSpinner);
           break;
       }
@@ -271,6 +290,21 @@ public class HTMLForm {
       textView.setTypeface(null, Typeface.BOLD);
       textView.setText(label.text());
       mLayout.addView(textView);
+    }
+  }
+
+  void updateValid() {
+    if (submitButton != null) {
+      boolean valid = true;
+      for (int i = 0; i < mLayout.getChildCount(); i++) {
+        View child = mLayout.getChildAt(i);
+        if (child instanceof HtmlFormValidatable) {
+          if (!((HtmlFormValidatable) child).isValid()) {
+            valid = false;
+          }
+        }
+      }
+      submitButton.setEnabled(valid);
     }
   }
 }

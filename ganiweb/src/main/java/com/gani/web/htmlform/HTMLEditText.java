@@ -4,17 +4,17 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.support.v7.widget.AppCompatEditText;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.TimePicker;
 
+import com.gani.lib.ui.view.GEditText;
 import com.gani.web.R;
 
 import org.jsoup.nodes.Element;
@@ -24,7 +24,8 @@ import java.util.Calendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class HTMLEditText extends EditText implements HtmlFormValidatable {
+//public class HTMLEditText extends EditText implements HtmlFormValidatable {
+public class HTMLEditText extends GEditText implements HtmlFormValidatable {
   private final Element mField;
 
 //  private static final String TAG = HTMLEditText.class.getName();
@@ -52,6 +53,9 @@ public class HTMLEditText extends EditText implements HtmlFormValidatable {
 
     this.mField = field;
     this.validator = new Validator(form, field);
+
+    size(ViewGroup.LayoutParams.MATCH_PARENT, null);
+
     setDefaultListeners();
   }
 
@@ -68,7 +72,7 @@ public class HTMLEditText extends EditText implements HtmlFormValidatable {
     return validator.isValid();
   }
 
-  private class Validator extends HTMLFieldValidation implements TextWatcher {
+  private class Validator extends HtmlFieldValidator implements TextWatcher {
     private static final String DATE_FORMAT = "\\d{4}-\\d{2}-\\d{2}";
     private static final String TIME_FORMAT = "\\d{2}:\\d{2}";
     private static final String DATETIME_FORMAT = DATE_FORMAT + "\\s" + TIME_FORMAT;
@@ -119,13 +123,13 @@ public class HTMLEditText extends EditText implements HtmlFormValidatable {
   ///// Formatting /////
 
   private void setDefaultListeners() {
-    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-        ViewGroup.LayoutParams.MATCH_PARENT,
-        ViewGroup.LayoutParams.WRAP_CONTENT
-    );
-    params.setMargins(0, 0, 0, 25);
-
-    setLayoutParams(params);
+//    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+//        ViewGroup.LayoutParams.MATCH_PARENT,
+//        ViewGroup.LayoutParams.WRAP_CONTENT
+//    );
+//    params.setMargins(0, 0, 0, 25);
+//
+//    setLayoutParams(params);
     setPadding(20, 20, 20, 20);
     setBackgroundResource(R.drawable.edit_text_state);
     setTag(mField.attr(ATTR_NAME));

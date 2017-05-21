@@ -11,11 +11,12 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 
+import com.gani.lib.ui.view.GAutoCompleteTextView;
 import com.gani.web.R;
 
 import org.jsoup.nodes.Element;
 
-public class HTMLDataList extends AppCompatAutoCompleteTextView {
+public class HTMLDataList extends GAutoCompleteTextView {
   private static final String OPTION_MANUAL = "Other (Please specify)";
 
   private final Element mField;

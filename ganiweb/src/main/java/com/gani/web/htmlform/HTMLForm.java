@@ -7,7 +7,6 @@ import android.os.Build;
 import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -18,9 +17,9 @@ import com.gani.lib.http.GHttpError;
 import com.gani.lib.http.GHttpResponse;
 import com.gani.lib.http.HttpAsyncGet;
 import com.gani.lib.http.HttpHook;
-import com.gani.lib.logging.GLog;
 import com.gani.lib.screen.GFragment;
-import com.gani.web.R;
+import com.gani.lib.ui.view.GTextView;
+import com.gani.lib.ui.view.GView;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -133,98 +132,94 @@ public class HTMLForm {
     return this;
   }
 
-  private void parseInputTag(Element field) {
+  private void addField(View field) {
+    mLayout.addView(field);
+
+    if (field instanceof GView) {
+      ((GView) field).margin(null, null, null, 12);
+    }
   }
 
-  private void parse(Document document) {
-    mForm = document.select("form").first();
-    mFields = mForm.select("input, textarea, select");
+  private int parseInputTag(Element field, int index) {
+    HTMLEditText htmlEditText;
 
-    for (int index = 0; index < mFields.size(); index++) {
-      HTMLEditText htmlEditText;
-      Element field = mFields.get(index);
+    switch (field.attr("type")) {
+      case DATALIST_TYPE:
+        addLabel(field);
+        HTMLDataList htmlDataList = new HTMLDataList(mContext, field);
+        addField(htmlDataList);
+        break;
+      case TEL_TYPE:
+        addLabel(field);
+        htmlEditText = new HTMLEditText(mContext, this, field);
+        htmlEditText.setSingleLine(true);
+        htmlEditText.setInputType(InputType.TYPE_CLASS_PHONE);
+        addField(htmlEditText);
+        break;
+      case TEXT_TYPE:
+        addLabel(field);
+        htmlEditText = new HTMLEditText(mContext, this, field);
+        htmlEditText.setSingleLine(true);
+        addField(htmlEditText);
+        break;
+      case EMAIL_TYPE:
+        addLabel(field);
+        htmlEditText = new HTMLEditText(mContext, this, field);
+        htmlEditText.setSingleLine(true);
+        htmlEditText.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
+        addField(htmlEditText);
+        break;
+      case PASSWORD_TYPE:
+        addLabel(field);
+        htmlEditText = new HTMLEditText(mContext, this, field);
+        htmlEditText.setSingleLine(true);
+        // See http://stackoverflow.com/questions/21326790/calling-edittext-setinputtypeinputtype-type-text-variation-password-does-not-c
+        htmlEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        // Without this, the hint gets displayed using a different font
+        htmlEditText.setTypeface(Typeface.DEFAULT);
+        addField(htmlEditText);
+        break;
+      case URL_TYPE:
+        addLabel(field);
+        htmlEditText = new HTMLEditText(mContext, this, field);
+        htmlEditText.setSingleLine(true);
+        htmlEditText.setInputType(InputType.TYPE_TEXT_VARIATION_URI);
+        addField(htmlEditText);
+        break;
+      case HIDDEN_TYPE:
+        htmlEditText = new HTMLEditText(mContext, this, field);
+        htmlEditText.setVisibility(View.GONE);
+        addField(htmlEditText);
+        break;
+      case CHECKBOX_TYPE:
+        HTMLCheckBox htmlCheckBox = new HTMLCheckBox(mContext, field);
+        addField(htmlCheckBox);
+        break;
+      case RADIO_TYPE:
+        RadioGroup radioGroup = new RadioGroup(mContext);
+        radioGroup.setTag(field.attr(NAME_ATTR));
+        addField(radioGroup);
 
-      switch (field.tagName()) {
-        case INPUT_TAG:
-          switch (field.attr("type")) {
-            case DATALIST_TYPE:
-              addLabel(field);
-              HTMLDataList htmlDataList = new HTMLDataList(mContext, field);
-              mLayout.addView(htmlDataList);
-              break;
-            case TEL_TYPE:
-              addLabel(field);
-              htmlEditText = new HTMLEditText(mContext, this, field);
-              htmlEditText.setSingleLine(true);
-              htmlEditText.setInputType(InputType.TYPE_CLASS_PHONE);
-              mLayout.addView(htmlEditText);
-              break;
-            case TEXT_TYPE:
-              addLabel(field);
-              htmlEditText = new HTMLEditText(mContext, this, field);
-              htmlEditText.setSingleLine(true);
-              mLayout.addView(htmlEditText);
-              break;
-            case EMAIL_TYPE:
-              addLabel(field);
-              htmlEditText = new HTMLEditText(mContext, this, field);
-              htmlEditText.setSingleLine(true);
-              htmlEditText.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
-              mLayout.addView(htmlEditText);
-              break;
-            case PASSWORD_TYPE:
-              addLabel(field);
-              htmlEditText = new HTMLEditText(mContext, this, field);
-              htmlEditText.setSingleLine(true);
-              // See http://stackoverflow.com/questions/21326790/calling-edittext-setinputtypeinputtype-type-text-variation-password-does-not-c
-              htmlEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-              // Without this, the hint gets displayed using a different font
-              htmlEditText.setTypeface(Typeface.DEFAULT);
-              mLayout.addView(htmlEditText);
-              break;
-            case URL_TYPE:
-              addLabel(field);
-              htmlEditText = new HTMLEditText(mContext, this, field);
-              htmlEditText.setSingleLine(true);
-              htmlEditText.setInputType(InputType.TYPE_TEXT_VARIATION_URI);
-              mLayout.addView(htmlEditText);
-              break;
-            case HIDDEN_TYPE:
-              htmlEditText = new HTMLEditText(mContext, this, field);
-              htmlEditText.setVisibility(View.GONE);
-              mLayout.addView(htmlEditText);
-              break;
-            case CHECKBOX_TYPE:
-              HTMLCheckBox htmlCheckBox = new HTMLCheckBox(mContext, field);
-              mLayout.addView(htmlCheckBox);
-              break;
-            case RADIO_TYPE:
-//                                HTMLRadioButton htmlRadioButton = new HTMLRadioButton(mContext, field);
-//                                mLayout.addView(htmlRadioButton);
-              RadioGroup radioGroup = new RadioGroup(mContext);
-              radioGroup.setTag(field.attr(NAME_ATTR));
-              mLayout.addView(radioGroup);
+        Elements radioButtons = mForm.getElementsByAttributeValue(NAME_ATTR, field.attr(NAME_ATTR));
+        radioButtons = radioButtons.select(RADIO_TYPE_QUERY);
 
-              Elements radioButtons = mForm.getElementsByAttributeValue(NAME_ATTR, field.attr(NAME_ATTR));
-              radioButtons = radioButtons.select(RADIO_TYPE_QUERY);
+        for (int i = 0; i < radioButtons.size(); i++) {
+          Element radio = mFields.get(index + i);
+          HTMLRadioButton htmlRadioButton = new HTMLRadioButton(mContext, radio);
+          if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            htmlRadioButton.setId(View.generateViewId());
+          }
+          radioGroup.addView(htmlRadioButton);
+        }
 
-              for (int i = 0; i < radioButtons.size(); i++) {
-                Element radio = mFields.get(index + i);
-                HTMLRadioButton htmlRadioButton = new HTMLRadioButton(mContext, radio);
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-                  htmlRadioButton.setId(View.generateViewId());
-                }
-                radioGroup.addView(htmlRadioButton);
-              }
-
-              index = index + (radioButtons.size() - 1);
-              break;
-            case SUBMIT_TYPE:
-              Button button = new Button(mContext);
-              button.setText(field.val());
-              button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
+        index = index + (radioButtons.size() - 1);
+        break;
+      case SUBMIT_TYPE:
+        Button button = new Button(mContext);
+        button.setText(field.val());
+        button.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View view) {
 //                  boolean valid = true;
 //                  for (int i = 0; i < mLayout.getChildCount(); i++) {
 //                    View child = mLayout.getChildAt(i);
@@ -238,28 +233,40 @@ public class HTMLForm {
 //                  if (valid) {
 //                    mListener.onSubmit(getCurrentForm());
 //                  }
-                  mListener.onSubmit(getCurrentForm());
-                }
-              });
-              mLayout.addView(button);
-
-              submitButton = button;
-              break;
+            mListener.onSubmit(getCurrentForm());
           }
+        });
+        addField(button);
+
+        submitButton = button;
+        break;
+    }
+    return index;
+  }
+
+  private void parse(Document document) {
+    mForm = document.select("form").first();
+    mFields = mForm.select("input, textarea, select");
+
+    for (int index = 0; index < mFields.size(); index++) {
+      Element field = mFields.get(index);
+
+      switch (field.tagName()) {
+        case INPUT_TAG:
+          index = parseInputTag(field, index);
           break;
         case TEXTAREA_TAG:
           addLabel(field);
-          htmlEditText = new HTMLEditText(mContext, this, field);
+          HTMLEditText htmlEditText = new HTMLEditText(mContext, this, field);
           htmlEditText.setLines(3);
-          mLayout.addView(htmlEditText);
+          addField(htmlEditText);
           break;
         case SELECT_TAG:
           addLabel(field);
           HTMLSpinner htmlSpinner = new HTMLSpinner(mContext, this, field);
-          mLayout.addView(htmlSpinner);
+          addField(htmlSpinner);
           break;
       }
-
     }
 
     extractCsrfToken(document);
@@ -285,7 +292,7 @@ public class HTMLForm {
     }
 
     if (label.size() > 0) {
-      TextView textView = new TextView(mContext);
+      GTextView textView = new GTextView(mContext).margin(null, null, null, 2);
       textView.setTextColor(Color.BLACK);
       textView.setTypeface(null, Typeface.BOLD);
       textView.setText(label.text());

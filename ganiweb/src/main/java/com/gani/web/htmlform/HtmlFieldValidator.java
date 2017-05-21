@@ -19,7 +19,7 @@ import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public abstract class HTMLFieldValidation implements CompoundButton.OnCheckedChangeListener {
+public abstract class HtmlFieldValidator implements CompoundButton.OnCheckedChangeListener {
   private static final String ATTR_VALIDATE = "data-validate";
 
   private static final String JSON_MESSAGES = "messages";
@@ -52,7 +52,7 @@ public abstract class HTMLFieldValidation implements CompoundButton.OnCheckedCha
 //  private HTMLRadioButton mHtmlRadioButton;
   private ArrayList<String> mErrorMessages = new ArrayList<>();
 
-  public HTMLFieldValidation(HTMLForm form, Element field) {
+  public HtmlFieldValidator(HTMLForm form, Element field) {
     this.form = form;
     this.mField = field;
   }
@@ -103,7 +103,15 @@ public abstract class HTMLFieldValidation implements CompoundButton.OnCheckedCha
     return TextUtils.join("\n", mErrorMessages);
   }
 
+  private boolean isEnabled() {
+    return false;
+  }
+
   public boolean run(String value, TextView view) {
+    if (!isEnabled()) {
+      return true;
+    }
+
     clearErrorMessages();
 //    String value = getText().toString();
 //    String value = view.toString();
@@ -118,7 +126,6 @@ public abstract class HTMLFieldValidation implements CompoundButton.OnCheckedCha
     }
     form.updateValid();
 
-//    return hasErrorMessage();
     return valid;
   }
 

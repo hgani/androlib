@@ -1,32 +1,21 @@
 package com.gani.lib.ui.view;
 
 import android.content.Context;
-import android.graphics.PorterDuff;
 import android.graphics.Typeface;
-import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.AppCompatTextView;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.style.StyleSpan;
 import android.util.AttributeSet;
-import android.util.TypedValue;
-import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.gani.lib.ui.Ui;
-import com.gani.lib.ui.menu.GMenu;
-import com.gani.lib.ui.style.Length;
 
 import java.util.ArrayList;
-import java.util.EnumSet;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static android.R.attr.button;
-
-public class GTextView<T extends GTextView> extends AppCompatTextView {
+public class GTextView<T extends GTextView> extends AppCompatTextView implements GView {
   private ViewHelper helper;
 
   public GTextView(Context context) {
@@ -113,11 +102,13 @@ public class GTextView<T extends GTextView> extends AppCompatTextView {
     return this;
   }
 
+  @Override
   public GTextView padding(Integer left, Integer top, Integer right, Integer bottom) {
     helper.padding(left, top, right, bottom);
     return this;
   }
 
+  @Override
   public GTextView margin(Integer left, Integer top, Integer right, Integer bottom) {
     helper.margin(left, top, right, bottom);
     return this;

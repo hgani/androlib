@@ -7,17 +7,19 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.gani.lib.logging.GLog;
+import com.gani.lib.ui.Ui;
+import com.gani.lib.ui.view.GSpinner;
 import com.gani.web.R;
 
 import org.jsoup.nodes.Element;
 
 import java.util.ArrayList;
 
-public class HTMLSpinner extends Spinner implements HtmlFormValidatable {
+public class HTMLSpinner extends GSpinner implements HtmlFormValidatable {
   private static final String ATTR_NAME = "name";
   private static final String SELECTED_ATTR = "selected";
 
@@ -39,6 +41,9 @@ public class HTMLSpinner extends Spinner implements HtmlFormValidatable {
 
     this.mField = field;
     this.validator = new Validator(form, field);
+
+    size(LayoutParams.MATCH_PARENT, null);
+
     setDefaultListeners();
   }
 
@@ -58,14 +63,17 @@ public class HTMLSpinner extends Spinner implements HtmlFormValidatable {
 
     String selectedItem = mField.getElementsByAttributeValue(SELECTED_ATTR, SELECTED_ATTR).text();
     int selectedIndex = spinnerAdapter.getPosition(selectedItem);
+    if (selectedIndex < 0) {
+      selectedIndex = 0;
+    }
 
-    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-        ViewGroup.LayoutParams.MATCH_PARENT,
-        ViewGroup.LayoutParams.WRAP_CONTENT
-    );
-    params.setMargins(0, 0, 0, 25);
-
-    setLayoutParams(params);
+//    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+//        ViewGroup.LayoutParams.MATCH_PARENT,
+//        ViewGroup.LayoutParams.WRAP_CONTENT
+//    );
+//    params.setMargins(0, 0, 0, 25);
+//
+//    setLayoutParams(params);
     setBackgroundResource(R.drawable.spinner_default);
     setAdapter(spinnerAdapter);
     setSelection(selectedIndex);
@@ -93,7 +101,7 @@ public class HTMLSpinner extends Spinner implements HtmlFormValidatable {
     return validator.isValid();
   }
 
-  private class Validator extends HTMLFieldValidation implements Spinner.OnItemSelectedListener {
+  private class Validator extends HtmlFieldValidator implements Spinner.OnItemSelectedListener {
     Validator(HTMLForm form, Element field) {
       super(form, field);
     }

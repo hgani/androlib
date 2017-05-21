@@ -1,21 +1,22 @@
-package com.gani.web.htmlform;
+package com.gani.web.htmlform.field;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.support.v7.widget.AppCompatEditText;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
-import android.widget.LinearLayout;
 import android.widget.TimePicker;
 
 import com.gani.lib.ui.view.GEditText;
 import com.gani.web.R;
+import com.gani.web.htmlform.HtmlFieldValidator;
+import com.gani.web.htmlform.HtmlForm;
+import com.gani.web.htmlform.HtmlFormValidatable;
 
 import org.jsoup.nodes.Element;
 
@@ -25,7 +26,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 //public class HTMLEditText extends EditText implements HtmlFormValidatable {
-public class HTMLEditText extends GEditText implements HtmlFormValidatable {
+public class HtmlEditText extends GEditText implements HtmlFormValidatable {
   private final Element mField;
 
 //  private static final String TAG = HTMLEditText.class.getName();
@@ -48,7 +49,7 @@ public class HTMLEditText extends GEditText implements HtmlFormValidatable {
 //    setDefaultListeners();
 //  }
 
-  public HTMLEditText(Context context, HTMLForm form, Element field) {
+  public HtmlEditText(Context context, HtmlForm form, Element field) {
     super(context);
 
     this.mField = field;
@@ -77,7 +78,7 @@ public class HTMLEditText extends GEditText implements HtmlFormValidatable {
     private static final String TIME_FORMAT = "\\d{2}:\\d{2}";
     private static final String DATETIME_FORMAT = DATE_FORMAT + "\\s" + TIME_FORMAT;
 
-    Validator(HTMLForm form, Element field) {
+    Validator(HtmlForm form, Element field) {
       super(form, field);
     }
 
@@ -175,7 +176,7 @@ public class HTMLEditText extends GEditText implements HtmlFormValidatable {
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent) {
       if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
-        final HTMLEditText htmlEditText = (HTMLEditText) view;
+        final HtmlEditText htmlEditText = (HtmlEditText) view;
         final Calendar calendar = Calendar.getInstance();
 
         DatePickerDialog datePicker = createDatePickerDialog(
@@ -201,7 +202,7 @@ public class HTMLEditText extends GEditText implements HtmlFormValidatable {
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent) {
       if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
-        final HTMLEditText htmlEditText = (HTMLEditText) view;
+        final HtmlEditText htmlEditText = (HtmlEditText) view;
         final Calendar calendar = Calendar.getInstance();
 
         TimePickerDialog timePicker = createTimePickerDialog(
@@ -227,7 +228,7 @@ public class HTMLEditText extends GEditText implements HtmlFormValidatable {
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent) {
       if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
-        final HTMLEditText htmlEditText = (HTMLEditText) view;
+        final HtmlEditText htmlEditText = (HtmlEditText) view;
         final Calendar calendar = Calendar.getInstance();
 
         DatePickerDialog datePicker = createDatePickerDialog(

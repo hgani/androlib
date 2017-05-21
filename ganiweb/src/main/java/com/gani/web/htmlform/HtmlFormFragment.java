@@ -12,12 +12,12 @@ import com.gani.lib.screen.GFragment;
 import com.gani.lib.ui.style.Length;
 import com.gani.web.R;
 
-import static com.gani.web.htmlform.HTMLFormScreenHelper.FORM_PATH;
-import static com.gani.web.htmlform.HTMLFormScreenHelper.SUBMIT_LISTENER;
+import static com.gani.web.htmlform.HtmlFormScreenHelper.FORM_PATH;
+import static com.gani.web.htmlform.HtmlFormScreenHelper.SUBMIT_LISTENER;
 
 public class HtmlFormFragment extends GFragment {
   private static final int PADDING = Length.dpToPx(20);
-  private HTMLForm form;
+  private HtmlForm form;
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -29,8 +29,8 @@ public class HtmlFormFragment extends GFragment {
     GBundle bundle = args();
     String path = bundle.getString(FORM_PATH);
 
-    this.form = new HTMLForm(this, containerLayout, GHttp.instance().baseUrl() + path);
-    form.setOnSubmitListener(((HTMLFormOnSubmitListener) bundle.getSerializable(SUBMIT_LISTENER)));
+    this.form = new HtmlForm(this, containerLayout, GHttp.instance().baseUrl() + path);
+    form.setOnSubmitListener(((HtmlFormOnSubmitListener) bundle.getSerializable(SUBMIT_LISTENER)));
     form.buildFields();
 
     return fragmentLayout;

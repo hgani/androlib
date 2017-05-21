@@ -1,12 +1,12 @@
-package com.gani.web.htmlform;
+package com.gani.web.htmlform.field;
 
 import android.content.Context;
-import android.widget.RadioButton;
+import android.support.v7.widget.AppCompatRadioButton;
 import android.widget.RelativeLayout;
 
 import org.jsoup.nodes.Element;
 
-public class HTMLRadioButton extends RadioButton {
+public class HtmlRadioButton extends AppCompatRadioButton {
     private static final String ATTR_NAME = "name";
     private static final String CHECKED_ATTR  = "checked";
     private static final String VALUE_ATTR = "value";
@@ -15,7 +15,7 @@ public class HTMLRadioButton extends RadioButton {
 
     private String value;
 
-    public HTMLRadioButton(Context context, Element field, RelativeLayout.LayoutParams params) {
+    public HtmlRadioButton(Context context, Element field, RelativeLayout.LayoutParams params) {
         super(context);
 
         this.mField = field;
@@ -23,7 +23,7 @@ public class HTMLRadioButton extends RadioButton {
         setDefaultListeners();
     }
 
-    public HTMLRadioButton(Context context, Element field) {
+    public HtmlRadioButton(Context context, Element field) {
         super(context);
 
         this.mField = field;

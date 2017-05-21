@@ -3,21 +3,21 @@ package com.gani.web;
 import android.net.Uri;
 
 import com.gani.lib.ui.Ui;
-import com.gani.web.htmlform.HTMLFormOnSubmitListener;
+import com.gani.web.htmlform.HtmlFormOnSubmitListener;
 
 import java.io.Serializable;
 
 public class PathSpec implements Serializable {
   private String path;
   private String title;
-  private HTMLFormOnSubmitListener formListener;
+  private HtmlFormOnSubmitListener formListener;
 
   public PathSpec(String path, String title) {
     this.path = path;
     this.title = title;
   }
 
-  public PathSpec(String path, String title, HTMLFormOnSubmitListener formListener) {
+  public PathSpec(String path, String title, HtmlFormOnSubmitListener formListener) {
     this(path, title);
 
     this.formListener = formListener;
@@ -39,7 +39,7 @@ public class PathSpec implements Serializable {
     return title;
   }
 
-  public HTMLFormOnSubmitListener getFormListener() {
+  public HtmlFormOnSubmitListener getFormListener() {
     return formListener;
   }
 

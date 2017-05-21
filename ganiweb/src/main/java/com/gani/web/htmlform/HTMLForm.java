@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
-import android.widget.TextView;
 
 import com.gani.lib.http.GHttp;
 import com.gani.lib.http.GHttpCallback;
@@ -20,13 +19,18 @@ import com.gani.lib.http.HttpHook;
 import com.gani.lib.screen.GFragment;
 import com.gani.lib.ui.view.GTextView;
 import com.gani.lib.ui.view.GView;
+import com.gani.web.htmlform.field.HtmlCheckBox;
+import com.gani.web.htmlform.field.HtmlDataList;
+import com.gani.web.htmlform.field.HtmlEditText;
+import com.gani.web.htmlform.field.HtmlRadioButton;
+import com.gani.web.htmlform.field.HtmlSpinner;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-public class HTMLForm {
+public class HtmlForm {
 //  private final String TAG = HTMLForm.class.getName();
   private final String INPUT_TAG = "input";
   private final String TEXTAREA_TAG = "textarea";
@@ -56,11 +60,11 @@ public class HTMLForm {
 //  private Document mDocument;
   private Element mForm;
   private Elements mFields;
-  private HTMLFormOnSubmitListener mListener;
+  private HtmlFormOnSubmitListener mListener;
   private String csrfToken;
   private Button submitButton;
 
-  public HTMLForm(GFragment fragment, LinearLayout layout, String url) {
+  public HtmlForm(GFragment fragment, LinearLayout layout, String url) {
     this.fragment = fragment;
     this.mContext = fragment.getContext();
     this.mLayout = layout;
@@ -117,7 +121,7 @@ public class HTMLForm {
     new HttpAsyncGet(mURL, null, HttpHook.DUMMY, callback).execute();
   }
 
-  public void setOnSubmitListener(HTMLFormOnSubmitListener listener) {
+  public void setOnSubmitListener(HtmlFormOnSubmitListener listener) {
     this.mListener = listener;
   }
 
@@ -128,7 +132,7 @@ public class HTMLForm {
 //        return editText;
 //    }
 
-  private HTMLForm getCurrentForm() {
+  private HtmlForm getCurrentForm() {
     return this;
   }
 
@@ -141,37 +145,37 @@ public class HTMLForm {
   }
 
   private int parseInputTag(Element field, int index) {
-    HTMLEditText htmlEditText;
+    HtmlEditText htmlEditText;
 
     switch (field.attr("type")) {
       case DATALIST_TYPE:
         addLabel(field);
-        HTMLDataList htmlDataList = new HTMLDataList(mContext, field);
+        HtmlDataList htmlDataList = new HtmlDataList(mContext, field);
         addField(htmlDataList);
         break;
       case TEL_TYPE:
         addLabel(field);
-        htmlEditText = new HTMLEditText(mContext, this, field);
+        htmlEditText = new HtmlEditText(mContext, this, field);
         htmlEditText.setSingleLine(true);
         htmlEditText.setInputType(InputType.TYPE_CLASS_PHONE);
         addField(htmlEditText);
         break;
       case TEXT_TYPE:
         addLabel(field);
-        htmlEditText = new HTMLEditText(mContext, this, field);
+        htmlEditText = new HtmlEditText(mContext, this, field);
         htmlEditText.setSingleLine(true);
         addField(htmlEditText);
         break;
       case EMAIL_TYPE:
         addLabel(field);
-        htmlEditText = new HTMLEditText(mContext, this, field);
+        htmlEditText = new HtmlEditText(mContext, this, field);
         htmlEditText.setSingleLine(true);
         htmlEditText.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
         addField(htmlEditText);
         break;
       case PASSWORD_TYPE:
         addLabel(field);
-        htmlEditText = new HTMLEditText(mContext, this, field);
+        htmlEditText = new HtmlEditText(mContext, this, field);
         htmlEditText.setSingleLine(true);
         // See http://stackoverflow.com/questions/21326790/calling-edittext-setinputtypeinputtype-type-text-variation-password-does-not-c
         htmlEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
@@ -181,18 +185,18 @@ public class HTMLForm {
         break;
       case URL_TYPE:
         addLabel(field);
-        htmlEditText = new HTMLEditText(mContext, this, field);
+        htmlEditText = new HtmlEditText(mContext, this, field);
         htmlEditText.setSingleLine(true);
         htmlEditText.setInputType(InputType.TYPE_TEXT_VARIATION_URI);
         addField(htmlEditText);
         break;
       case HIDDEN_TYPE:
-        htmlEditText = new HTMLEditText(mContext, this, field);
+        htmlEditText = new HtmlEditText(mContext, this, field);
         htmlEditText.setVisibility(View.GONE);
         addField(htmlEditText);
         break;
       case CHECKBOX_TYPE:
-        HTMLCheckBox htmlCheckBox = new HTMLCheckBox(mContext, field);
+        HtmlCheckBox htmlCheckBox = new HtmlCheckBox(mContext, field);
         addField(htmlCheckBox);
         break;
       case RADIO_TYPE:
@@ -205,7 +209,7 @@ public class HTMLForm {
 
         for (int i = 0; i < radioButtons.size(); i++) {
           Element radio = mFields.get(index + i);
-          HTMLRadioButton htmlRadioButton = new HTMLRadioButton(mContext, radio);
+          HtmlRadioButton htmlRadioButton = new HtmlRadioButton(mContext, radio);
           if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
             htmlRadioButton.setId(View.generateViewId());
           }
@@ -257,13 +261,13 @@ public class HTMLForm {
           break;
         case TEXTAREA_TAG:
           addLabel(field);
-          HTMLEditText htmlEditText = new HTMLEditText(mContext, this, field);
+          HtmlEditText htmlEditText = new HtmlEditText(mContext, this, field);
           htmlEditText.setLines(3);
           addField(htmlEditText);
           break;
         case SELECT_TAG:
           addLabel(field);
-          HTMLSpinner htmlSpinner = new HTMLSpinner(mContext, this, field);
+          HtmlSpinner htmlSpinner = new HtmlSpinner(mContext, this, field);
           addField(htmlSpinner);
           break;
       }

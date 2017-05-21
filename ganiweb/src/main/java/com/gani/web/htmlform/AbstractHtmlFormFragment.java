@@ -1,25 +1,18 @@
 package com.gani.web.htmlform;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 
-import com.gani.lib.http.GHttp;
-import com.gani.lib.model.GBundle;
 import com.gani.lib.screen.GFragment;
 import com.gani.lib.ui.layout.VerticalLayout;
 import com.gani.lib.ui.style.Length;
 import com.gani.web.R;
 
-import static com.gani.web.htmlform.HTMLFormScreenHelper.FORM_PATH;
-import static com.gani.web.htmlform.HTMLFormScreenHelper.SUBMIT_LISTENER;
-
 public abstract class AbstractHtmlFormFragment extends GFragment {
   private static final int PADDING = Length.dpToPx(20);
-  private HTMLForm htmlForm;
+  private HtmlForm htmlForm;
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -28,7 +21,7 @@ public abstract class AbstractHtmlFormFragment extends GFragment {
     VerticalLayout paddedLayout = new VerticalLayout(getContext()).size(ViewGroup.LayoutParams.MATCH_PARENT, null).padding(20, null, 20, null);
     ((ViewGroup) fragmentLayout.findViewById(R.id.content_layout)).addView(paddedLayout);
 
-    htmlForm = new HTMLForm(this, paddedLayout, getUrl());
+    htmlForm = new HtmlForm(this, paddedLayout, getUrl());
     htmlForm.setOnSubmitListener(getOnSubmit());
 
     return fragmentLayout;
@@ -50,5 +43,5 @@ public abstract class AbstractHtmlFormFragment extends GFragment {
   }
 
   protected abstract String getUrl();
-  protected abstract HTMLFormOnSubmit getOnSubmit();
+  protected abstract HtmlFormOnSubmit getOnSubmit();
 }

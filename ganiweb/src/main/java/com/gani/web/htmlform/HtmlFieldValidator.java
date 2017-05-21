@@ -1,12 +1,7 @@
 package com.gani.web.htmlform;
 
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.CompoundButton;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -16,8 +11,6 @@ import org.jsoup.nodes.Element;
 
 import java.util.ArrayList;
 import java.util.Objects;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public abstract class HtmlFieldValidator implements CompoundButton.OnCheckedChangeListener {
   private static final String ATTR_VALIDATE = "data-validate";
@@ -44,7 +37,7 @@ public abstract class HtmlFieldValidator implements CompoundButton.OnCheckedChan
 //  private static final String TIME_FORMAT = "\\d{2}:\\d{2}";
 //  private static final String DATETIME_FORMAT = DATE_FORMAT + "\\s" + TIME_FORMAT;
 
-  private HTMLForm form;
+  private HtmlForm form;
   private Element mField;
 //  private HTMLEditText mHtmlEditText;
 //  private HTMLSpinner mHtmlSpinner;
@@ -52,7 +45,7 @@ public abstract class HtmlFieldValidator implements CompoundButton.OnCheckedChan
 //  private HTMLRadioButton mHtmlRadioButton;
   private ArrayList<String> mErrorMessages = new ArrayList<>();
 
-  public HtmlFieldValidator(HTMLForm form, Element field) {
+  public HtmlFieldValidator(HtmlForm form, Element field) {
     this.form = form;
     this.mField = field;
   }
@@ -95,7 +88,7 @@ public abstract class HtmlFieldValidator implements CompoundButton.OnCheckedChan
     return mErrorMessages.size() > 0;
   }
 
-  protected boolean isValid() {
+  public boolean isValid() {
     return !hasErrorMessage();
   }
 

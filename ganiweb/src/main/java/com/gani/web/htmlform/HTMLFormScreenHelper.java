@@ -3,17 +3,13 @@ package com.gani.web.htmlform;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.widget.LinearLayout;
 
-import com.gani.lib.http.GHttp;
-import com.gani.lib.model.GBundle;
 import com.gani.lib.screen.GActivity;
 import com.gani.lib.screen.GFragment;
 import com.gani.lib.ui.Ui;
 import com.gani.web.PathSpec;
-import com.gani.web.R;
 
-public class HTMLFormScreenHelper {
+public class HtmlFormScreenHelper {
   public static final String FORM_PATH = "FORM_PATH";
   public static final String SUBMIT_LISTENER = "SUBMIT_LISTENER";
 
@@ -26,9 +22,9 @@ public class HTMLFormScreenHelper {
 
 
   private GActivity activity;
-  private HTMLForm form;
+  private HtmlForm form;
 
-  public HTMLFormScreenHelper(GActivity activity, Bundle savedInstanceState) {
+  public HtmlFormScreenHelper(GActivity activity, Bundle savedInstanceState) {
     this.activity = activity;
 
     onCreate(savedInstanceState);
@@ -70,7 +66,7 @@ public class HTMLFormScreenHelper {
     return new HtmlFormFragment();
   }
 
-  public HTMLForm getForm() {
+  public HtmlForm getForm() {
     return form;
   }
 }

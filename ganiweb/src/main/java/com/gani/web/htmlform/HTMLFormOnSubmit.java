@@ -17,6 +17,11 @@ import com.gani.lib.json.GJsonObject;
 import com.gani.lib.logging.GLog;
 import com.gani.lib.screen.GActivity;
 import com.gani.web.PathSpec;
+import com.gani.web.htmlform.field.HtmlCheckBox;
+import com.gani.web.htmlform.field.HtmlDataList;
+import com.gani.web.htmlform.field.HtmlEditText;
+import com.gani.web.htmlform.field.HtmlRadioButton;
+import com.gani.web.htmlform.field.HtmlSpinner;
 
 import org.json.JSONException;
 import org.jsoup.select.Elements;
@@ -25,11 +30,7 @@ import org.jsoup.select.Elements;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.microedition.khronos.opengles.GL;
-
-import static android.R.attr.name;
-
-public abstract class HTMLFormOnSubmit implements HTMLFormOnSubmitListener {
+public abstract class HtmlFormOnSubmit implements HtmlFormOnSubmitListener {
   private void storeParams(GParams params, String tag, String value) {
     if (tag instanceof String && value != null) {
       params.put(tag, value);
@@ -42,43 +43,43 @@ public abstract class HTMLFormOnSubmit implements HTMLFormOnSubmitListener {
     }
   }
 
-  public GParams getParams(HTMLForm form) {
+  public GParams getParams(HtmlForm form) {
     LinearLayout layout = form.getLayout();
     GParams params = GParams.create();
 
     for (int i = 0; i < form.getLayout().getChildCount(); i++) {
       String tag = (String) layout.getChildAt(i).getTag();
 
-      if (layout.getChildAt(i) instanceof HTMLEditText) {
-        String value = ((HTMLEditText) layout.getChildAt(i)).getText().toString();
+      if (layout.getChildAt(i) instanceof HtmlEditText) {
+        String value = ((HtmlEditText) layout.getChildAt(i)).getText().toString();
         storeParams(params, tag, value);
-      } else if (layout.getChildAt(i) instanceof HTMLDataList) {
-        String value = ((HTMLDataList) layout.getChildAt(i)).getText().toString();
+      } else if (layout.getChildAt(i) instanceof HtmlDataList) {
+        String value = ((HtmlDataList) layout.getChildAt(i)).getText().toString();
         storeParams(params, tag, value);
-      } else if (layout.getChildAt(i) instanceof HTMLSpinner) {
-        String value = ((HTMLSpinner) layout.getChildAt(i)).getSelectedItem().toString();
+      } else if (layout.getChildAt(i) instanceof HtmlSpinner) {
+        String value = ((HtmlSpinner) layout.getChildAt(i)).getSelectedItem().toString();
         storeParams(params, tag, value);
       } else if (layout.getChildAt(i) instanceof RadioGroup) {
         String value;
         int radioButtonId = ((RadioGroup) layout.getChildAt(i)).getCheckedRadioButtonId();
 
         if (radioButtonId > -1) {
-          HTMLRadioButton radioButton = (HTMLRadioButton) layout.findViewById(radioButtonId);
+          HtmlRadioButton radioButton = (HtmlRadioButton) layout.findViewById(radioButtonId);
           value = radioButton.getValue();
         } else {
           value = null;
         }
 
         storeParams(params, tag, value);
-      } else if (layout.getChildAt(i) instanceof HTMLCheckBox) {
-        Elements checkBoxes = form.getFormElement().getElementsByAttributeValue(HTMLForm.NAME_ATTR, tag);
-        checkBoxes = checkBoxes.select(HTMLForm.CHECKBOX_TYPE_QUERY);
+      } else if (layout.getChildAt(i) instanceof HtmlCheckBox) {
+        Elements checkBoxes = form.getFormElement().getElementsByAttributeValue(HtmlForm.NAME_ATTR, tag);
+        checkBoxes = checkBoxes.select(HtmlForm.CHECKBOX_TYPE_QUERY);
 
         if (checkBoxes.size() > 1) {
           ArrayList<String> values = new ArrayList<>();
 
           for (int j = 0; j < checkBoxes.size(); j++) {
-            HTMLCheckBox htmlCheckBox = (HTMLCheckBox) layout.getChildAt(i + j);
+            HtmlCheckBox htmlCheckBox = (HtmlCheckBox) layout.getChildAt(i + j);
 
             if (htmlCheckBox.isChecked()) {
               String value = htmlCheckBox.getValue();
@@ -89,7 +90,7 @@ public abstract class HTMLFormOnSubmit implements HTMLFormOnSubmitListener {
           i = i + (checkBoxes.size() - 1);
           storeParams(params, tag, values);
         } else {
-          HTMLCheckBox htmlCheckBox = (HTMLCheckBox) layout.getChildAt(i);
+          HtmlCheckBox htmlCheckBox = (HtmlCheckBox) layout.getChildAt(i);
 
           if (htmlCheckBox.isChecked()) {
             String value = htmlCheckBox.getValue();
@@ -113,10 +114,10 @@ public abstract class HTMLFormOnSubmit implements HTMLFormOnSubmitListener {
 
 
   @Override
-  public void afterBuild(HTMLForm form) { }
+  public void afterBuild(HtmlForm form) { }
 
   @Override
-  public void onSubmit(final HTMLForm form) {
+  public void onSubmit(final HtmlForm form) {
     String endpoint = GHttp.instance().baseUrl() + form.getFormElement().attr("action") + ".json";
 
     GParams params = getParams(form);
@@ -130,7 +131,7 @@ public abstract class HTMLFormOnSubmit implements HTMLFormOnSubmitListener {
         if (handler != null) {
           String name = handler.getString("name");
           try {
-            String prefix = HTMLFormOnSubmit.this.getClass().getPackage().getName() + ".handler";
+            String prefix = HtmlFormOnSubmit.this.getClass().getPackage().getName() + ".handler";
             HtmlFormHandler.create(prefix, name).execute(activity, handler);
           }
           catch (HtmlFormHandler.NotFoundException e) {

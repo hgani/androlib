@@ -1,4 +1,4 @@
-package com.gani.web.htmlform;
+package com.gani.web.htmlform.field;
 
 import android.content.Context;
 import android.support.v7.widget.AppCompatAutoCompleteTextView;
@@ -16,14 +16,14 @@ import com.gani.web.R;
 
 import org.jsoup.nodes.Element;
 
-public class HTMLDataList extends GAutoCompleteTextView {
+public class HtmlDataList extends GAutoCompleteTextView {
   private static final String OPTION_MANUAL = "Other (Please specify)";
 
   private final Element mField;
 
   private boolean showAlways;
 
-  public HTMLDataList(Context context, Element field) {
+  public HtmlDataList(Context context, Element field) {
     super(context);
 
     this.mField = field;

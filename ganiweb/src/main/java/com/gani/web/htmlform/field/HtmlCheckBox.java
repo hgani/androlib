@@ -1,12 +1,12 @@
-package com.gani.web.htmlform;
+package com.gani.web.htmlform.field;
 
 import android.content.Context;
-import android.widget.CheckBox;
+import android.support.v7.widget.AppCompatCheckBox;
 import android.widget.RelativeLayout;
 
 import org.jsoup.nodes.Element;
 
-public class HTMLCheckBox extends CheckBox {
+public class HtmlCheckBox extends AppCompatCheckBox {
 
     private static final String ATTR_NAME = "name";
     private static final String CHECKED_ATTR  = "checked";
@@ -16,7 +16,7 @@ public class HTMLCheckBox extends CheckBox {
 
     private String value;
 
-    public HTMLCheckBox(Context context, Element field, RelativeLayout.LayoutParams params) {
+    public HtmlCheckBox(Context context, Element field, RelativeLayout.LayoutParams params) {
         super(context);
 
         this.mField = field;
@@ -32,7 +32,7 @@ public class HTMLCheckBox extends CheckBox {
         this.value = value;
     }
 
-    public HTMLCheckBox(Context context, Element field) {
+    public HtmlCheckBox(Context context, Element field) {
         super(context);
 
         this.mField = field;

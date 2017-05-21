@@ -1,25 +1,24 @@
-package com.gani.web.htmlform;
+package com.gani.web.htmlform.field;
 
 
 import android.content.Context;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.gani.lib.logging.GLog;
-import com.gani.lib.ui.Ui;
 import com.gani.lib.ui.view.GSpinner;
 import com.gani.web.R;
+import com.gani.web.htmlform.HtmlFieldValidator;
+import com.gani.web.htmlform.HtmlForm;
+import com.gani.web.htmlform.HtmlFormValidatable;
 
 import org.jsoup.nodes.Element;
 
 import java.util.ArrayList;
 
-public class HTMLSpinner extends GSpinner implements HtmlFormValidatable {
+public class HtmlSpinner extends GSpinner implements HtmlFormValidatable {
   private static final String ATTR_NAME = "name";
   private static final String SELECTED_ATTR = "selected";
 
@@ -36,7 +35,7 @@ public class HTMLSpinner extends GSpinner implements HtmlFormValidatable {
 //    setDefaultListeners();
 //  }
 
-  public HTMLSpinner(Context context, HTMLForm form, Element field) {
+  public HtmlSpinner(Context context, HtmlForm form, Element field) {
     super(context);
 
     this.mField = field;
@@ -102,7 +101,7 @@ public class HTMLSpinner extends GSpinner implements HtmlFormValidatable {
   }
 
   private class Validator extends HtmlFieldValidator implements Spinner.OnItemSelectedListener {
-    Validator(HTMLForm form, Element field) {
+    Validator(HtmlForm form, Element field) {
       super(form, field);
     }
 

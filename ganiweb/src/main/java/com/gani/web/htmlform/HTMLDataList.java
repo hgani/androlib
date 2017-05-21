@@ -1,10 +1,13 @@
 package com.gani.web.htmlform;
 
 import android.content.Context;
-import android.graphics.Rect;
 import android.support.v7.widget.AppCompatAutoCompleteTextView;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 
@@ -13,6 +16,8 @@ import com.gani.web.R;
 import org.jsoup.nodes.Element;
 
 public class HTMLDataList extends AppCompatAutoCompleteTextView {
+  private static final String OPTION_MANUAL = "Other (Please specify)";
+
   private final Element mField;
 
   private boolean showAlways;
@@ -22,29 +27,83 @@ public class HTMLDataList extends AppCompatAutoCompleteTextView {
 
     this.mField = field;
     setDefaultListeners();
+
+    final GestureDetector gestureDetector = new GestureDetector(getContext(), new SingleTapConfirm());
+    setOnTouchListener(new OnTouchListener() {
+      @Override
+      public boolean onTouch(View view, MotionEvent motionEvent) {
+//        showDropDown();
+//        requestFocus();
+
+        if (gestureDetector.onTouchEvent(motionEvent)) {
+          showDropDown();
+          return true;
+        }
+        return false;
+//        else {
+//          // your code for move and drag
+//        }
+//        return true;  // Prevent keyboard from showing up
+      }
+    });
+
+//    setOnClickListener(new OnClickListener() {
+//      @Override
+//      public void onClick(View view) {
+//        showDropDown();
+//      }
+//    });
+
+    setOnItemClickListener(new AdapterView.OnItemClickListener() {
+      @Override
+      public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        if (adapterView.getItemAtPosition(i).equals(OPTION_MANUAL)) {
+          setText("");
+        }
+        requestFocusWithKeyboard();
+      }
+    });
+  }
+
+  private class SingleTapConfirm extends GestureDetector.SimpleOnGestureListener {
+    @Override
+    public boolean onSingleTapUp(MotionEvent event) {
+      return true;
+    }
+  }
+
+  private void requestFocusWithKeyboard() {
+    requestFocus();
+
+    InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+    imm.showSoftInput(this, InputMethodManager.SHOW_IMPLICIT);
   }
 
   public void setShowAlways(boolean showAlways) {
     this.showAlways = showAlways;
   }
 
-  @Override
-  protected void onFocusChanged(boolean focused, int direction, Rect previouslyFocusedRect) {
-    super.onFocusChanged(focused, direction, previouslyFocusedRect);
-    showDropDownIfFocused();
-  }
 
-  private void showDropDownIfFocused() {
-    if (enoughToFilter() && isFocused() && getWindowVisibility() == View.VISIBLE) {
-      showDropDown();
-    }
-  }
 
-  @Override
-  protected void onAttachedToWindow() {
-    super.onAttachedToWindow();
-    showDropDownIfFocused();
-  }
+//  @Override
+//  protected void onFocusChanged(boolean focused, int direction, Rect previouslyFocusedRect) {
+//    super.onFocusChanged(focused, direction, previouslyFocusedRect);
+////    showDropDownIfFocused();
+//    performFiltering("m", 0);
+//  }
+//
+//  private void showDropDownIfFocused() {
+//    if (enoughToFilter() && isFocused() && getWindowVisibility() == View.VISIBLE) {
+//      showDropDown();
+//      requestFocus();
+//    }
+//  }
+//
+//  @Override
+//  protected void onAttachedToWindow() {
+//    super.onAttachedToWindow();
+//    showDropDownIfFocused();
+//  }
 
   @Override
   public boolean enoughToFilter() {
@@ -61,7 +120,10 @@ public class HTMLDataList extends AppCompatAutoCompleteTextView {
     setLayoutParams(params);
     setPadding(20, 20, 20, 20);
     setBackgroundResource(R.drawable.edit_text_state);
-    setCompoundDrawablesWithIntrinsicBounds(0, 0, android.R.drawable.arrow_down_float, 0);
+
+    // Not yet needed
+//    setCompoundDrawablesWithIntrinsicBounds(0, 0, android.R.drawable.arrow_down_float, 0);
+
     setSingleLine(true);
 
     ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this.getContext(), android.R.layout.simple_dropdown_item_1line);
@@ -70,6 +132,7 @@ public class HTMLDataList extends AppCompatAutoCompleteTextView {
     for(Element option : datalist.getElementsByTag("option")) {
       arrayAdapter.add(option.text());
     }
+    arrayAdapter.add(OPTION_MANUAL);
 
     setTag(mField.attr("name"));
     setShowAlways(true);

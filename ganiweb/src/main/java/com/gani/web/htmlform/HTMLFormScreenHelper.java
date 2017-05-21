@@ -16,27 +16,6 @@ import com.gani.web.R;
 public class HTMLFormScreenHelper {
   public static final String FORM_PATH = "FORM_PATH";
   public static final String SUBMIT_LISTENER = "SUBMIT_LISTENER";
-//
-//  public static Intent intent(Class cls, String url, String listenerClassName) {
-//    Intent intent = new Intent(Ui.context(), cls);
-//    intent.putExtra(FORM_PATH, url);
-////    intent.putExtra(SUBMIT_LISTENER, App.LISTENERS_PACKAGE + ".SignUpOnSubmitListener");
-//    intent.putExtra(SUBMIT_LISTENER, listenerClassName);
-//    return intent;
-//  }
-//
-//  public static Intent intent(Class<? extends GActivity> cls, String url, HTMLFormOnSubmitListener listener) {
-//    Intent intent = new Intent(Ui.context(), cls);
-//    intent.putExtra(FORM_PATH, url);
-//    intent.putExtra(SUBMIT_LISTENER, listener);
-//    return intent;
-//  }
-
-//  public static Intent intent(Class cls, String url) {
-//    Intent intent = new Intent(Ui.context(), cls);
-//    intent.putExtra(FORM_PATH, url);
-//    return intent;
-//  }
 
   public static Intent intent(Class<? extends GActivity> cls, PathSpec spec) {
     Intent intent = new Intent(Ui.context(), cls);

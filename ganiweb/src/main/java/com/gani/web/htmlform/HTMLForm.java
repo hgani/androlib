@@ -3,16 +3,14 @@ package com.gani.web.htmlform;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.text.InputType;
 import android.view.View;
-import android.webkit.CookieManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import com.gani.lib.http.GHttp;
 import com.gani.lib.http.GHttpCallback;
@@ -21,22 +19,16 @@ import com.gani.lib.http.GHttpResponse;
 import com.gani.lib.http.HttpAsyncGet;
 import com.gani.lib.http.HttpHook;
 import com.gani.lib.logging.GLog;
-import com.gani.lib.screen.GActivity;
 import com.gani.lib.screen.GFragment;
+import com.gani.web.R;
 
-import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-
 public class HTMLForm {
-  private final String TAG = HTMLForm.class.getName();
+//  private final String TAG = HTMLForm.class.getName();
   private final String INPUT_TAG = "input";
   private final String TEXTAREA_TAG = "textarea";
   private final String SELECT_TAG = "select";
@@ -96,6 +88,11 @@ public class HTMLForm {
   }
 
   public void buildFields() {
+    // TODO: Implement merging instead of nuking the views and their states.
+    mLayout.removeAllViews();
+
+    fragment.showProgress();
+
     GHttpCallback callback = new GHttpCallback<GHttpResponse, GHttpError>() {
       @Override
       public void onHttpSuccess(GHttpResponse response) {
@@ -105,11 +102,14 @@ public class HTMLForm {
         } else {
           GHttp.instance().alertHelper().alertFormParsingError(mContext, response);
         }
+
+        fragment.hideProgress();
       }
 
       @Override
       public void onHttpFailure(GHttpError error) {
         GHttp.instance().alertHelper().alertFormParsingError(mContext, error.getResponse());
+        fragment.hideProgress();
 //                GLog.e(getClass(), "Failed retrieving form");
       }
     };
@@ -172,7 +172,10 @@ public class HTMLForm {
               addLabel(field);
               htmlEditText = new HTMLEditText(mContext, field);
               htmlEditText.setSingleLine(true);
-              htmlEditText.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
+              // See http://stackoverflow.com/questions/21326790/calling-edittext-setinputtypeinputtype-type-text-variation-password-does-not-c
+              htmlEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+              // Without this, the hint gets displayed using a different font
+              htmlEditText.setTypeface(Typeface.DEFAULT);
               mLayout.addView(htmlEditText);
               break;
             case URL_TYPE:

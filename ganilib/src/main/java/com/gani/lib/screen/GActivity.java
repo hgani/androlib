@@ -1,9 +1,8 @@
 package com.gani.lib.screen;
 
+import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.annotation.IdRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
@@ -14,7 +13,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -22,12 +20,11 @@ import com.gani.lib.R;
 import com.gani.lib.analytics.Tracker;
 import com.gani.lib.analytics.TrackingSpec;
 import com.gani.lib.logging.GLog;
-import com.gani.lib.ui.ProgressIndicator;
 import com.gani.lib.model.GBundle;
+import com.gani.lib.ui.ProgressIndicator;
 import com.gani.lib.ui.Ui;
 
 import java.io.Serializable;
-import java.util.LinkedList;
 import java.util.List;
 
 public class GActivity extends AppCompatActivity implements RichContainer {
@@ -172,6 +169,10 @@ public class GActivity extends AppCompatActivity implements RichContainer {
   
   @Override
   public final GActivity getGActivity() {
+    return this;
+  }
+
+  public final Context getContext() {
     return this;
   }
   

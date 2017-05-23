@@ -143,7 +143,7 @@ public class GFragment extends Fragment implements RichContainer, ProgressIndica
   public void onCreateOptionsMenu(Menu menu, MenuInflater menuInflater){
     int strId = getRefreshStringId();
     if (strId != RESOURCE_INVALID) {
-      new GMenu(menu, this).addSecondary(strId, GMenu.ORDER_SPECIFIC, new GMenu.OnClickListener() {
+      new GMenu(menu).addSecondary(strId, GMenu.ORDER_SPECIFIC, new GMenu.OnClickListener() {
         @Override
         protected void onClick(MenuItem menuItem) {
           onRefresh();

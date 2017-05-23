@@ -94,4 +94,9 @@ public class GImageView extends AppCompatImageView {
     setAdjustViewBounds(true);
     return this;
   }
+
+  public GImageView click(OnClickListener listener) {
+    helper.click(listener);
+    return this;
+  }
 }

@@ -95,6 +95,7 @@ public class GHttpError<HR extends GHttpResponse> implements Serializable {
     return setError(ErrorType.AUTH, ErrorType.AUTH.name(), logMessagePrefix + " -- logging out (" + getUrl() + ") ...");
   }
 
+  // TODO: Review. This seems to handle multipe types of error, the distinction is unclear.
   public void handleDefault(Context context) {
     // To be overidden
   }

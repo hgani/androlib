@@ -1,36 +1,54 @@
 package com.gani.web.htmlform;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
+import android.provider.MediaStore;
+import android.support.v7.widget.LinearLayoutCompat;
 import android.text.InputType;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import com.gani.lib.http.GHttp;
 import com.gani.lib.http.GHttpCallback;
 import com.gani.lib.http.GHttpError;
 import com.gani.lib.http.GHttpResponse;
 import com.gani.lib.http.HttpAsyncGet;
+import com.gani.lib.http.HttpAsyncMultipart;
 import com.gani.lib.http.HttpHook;
+import com.gani.lib.logging.GLog;
 import com.gani.lib.screen.GFragment;
 import com.gani.lib.ui.view.GButton;
 import com.gani.lib.ui.view.GTextView;
 import com.gani.lib.ui.view.GView;
+import com.gani.web.R;
 import com.gani.web.htmlform.field.HtmlCheckBox;
 import com.gani.web.htmlform.field.HtmlDataList;
 import com.gani.web.htmlform.field.HtmlEditText;
 import com.gani.web.htmlform.field.HtmlRadioButton;
 import com.gani.web.htmlform.field.HtmlSpinner;
+import com.vansuita.pickimage.bean.PickResult;
+import com.vansuita.pickimage.bundle.PickSetup;
+import com.vansuita.pickimage.dialog.PickImageDialog;
+import com.vansuita.pickimage.listeners.IPickResult;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+
+import java.io.ByteArrayOutputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 public class HtmlForm {
   private static final int GAP = 12;
@@ -50,6 +68,7 @@ public class HtmlForm {
   private final String PASSWORD_TYPE = "password";
   private final String DATALIST_TYPE = "data_list";
   private final String TEL_TYPE = "tel";
+  private final String FILE_TYPE = "file";
 
   public static final String NAME_ATTR = "name";
 
@@ -67,6 +86,13 @@ public class HtmlForm {
   private HtmlFormOnSubmitListener mListener;
   private String csrfToken;
   private Button submitButton;
+
+  private HashMap<String, HttpAsyncMultipart.Uploadable> attachments = new HashMap<>();
+
+  public HashMap<String, HttpAsyncMultipart.Uploadable> getAttachments() {
+    return attachments;
+  }
+
 
   public HtmlForm(GFragment fragment, LinearLayout layout, String url) {
     this.fragment = fragment;
@@ -157,7 +183,7 @@ public class HtmlForm {
     mLayout.addView(view);
   }
 
-  private int parseInputTag(Element field, int index) {
+  private int parseInputTag(final Element field, int index) {
     HtmlEditText htmlEditText;
 
     switch (field.attr("type")) {
@@ -172,6 +198,39 @@ public class HtmlForm {
         htmlEditText.setSingleLine(true);
         htmlEditText.setInputType(InputType.TYPE_CLASS_PHONE);
         addFieldWithLabel(htmlEditText, field);
+        break;
+      case FILE_TYPE:
+//        addLabel(field);
+        final ImageView imageView = new ImageView(mContext);
+        imageView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 100));
+        imageView.setImageResource(R.mipmap.default_image);
+        imageView.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View v) {
+            PickSetup pickSetup = new PickSetup();
+            pickSetup.setIconGravity(Gravity.LEFT);
+            pickSetup.setButtonOrientation(LinearLayoutCompat.HORIZONTAL);
+            PickImageDialog.build(pickSetup)
+                    .setOnPickResult(new IPickResult() {
+                      @Override
+                      public void onPickResult(PickResult pickResult) {
+                        if (pickResult.getError() == null) {
+                          imageView.setImageBitmap(pickResult.getBitmap());
+
+                          Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
+                          ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                          bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+                          HttpAsyncMultipart.Uploadable attachment = new HttpAsyncMultipart.Uploadable("photo.jpg", "image/jpeg", stream.toByteArray());
+                          attachments.put(field.attr("name"), attachment);
+                        } else {
+                          Toast.makeText(getFragment().getActivity(), pickResult.getError().getMessage(), Toast.LENGTH_LONG).show();
+                        }
+                      }
+                    })
+                    .show(getFragment().getFragmentManager());
+          }
+        });
+        addFieldWithLabel(imageView, field);
         break;
       case TEXT_TYPE:
 //        addLabel(field);

@@ -1,5 +1,6 @@
 package com.gani.lib.ui.menu;
 
+import android.content.Context;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -14,6 +15,11 @@ public class GMenu {
 //  private Context context;
 
   public GMenu(Menu menu) {
+    this.menu = menu;
+  }
+
+  // For backward compatibility only
+  public GMenu(Menu menu, Context context) {
     this.menu = menu;
   }
 

@@ -89,7 +89,9 @@ public class GFragment extends Fragment implements RichContainer, ProgressIndica
 
 
   ///// Pull to refresh /////
-  // NOTE: Implement this in Fragment instead of Activity to ensure it works well on dual panel
+  // NOTE:
+  // - Implement this in Fragment instead of Activity to ensure it works well on dual panel
+  // - These methods can only be called when view has been initialized, e.g. in onActivityCreated()
 
   public void showProgress() {
     // Use post() so that this works when called from onCreateForScreen(), which is a common scenario (i.e. auto-populating list view)
@@ -113,7 +115,6 @@ public class GFragment extends Fragment implements RichContainer, ProgressIndica
     }
   }
 
-  // Can only be called when view has been initialized, e.g. in onActivityCreated()
   protected final void disableRefreshPull() {
     getRefreshView().setEnabled(false);
   }

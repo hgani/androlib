@@ -51,7 +51,9 @@ public abstract class GHttp {
     return connection;
   }
 
-  protected abstract void prepareConnection(HttpURLConnection connection, GParams params, HttpMethod method);
+  protected void prepareConnection(HttpURLConnection connection, GParams params, HttpMethod method) {
+    // To be overridden
+  }
 
   // To be overridden
   protected GHttpResponse createHttpResponse(String url) {

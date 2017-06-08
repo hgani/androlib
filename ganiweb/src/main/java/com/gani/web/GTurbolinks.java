@@ -1,20 +1,17 @@
 package com.gani.web;
 
-import android.app.Activity;
 import android.net.Uri;
 import android.os.Build;
 import android.view.ViewGroup;
-import android.webkit.WebSettings;
 import android.webkit.WebView;
 
 import com.basecamp.turbolinks.InlineTurbolinksView;
 import com.basecamp.turbolinks.TurbolinksAdapter;
-import com.basecamp.turbolinks.TurbolinksSessionWrapper;
 import com.basecamp.turbolinks.TurbolinksView;
 import com.gani.lib.http.GHttp;
 import com.gani.lib.logging.GLog;
-import com.gani.lib.screen.GActivity;
 import com.gani.lib.ui.Ui;
+import com.basecamp.turbolinks.TurbolinksSessionWrapper;
 
 import java.net.URI;
 

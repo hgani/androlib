@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.support.v4.app.ActivityCompat;
+import android.telephony.TelephonyManager;
 import android.widget.Toast;
 
 public class LauncherHelper {
@@ -34,9 +35,11 @@ public class LauncherHelper {
 //      context.startActivity(i);
 //    }
 
-    Intent i = new Intent(Intent.ACTION_DIAL);
-    i.setData(Uri.parse("tel:" + number));
-    context.startActivity(i);
+    if (((TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE)).getPhoneType() != TelephonyManager.PHONE_TYPE_NONE) {
+      Intent i = new Intent(Intent.ACTION_DIAL);
+      i.setData(Uri.parse("tel:" + number));
+      context.startActivity(i);
+    }
   }
 
   public void mail(String to, String subject, String message) {

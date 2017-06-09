@@ -1,14 +1,11 @@
 package com.gani.lib.screen;
 
-import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.support.v4.app.ActivityCompat;
 import android.telephony.TelephonyManager;
-import android.widget.Toast;
+
+import com.gani.lib.notification.Alert;
 
 public class LauncherHelper {
   private Context context;
@@ -39,6 +36,9 @@ public class LauncherHelper {
       Intent i = new Intent(Intent.ACTION_DIAL);
       i.setData(Uri.parse("tel:" + number));
       context.startActivity(i);
+    }
+    else {
+      Alert.display(context, "This device doesn't support phone calls");
     }
   }
 

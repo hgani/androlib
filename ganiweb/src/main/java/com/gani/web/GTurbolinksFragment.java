@@ -52,4 +52,9 @@ public abstract class GTurbolinksFragment extends GFragment {
 
   protected abstract GTurbolinks createTurbolinks(GTurbolinksSupportActivity activity, TurbolinksView view, String path);
 
+  @Override
+  protected void onRestart() {
+    super.onRestart();
+    turbolinks.restore();
+  }
 }

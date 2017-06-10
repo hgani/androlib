@@ -349,11 +349,20 @@ public class HtmlForm {
     mListener.afterBuild(getCurrentForm());
   }
 
-  private void extractCsrfToken(Document document) {
+  public static String parseCsrfToken(Document document) {
     Element tokenElement  = document.select("meta[name=csrf-token]").first();
     if (tokenElement != null) {
-      csrfToken = tokenElement.attr("content");
+      return tokenElement.attr("content");
     }
+    return null;
+  }
+
+  public void extractCsrfToken(Document document) {
+//    Element tokenElement  = document.select("meta[name=csrf-token]").first();
+//    if (tokenElement != null) {
+//      csrfToken = tokenElement.attr("content");
+//    }
+    csrfToken = parseCsrfToken(document);
   }
 
   public String getCsrfToken() {

@@ -1,4 +1,4 @@
-package com.gani.web;
+package com.gani.web.turbolinks;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import com.basecamp.turbolinks.TurbolinksView;
 import com.gani.lib.http.GImmutableParams;
 import com.gani.lib.screen.GFragment;
+import com.gani.web.PathSpec;
+import com.gani.web.R;
 
 public abstract class GTurbolinksFragment extends GFragment {
   public static final String EXTRA_PATH_SPEC = "specPath";

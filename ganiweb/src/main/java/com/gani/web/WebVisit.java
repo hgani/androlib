@@ -1,10 +1,8 @@
 package com.gani.web;
 
-import android.net.Uri;
-
 import com.gani.lib.http.GImmutableParams;
 import com.gani.lib.logging.GLog;
-import com.gani.lib.screen.GActivity;
+import com.gani.web.turbolinks.GTurbolinksSupportActivity;
 
 public class WebVisit {
   public enum Action {

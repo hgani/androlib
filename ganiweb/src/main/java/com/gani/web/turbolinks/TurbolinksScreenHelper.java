@@ -1,4 +1,4 @@
-package com.gani.web;
+package com.gani.web.turbolinks;
 
 import android.os.Bundle;
 

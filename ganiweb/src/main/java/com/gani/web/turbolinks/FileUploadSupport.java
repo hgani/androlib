@@ -1,4 +1,4 @@
-package com.gani.web;
+package com.gani.web.turbolinks;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;

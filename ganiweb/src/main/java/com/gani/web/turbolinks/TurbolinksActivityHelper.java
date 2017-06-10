@@ -1,4 +1,4 @@
-package com.gani.web;
+package com.gani.web.turbolinks;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,6 +7,8 @@ import com.basecamp.turbolinks.TurbolinksView;
 import com.gani.lib.http.GImmutableParams;
 import com.gani.lib.screen.GActivity;
 import com.gani.lib.ui.Ui;
+import com.gani.web.PathSpec;
+import com.gani.web.R;
 
 public abstract class TurbolinksActivityHelper {
   public static final String EXTRA_PATH_SPEC = "specPath";

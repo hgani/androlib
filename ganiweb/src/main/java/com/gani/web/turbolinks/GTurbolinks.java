@@ -1,4 +1,4 @@
-package com.gani.web;
+package com.gani.web.turbolinks;
 
 import android.net.Uri;
 import android.os.Build;
@@ -12,6 +12,7 @@ import com.gani.lib.http.GHttp;
 import com.gani.lib.logging.GLog;
 import com.gani.lib.ui.Ui;
 import com.basecamp.turbolinks.TurbolinksSessionWrapper;
+import com.gani.web.WebVisit;
 
 import java.net.URI;
 

@@ -1,4 +1,4 @@
-package com.gani.web;
+package com.gani.web.browser;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 
 import com.gani.lib.screen.GFragment;
 import com.gani.lib.ui.view.GWebView;
+import com.gani.web.R;
 
 public class WebFragment extends GFragment {
   public static final String ARG_URL = "url";

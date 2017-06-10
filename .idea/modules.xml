@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/androlib.iml" filepath="$PROJECT_DIR$/androlib.iml" />
       <module fileurl="file://$PROJECT_DIR$/ganilib/ganilib.iml" filepath="$PROJECT_DIR$/ganilib/ganilib.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ganiweb/ganiweb.iml" filepath="$PROJECT_DIR$/ganiweb/ganiweb.iml" />
     </modules>
   </component>
 </project>

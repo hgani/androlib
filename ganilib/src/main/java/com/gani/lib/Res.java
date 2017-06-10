@@ -1,11 +1,14 @@
 package com.gani.lib;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.graphics.drawable.Drawable;
+import android.preference.PreferenceManager;
 import android.provider.Settings;
 
 import com.gani.lib.logging.GLog;
+import com.gani.lib.prefs.Prefs;
 import com.gani.lib.ui.Ui;
 
 import java.io.BufferedReader;
@@ -14,12 +17,27 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 public class Res {
+  // This won't interfere with prefs from other projects. See https://stackoverflow.com/questions/36777401/does-sharedpreferences-name-need-to-be-unique
+  private static final String PREF_NAME = "__ganilib_prefs";
+
   public static Context context() {
     return Ui.context();
   }
 
   public static String deviceId() {
     return Settings.Secure.getString(context().getContentResolver(), Settings.Secure.ANDROID_ID);
+  }
+
+  public static Prefs prefs(String name) {
+    return new Prefs(context().getSharedPreferences(name, Context.MODE_PRIVATE));
+  }
+
+  public static Prefs libPrefs() {
+    return prefs(PREF_NAME);
+  }
+
+  public static Prefs defaultPrefs() {
+    return new Prefs(PreferenceManager.getDefaultSharedPreferences(context()));
   }
 
   private static AssetManager assets() {

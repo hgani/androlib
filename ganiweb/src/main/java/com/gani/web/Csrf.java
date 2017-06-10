@@ -1,5 +1,8 @@
 package com.gani.web;
 
+import android.content.SharedPreferences;
+
+import com.gani.lib.Res;
 import com.gani.lib.database.GDbValue;
 import com.gani.lib.http.GHttp;
 import com.gani.lib.http.GHttpCallback;
@@ -13,7 +16,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 public class Csrf {
-  public static final String TOKEN_DBKEY = "__csrf_token";
+  public static final String TOKEN_PREFKEY = "__csrf_token";
   private static final Csrf INSTANCE = new Csrf();
 
   public static Csrf instance() {
@@ -25,6 +28,7 @@ public class Csrf {
 
   public void init(String url) {
     this.url = url;
+    this.token = Res.libPrefs().getNullableString(TOKEN_PREFKEY);
 
     download(null);
   }
@@ -38,17 +42,22 @@ public class Csrf {
 
           token = HtmlForm.parseCsrfToken(document);
           if (token == null) {
+            GLog.t(Csrf.this.getClass(), "TEST1");
             fail();
 //            GLog.i(getClass(), "CSRF token not received");
           }
           else {
             GLog.i(getClass(), "CSRF token received");
-            GDbValue.set(TOKEN_DBKEY, token);
+
+            Res.libPrefs().setString(TOKEN_PREFKEY, token);
+
+//            GDbValue.set(TOKEN_DBKEY, token);
             if (callback != null) {
               callback.onTokenReceived(token);
             }
           }
         } else {
+          GLog.t(Csrf.this.getClass(), "TEST0");
           fail();
 //          GLog.i(getClass(), "CSRF token not received");
           //          GHttp.instance().alertHelper().alertFormParsingError(mContext, response);
@@ -76,10 +85,6 @@ public class Csrf {
       callback.onTokenReceived(token);
     }
 //    String token = GDbValue.getString(TOKEN_DBKEY);
-  }
-
-  public String getToken() {
-    return token;
   }
 
   public interface Callback {

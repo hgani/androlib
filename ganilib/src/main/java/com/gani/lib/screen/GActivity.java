@@ -175,6 +175,12 @@ public class GActivity extends AppCompatActivity implements RichContainer {
   public final Context getContext() {
     return this;
   }
+
+  public void updateBadge(int count) {
+    if (container instanceof GScreenView) {
+      ((GScreenView) container).updateBadge(count);
+    }
+  }
   
   public final TextView getLabel(int resId) {
     return (TextView) findViewById(resId);
@@ -184,20 +190,20 @@ public class GActivity extends AppCompatActivity implements RichContainer {
     return (Button) findViewById(resId);
   }
 
-  //  TODO: Shouldn't this be deprecated in favour of args() ?
-  public final String getStringParam(String key) {
-    return getIntent().getStringExtra(key);
-  }
-
-  //  TODO: Shouldn't this be deprecated in favour of args() ?
-  public final int getIntParam(String key, int defaultValue) {
-    return getIntent().getIntExtra(key, defaultValue);
-  }
-
-  //  TODO: Shouldn't this be deprecated in favour of args() ?
-  public final Serializable getSerializableParam(String key) {
-    return getIntent().getSerializableExtra(key);
-  }
+//  //  TODO: Shouldn't this be deprecated in favour of args() ?
+//  public final String getStringParam(String key) {
+//    return getIntent().getStringExtra(key);
+//  }
+//
+//  //  TODO: Shouldn't this be deprecated in favour of args() ?
+//  public final int getIntParam(String key, int defaultValue) {
+//    return getIntent().getIntExtra(key, defaultValue);
+//  }
+//
+//  //  TODO: Shouldn't this be deprecated in favour of args() ?
+//  public final Serializable getSerializableParam(String key) {
+//    return getIntent().getSerializableExtra(key);
+//  }
 
   private void setContent(int resId) {
     container.initNavigation(topNavigation, getSupportActionBar());

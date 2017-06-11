@@ -90,8 +90,8 @@ public class GScreenView extends IScreenView {
     return null;
   }
 
-  protected void addMenu(GIcon icon, String label, Intent intent) {
-    navMenu.addItem(GROUP_PRIMARY, icon, label, intent);
+  protected MenuItem addMenu(GIcon icon, String label, Intent intent) {
+    return navMenu.addItem(GROUP_PRIMARY, icon, label, intent);
   }
 
   /////

@@ -18,4 +18,14 @@ public class Prefs {
     editor.putString(key, value);
     editor.apply();
   }
+
+  public int getInt(String key, int defValue) {
+    return backend.getInt(key, defValue);
+  }
+
+  public void setInt(String key, int value) {
+    SharedPreferences.Editor editor = backend.edit();
+    editor.putInt(key, value);
+    editor.apply();
+  }
 }

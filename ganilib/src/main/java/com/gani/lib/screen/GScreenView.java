@@ -27,6 +27,7 @@ public class GScreenView extends IScreenView {
   private GActivity activity;
   private MenuItem selectedItem;
   private NavigationMenu navMenu;
+  private NavigationHomeBadge badge;
 
   public GScreenView(GActivity activity) {
     super(activity);
@@ -36,6 +37,7 @@ public class GScreenView extends IScreenView {
     this.drawer = (DrawerLayout) findViewById(R.id.screen_drawer);
 
     this.activity = activity;
+    this.badge = new NavigationHomeBadge(this);
   }
 
   public void openDrawer() {
@@ -75,6 +77,13 @@ public class GScreenView extends IScreenView {
       drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
     }
     actionBar.setDisplayHomeAsUpEnabled(true);
+    actionBar.setHomeAsUpIndicator(badge.getDrawable());
+
+//    updateBadge(20);
+  }
+
+  public void updateBadge(int count) {
+    badge.setCount(count);
   }
 
   protected GIcon menuIcon() {

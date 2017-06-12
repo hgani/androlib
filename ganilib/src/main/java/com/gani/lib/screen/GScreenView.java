@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.ViewGroup;
 
 import com.gani.lib.R;
+import com.gani.lib.logging.GLog;
 import com.gani.lib.ui.icon.GIcon;
 
 
@@ -69,15 +70,15 @@ public class GScreenView extends IScreenView {
     if (topNavigation) {
       GIcon icon = menuIcon();
       if (icon != null) {
-        actionBar.setHomeAsUpIndicator(icon.drawable().actionBarSize());
+//        actionBar.setHomeAsUpIndicator(icon.drawable().actionBarSize());
+        actionBar.setHomeAsUpIndicator(badge.getDrawable());
       }
-
     }
     else {
       drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
     }
     actionBar.setDisplayHomeAsUpEnabled(true);
-    actionBar.setHomeAsUpIndicator(badge.getDrawable());
+//    actionBar.setHomeAsUpIndicator(badge.getDrawable());
 
 //    updateBadge(20);
   }

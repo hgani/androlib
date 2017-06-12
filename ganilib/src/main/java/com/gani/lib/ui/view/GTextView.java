@@ -149,6 +149,14 @@ public class GTextView<T extends GTextView> extends AppCompatTextView implements
     return this;
   }
 
+  // NOTE: Has to be called before setting the text.
+  // See https://stackoverflow.com/questions/27927930/android-linkify-clickable-telephone-numbers
+  public GTextView linkify(int mask) {
+    setAutoLinkMask(mask);
+    setLinksClickable(true);
+    return this;
+  }
+
 
 
 

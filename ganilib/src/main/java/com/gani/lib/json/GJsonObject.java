@@ -14,7 +14,7 @@ import java.util.Iterator;
 import java.util.List;
 
 public abstract class GJsonObject<JO extends GJsonObject, JA extends GJsonArray> {
-  private JSONObject backend;
+  protected JSONObject backend;
 
   protected GJsonObject(GJsonObject object) {
     this(object.backend);

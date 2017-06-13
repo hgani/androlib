@@ -52,11 +52,11 @@ public class GHttpResponse<RR extends GRestResponse> implements Serializable {
   
   public RR asRestResponse() {
     if (restReponse == null) {
-      GLog.d(getClass(), "Result of " + url + ": " + string);
+      //GLog.d(getClass(), "Result of " + url + ": " + string);
 //      restReponse = new GRestResponse(string, this);
       restReponse = createRestResponse(string);
     }
-    GLog.d(getClass(), "REST RESPONSE1: " + restReponse + " -- " + string);
+    //GLog.d(getClass(), "REST RESPONSE1: " + restReponse + " -- " + string);
     return restReponse;
   }
 

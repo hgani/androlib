@@ -9,6 +9,7 @@ import android.support.v4.content.CursorLoader;
 
 import com.gani.lib.ui.Ui;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public abstract class GDbTable<C extends GDbCursor> implements BaseColumns {
@@ -87,6 +88,30 @@ public abstract class GDbTable<C extends GDbCursor> implements BaseColumns {
       dataArray[index++] = model.toDbRow();
     }
     return DbUtils.insertRows(uri, dataArray);
+  }
+
+  public void updateRows(List<? extends GDbModel> dataArray){
+    updateRows(getDataUris().getCollectionContentUri(), dataArray.toArray(new GDbModel[dataArray.size()]));
+  }
+
+  public void updateRows(Uri uri, GDbModel[] modelArray){
+
+    LinkedList<GDbRow> dbRows= new LinkedList<GDbRow>();
+    for(GDbModel model : modelArray){
+      //
+      if(DbUtils.updateRow(uri, model.toDbRow()) == -1){
+        dbRows.add(model.toDbRow());
+      }
+      else{DbUtils.updateRow(uri, model.toDbRow());}
+    }
+
+    GDbRow[] dataArray = new GDbRow[dbRows.size()];
+    int index = 0;
+    for(GDbRow row : dbRows){
+      dataArray[index++] = row;
+    }
+
+    DbUtils.insertRows(uri, dataArray);
   }
 
   public void updateRow(GDbModel model, String[] whereColumns, String[] whereValues) {

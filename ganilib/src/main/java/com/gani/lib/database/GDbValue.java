@@ -30,14 +30,19 @@ public class GDbValue {
     });
   }
 
-  public static String getString(String key) {
-    GDbCursor cursor = TABLE_HELPER.query(new String[] { COLUMN_KEY }, new String[] { key });
+  public static void remove(String key) {
+    TABLE_HELPER.deleteRows(new String[] { COLUMN_KEY }, new String[] { key });
+  }
 
-    return cursor.executeFirstRowIfExist(new GDbCursor.AutoCleanupCommand<String, GDbCursor>() {
-      @Override
-      public String execute(GDbCursor cursor) {
-        return cursor.getString(COLUMN_VALUE);
-      }
-    });
+  public static String getString(String key) {
+    return get(key, new TypeToken<String>() {});
+//    GDbCursor cursor = TABLE_HELPER.query(new String[] { COLUMN_KEY }, new String[] { key });
+//
+//    return cursor.executeFirstRowIfExist(new GDbCursor.AutoCleanupCommand<String, GDbCursor>() {
+//      @Override
+//      public String execute(GDbCursor cursor) {
+//        return cursor.getString(COLUMN_VALUE);
+//      }
+//    });
   }
 }

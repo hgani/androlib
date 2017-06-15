@@ -116,9 +116,13 @@ public abstract class HtmlFormOnSubmit implements HtmlFormOnSubmitListener {
   @Override
   public void afterBuild(HtmlForm form) { }
 
+  protected String transformUrl(String origUrl) {
+    return origUrl + ".json";
+  }
+
   @Override
   public void onSubmit(final HtmlForm form) {
-    String endpoint = GHttp.instance().baseUrl() + form.getFormElement().attr("action") + ".json";
+    String endpoint = transformUrl(GHttp.instance().baseUrl() + form.getFormElement().attr("action"));
 
     GParams params = getParams(form);
     GHttpCallback restCallback = new GRestCallback.Default(form.getFragment()) {

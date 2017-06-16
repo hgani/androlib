@@ -2,6 +2,8 @@ package com.gani.web.htmlform;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 
@@ -49,6 +51,7 @@ public abstract class HtmlFormOnSubmit implements HtmlFormOnSubmitListener {
 
     for (int i = 0; i < form.getLayout().getChildCount(); i++) {
       String tag = (String) layout.getChildAt(i).getTag();
+      View field = layout.getChildAt(i);
 
       if (layout.getChildAt(i) instanceof HtmlEditText) {
         String value = ((HtmlEditText) layout.getChildAt(i)).getText().toString();
@@ -97,6 +100,10 @@ public abstract class HtmlFormOnSubmit implements HtmlFormOnSubmitListener {
             storeParams(params, tag, value);
           }
         }
+
+      } else if (field instanceof Button) {
+        String value = ((HtmlDataList) field).getText().toString();
+        storeParams(params, tag, value);
       }
     }
 

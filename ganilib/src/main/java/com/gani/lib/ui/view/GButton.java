@@ -11,7 +11,7 @@ import android.view.View;
 
 import com.gani.lib.ui.Ui;
 
-public class GButton<T extends GButton> extends AppCompatButton {
+public class GButton<T extends GButton> extends AppCompatButton implements GView {
   private static Spec defaultSpec = new Spec();
 
   public static void setDefaultSpec(Spec defaultSpec) {

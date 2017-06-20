@@ -7,7 +7,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.gani.lib.R;
 import com.gani.lib.analytics.TrackingSpec;
@@ -17,7 +16,7 @@ import com.gani.lib.ui.menu.GMenu;
 
 public class GFragment extends Fragment implements RichContainer, ProgressIndicator {
   private Bundle arguments;
-//  private boolean firstVisit;
+  private boolean firstVisit;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -41,7 +40,7 @@ public class GFragment extends Fragment implements RichContainer, ProgressIndica
   public void onViewCreated(View view, Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
 
-//    firstVisit = true;
+    firstVisit = true;
 
     initRefreshView(new SwipeRefreshLayout.OnRefreshListener() {
       @Override
@@ -61,22 +60,22 @@ public class GFragment extends Fragment implements RichContainer, ProgressIndica
     super.onStop();
   }
 
-//  @Override
-//  public void onResume() {
-//    super.onResume();
-//
-//    // Mimic activity's onRestart(). See http://stackoverflow.com/questions/35039512/android-what-to-use-instead-of-onrestart-in-a-fragment
-//    if (firstVisit) {
-//      firstVisit = false;
-//    }
-//    else {
-//      onRestart();
-//    }
-//  }
+  @Override
+  public void onResume() {
+    super.onResume();
 
-//  protected void onRestart() {
-//    // To be overridden.
-//  }
+    // Mimic activity's onRestart(). See http://stackoverflow.com/questions/35039512/android-what-to-use-instead-of-onrestart-in-a-fragment
+    if (firstVisit) {
+      firstVisit = false;
+    }
+    else {
+      onRestart();
+    }
+  }
+
+  protected void onRestart() {
+    // To be overridden.
+  }
 
   protected TrackingSpec getTrackingSpec() {
     return TrackingSpec.DO_NOTHING;
@@ -90,7 +89,9 @@ public class GFragment extends Fragment implements RichContainer, ProgressIndica
 
 
   ///// Pull to refresh /////
-  // NOTE: Implement this in Fragment instead of Activity to ensure it works well on dual panel
+  // NOTE:
+  // - Implement this in Fragment instead of Activity to ensure it works well on dual panel
+  // - These methods can only be called when view has been initialized, e.g. in onActivityCreated()
 
   public void showProgress() {
     // Use post() so that this works when called from onCreateForScreen(), which is a common scenario (i.e. auto-populating list view)
@@ -143,7 +144,7 @@ public class GFragment extends Fragment implements RichContainer, ProgressIndica
   public void onCreateOptionsMenu(Menu menu, MenuInflater menuInflater){
     int strId = getRefreshStringId();
     if (strId != RESOURCE_INVALID) {
-      new GMenu(menu, this).addSecondary(strId, GMenu.ORDER_SPECIFIC, new GMenu.OnClickListener() {
+      new GMenu(menu).addSecondary(strId, GMenu.ORDER_SPECIFIC, new GMenu.OnClickListener() {
         @Override
         protected void onClick(MenuItem menuItem) {
           onRefresh();

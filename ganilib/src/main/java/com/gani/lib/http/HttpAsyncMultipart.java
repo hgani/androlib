@@ -37,7 +37,7 @@ public class HttpAsyncMultipart implements HttpAsync {
     private String mimeType;
     private byte[] data;
     
-    protected Uploadable(String fileName, String mimeType, byte[] data) {
+    public Uploadable(String fileName, String mimeType, byte[] data) {
       this.fileName = fileName;
       this.mimeType = mimeType;
       this.data = data;

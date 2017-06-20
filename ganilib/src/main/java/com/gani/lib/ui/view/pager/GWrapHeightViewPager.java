@@ -5,31 +5,28 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.View;
-import android.widget.Toast;
 
 import com.gani.lib.ui.Ui;
+import com.gani.lib.ui.view.ViewHelper;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class GWrapHeightViewPager extends ViewPager {
-  /**
-   * Constructor
-   *
-   * @param context the context
-   */
+  private ViewHelper helper;
+
   public GWrapHeightViewPager(Context context) {
     super(context);
+    init();
   }
 
-  /**
-   * Constructor
-   *
-   * @param context the context
-   * @param attrs the attribute set
-   */
   public GWrapHeightViewPager(Context context, AttributeSet attrs) {
     super(context, attrs);
+    init();
+  }
+
+  private void init() {
+    this.helper = new ViewHelper(this);
   }
 
   public GWrapHeightViewPager adapter(PagerAdapter adapter) {
@@ -56,6 +53,16 @@ public class GWrapHeightViewPager extends ViewPager {
     heightMeasureSpec = MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY);
 
     super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+  }
+
+  public GWrapHeightViewPager padding(Integer left, Integer top, Integer right, Integer bottom) {
+    helper.padding(left, top, right, bottom);
+    return this;
+  }
+
+  public GWrapHeightViewPager margin(Integer left, Integer top, Integer right, Integer bottom) {
+    helper.margin(left, top, right, bottom);
+    return this;
   }
 
   private Timer timer;

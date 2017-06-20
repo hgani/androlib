@@ -45,7 +45,7 @@ public class GLog {
 
   // Prominent logging to accomodate temporary testing.
   public static void t(Class<?> cls, String msg) {
-    Log.i(cls.getName(), "********** " + msg);
+    i(cls, "********** " + msg);
   }
 
   public static void e(Class<?> cls, String msg) {

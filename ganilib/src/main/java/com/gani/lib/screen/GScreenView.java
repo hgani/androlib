@@ -1,9 +1,7 @@
 package com.gani.lib.screen;
 
 import android.content.Intent;
-import android.database.ContentObserver;
-import android.os.Handler;
-import android.support.design.internal.NavigationMenu;
+import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -13,9 +11,9 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 
 import com.gani.lib.R;
+import com.gani.lib.logging.GLog;
 import com.gani.lib.ui.icon.GIcon;
 
 
@@ -30,6 +28,7 @@ public class GScreenView extends IScreenView {
   private GActivity activity;
   private MenuItem selectedItem;
   private NavigationMenu navMenu;
+  private NavigationHomeBadge badge;
 
   public GScreenView(GActivity activity) {
     super(activity);
@@ -39,6 +38,7 @@ public class GScreenView extends IScreenView {
     this.drawer = (DrawerLayout) findViewById(R.id.screen_drawer);
 
     this.activity = activity;
+    this.badge = new NavigationHomeBadge(this);
   }
 
   public void openDrawer() {
@@ -70,22 +70,29 @@ public class GScreenView extends IScreenView {
     if (topNavigation) {
       GIcon icon = menuIcon();
       if (icon != null) {
-        actionBar.setHomeAsUpIndicator(icon.drawable().actionBarSize());
+//        actionBar.setHomeAsUpIndicator(icon.drawable().actionBarSize());
+        actionBar.setHomeAsUpIndicator(badge.getDrawable());
       }
-
     }
     else {
       drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
     }
     actionBar.setDisplayHomeAsUpEnabled(true);
+//    actionBar.setHomeAsUpIndicator(badge.getDrawable());
+
+//    updateBadge(20);
+  }
+
+  public void updateBadge(int count) {
+    badge.setCount(count);
   }
 
   protected GIcon menuIcon() {
     return null;
   }
 
-  protected void addMenu(GIcon icon, String label, Intent intent) {
-    navMenu.addItem(GROUP_PRIMARY, icon, label, intent);
+  protected MenuItem addMenu(GIcon icon, String label, Intent intent) {
+    return navMenu.addItem(GROUP_PRIMARY, icon, label, intent);
   }
 
   /////
@@ -101,6 +108,25 @@ public class GScreenView extends IScreenView {
       this.bar = bar;
     }
 
+    private boolean intentEquals(Intent menuIntent) {
+      Intent activityIntent = activity.getIntent();
+      if (!activityIntent.getComponent().equals(menuIntent.getComponent())) {
+        return false;
+      }
+
+      Bundle activityExtras = activityIntent.getExtras();
+      Bundle menuExtras = menuIntent.getExtras();
+
+      if (activityExtras != null && menuExtras != null) {
+        for (String key : activityExtras.keySet()) {
+          if (!activityExtras.get(key).equals(menuExtras.get(key))) {
+            return false;
+          }
+        }
+      }
+      return true;
+    }
+
     private MenuItem addItem(int groupId, GIcon icon, String string, Intent intent) {
       MenuItem item = menu.add(groupId, Menu.NONE, Menu.NONE, string);
       item.setIntent(intent);
@@ -109,7 +135,8 @@ public class GScreenView extends IScreenView {
         item.setIcon(icon.drawable());
       }
 
-      if (activity.getClass().getName().equals(intent.getComponent().getClassName())) {
+//      if (activity.getClass().getName().equals(intent.getComponent().getClassName())) {
+      if (intentEquals(intent)) {
         selectedItem = item;
         item.setChecked(true);
         bar.setTitle(string);

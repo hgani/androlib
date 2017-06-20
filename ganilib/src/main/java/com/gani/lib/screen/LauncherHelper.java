@@ -1,13 +1,11 @@
 package com.gani.lib.screen;
 
-import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.support.v4.app.ActivityCompat;
-import android.widget.Toast;
+import android.telephony.TelephonyManager;
+
+import com.gani.lib.notification.Alert;
 
 public class LauncherHelper {
   private Context context;
@@ -34,9 +32,14 @@ public class LauncherHelper {
 //      context.startActivity(i);
 //    }
 
-    Intent i = new Intent(Intent.ACTION_DIAL);
-    i.setData(Uri.parse("tel:" + number));
-    context.startActivity(i);
+    if (((TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE)).getPhoneType() != TelephonyManager.PHONE_TYPE_NONE) {
+      Intent i = new Intent(Intent.ACTION_DIAL);
+      i.setData(Uri.parse("tel:" + number));
+      context.startActivity(i);
+    }
+    else {
+      Alert.display(context, "This device doesn't support phone calls");
+    }
   }
 
   public void mail(String to, String subject, String message) {

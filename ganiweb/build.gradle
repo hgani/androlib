@@ -7,7 +7,7 @@ android {
     buildToolsVersion '25.0.0'
 
     defaultConfig {
-        minSdkVersion 15
+        minSdkVersion 19
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
@@ -36,9 +36,12 @@ dependencies {
     compile 'org.jsoup:jsoup:1.10.1'
 
     compile 'com.github.bumptech.glide:glide:3.7.0'
+    compile 'com.github.jrvansuita:PickImage:+'
 
     //compile 'com.android.volley:volley:1.0.0'
 
+    compile 'com.basecamp:turbolinks:1.0.7'
+
     compile project(':ganilib')
-    compile project(':turbolinks')
+    //compile project(':turbolinks')
 }

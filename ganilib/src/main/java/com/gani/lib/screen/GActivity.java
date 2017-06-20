@@ -1,9 +1,8 @@
 package com.gani.lib.screen;
 
+import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.annotation.IdRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
@@ -14,7 +13,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -22,12 +20,12 @@ import com.gani.lib.R;
 import com.gani.lib.analytics.Tracker;
 import com.gani.lib.analytics.TrackingSpec;
 import com.gani.lib.logging.GLog;
-import com.gani.lib.ui.ProgressIndicator;
 import com.gani.lib.model.GBundle;
+import com.gani.lib.ui.ProgressIndicator;
 import com.gani.lib.ui.Ui;
 
 import java.io.Serializable;
-import java.util.LinkedList;
+import java.util.List;
 
 public class GActivity extends AppCompatActivity implements RichContainer {
   protected Tracker tracker;
@@ -173,6 +171,16 @@ public class GActivity extends AppCompatActivity implements RichContainer {
   public final GActivity getGActivity() {
     return this;
   }
+
+  public final Context getContext() {
+    return this;
+  }
+
+  public void updateBadge(int count) {
+    if (container instanceof GScreenView) {
+      ((GScreenView) container).updateBadge(count);
+    }
+  }
   
   public final TextView getLabel(int resId) {
     return (TextView) findViewById(resId);
@@ -182,20 +190,20 @@ public class GActivity extends AppCompatActivity implements RichContainer {
     return (Button) findViewById(resId);
   }
 
-  //  TODO: Shouldn't this be deprecated in favour of args() ?
-  public final String getStringParam(String key) {
-    return getIntent().getStringExtra(key);
-  }
-
-  //  TODO: Shouldn't this be deprecated in favour of args() ?
-  public final int getIntParam(String key, int defaultValue) {
-    return getIntent().getIntExtra(key, defaultValue);
-  }
-
-  //  TODO: Shouldn't this be deprecated in favour of args() ?
-  public final Serializable getSerializableParam(String key) {
-    return getIntent().getSerializableExtra(key);
-  }
+//  //  TODO: Shouldn't this be deprecated in favour of args() ?
+//  public final String getStringParam(String key) {
+//    return getIntent().getStringExtra(key);
+//  }
+//
+//  //  TODO: Shouldn't this be deprecated in favour of args() ?
+//  public final int getIntParam(String key, int defaultValue) {
+//    return getIntent().getIntExtra(key, defaultValue);
+//  }
+//
+//  //  TODO: Shouldn't this be deprecated in favour of args() ?
+//  public final Serializable getSerializableParam(String key) {
+//    return getIntent().getSerializableExtra(key);
+//  }
 
   private void setContent(int resId) {
     container.initNavigation(topNavigation, getSupportActionBar());
@@ -406,13 +414,17 @@ public class GActivity extends AppCompatActivity implements RichContainer {
     }
 
     public <T> IntentBuilder withArg(String key, T[] value) {
-      GLog.t(getClass(), "***WITH ARG: " + value);
       intent.putExtra(key, new GBundle.ArrayWrapper(value));
       return this;
     }
 
     public IntentBuilder withArg(String key, Serializable value) {
       intent.putExtra(key, value);
+      return this;
+    }
+
+    public IntentBuilder withArg(String key, List value) {
+      intent.putExtra(key, (Serializable) value);
       return this;
     }
 

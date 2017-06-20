@@ -17,14 +17,19 @@ import com.gani.lib.ui.style.Length;
 import com.gani.web.PathSpec;
 import com.gani.web.R;
 
-import static com.gani.web.htmlform.HTMLFormScreenHelper.FORM_PATH;
-import static com.gani.web.htmlform.HTMLFormScreenHelper.SUBMIT_LISTENER;
-
 public class HtmlFormFragment extends GFragment {
-//  private ComponentDetailController controller;
+  public static final String FORM_PATH = "form_path";
+  public static final String SUBMIT_LISTENER = "submit_listener";
+
+  public static Intent intent(Class<? extends GActivity> cls, PathSpec spec) {
+    Intent intent = new Intent(Ui.context(), cls);
+    intent.putExtra(FORM_PATH, spec.getPath());
+    intent.putExtra(SUBMIT_LISTENER, spec.getFormListener());
+    return intent;
+  }
 
   private static final int PADDING = Length.dpToPx(20);
-  private HTMLForm form;
+  private HtmlForm form;
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -32,22 +37,19 @@ public class HtmlFormFragment extends GFragment {
 
     LinearLayout containerLayout = (LinearLayout) fragmentLayout.findViewById(R.id.container);
     containerLayout.setPadding(PADDING, PADDING, PADDING, PADDING);
-//    controller = new ComponentDetailController(this, containerLayout);
 
     GBundle bundle = args();
     String path = bundle.getString(FORM_PATH);
-//    String className = bundle.getString(SUBMIT_LISTENER);
 
-//    LinearLayout linearLayout = (LinearLayout) findViewById(R.id.layout);
-//    HTMLForm htmlForm = new HTMLForm(this, linearLayout, App.ENDPOINT_URL + path);
-
-
-    this.form = new HTMLForm(this, containerLayout, GHttp.instance().baseUrl() + path);
-
-    form.setOnSubmitListener(((HTMLFormOnSubmitListener) bundle.getSerializable(SUBMIT_LISTENER)));
-
-    form.buildFields();
+    this.form = new HtmlForm(this, containerLayout, GHttp.instance().baseUrl() + path);
+    form.setOnSubmitListener(((HtmlFormOnSubmitListener) bundle.getSerializable(SUBMIT_LISTENER)));
 
     return fragmentLayout;
+  }
+
+  @Override
+  public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+    super.onActivityCreated(savedInstanceState);
+    form.buildFields();
   }
 }

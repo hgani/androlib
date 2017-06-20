@@ -4,7 +4,7 @@ import android.content.Context;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.gani.lib.screen.GFragment;
+import com.gani.lib.ui.icon.GIcon;
 
 public class GMenu {
   public static final int ORDER_UNIMPORTANT = 1000;
@@ -12,16 +12,25 @@ public class GMenu {
   public static final int ORDER_COMMON = 20;
 
   private Menu menu;
-  private Context context;
+//  private Context context;
 
+  public GMenu(Menu menu) {
+    this.menu = menu;
+  }
+
+  // For backward compatibility only
   public GMenu(Menu menu, Context context) {
     this.menu = menu;
-    this.context = context;
   }
 
-  public GMenu(Menu menu, GFragment fragment) {
-    this(menu, fragment.getContext());
-  }
+//  public GMenu(Menu menu, Context context) {
+//    this.menu = menu;
+//    this.context = context;
+//  }
+//
+//  public GMenu(Menu menu, GFragment fragment) {
+//    this(menu, fragment.getContext());
+//  }
 
   public boolean hasVisibleItems() {
     return menu.hasVisibleItems();
@@ -60,6 +69,20 @@ public class GMenu {
 //    return item;
 //  }
 
+  public MenuItem add(String str, GIcon icon, Integer showAsAction, OnClickListener listener) {
+    MenuItem item = menu.add(Menu.NONE, Menu.NONE, Menu.NONE, str);
+    if (showAsAction != null) {  // Not applicable for certain types of menu, e.g. popup menu.
+      item.setShowAsAction(showAsAction);
+    }
+    if (icon != null) {
+      item.setIcon(icon.drawable().actionBarSize());
+    }
+    if (listener != null) {
+      item.setOnMenuItemClickListener(listener);
+    }
+    return item;
+  }
+
   public MenuItem addSecondary(int strId, int order, OnClickListener listener) {
     MenuItem item = menu.add(Menu.NONE, Menu.NONE, Menu.CATEGORY_CONTAINER + ORDER_UNIMPORTANT + order, strId);
     item.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
@@ -84,32 +107,4 @@ public class GMenu {
 
     protected abstract void onClick(MenuItem menuItem);
   }
-
-
-
-//  public static abstract class AuthorizedOnClickListener extends OnClickListener {
-//    private Context context;
-//    private SigninOptionContext signinOptionContext;
-//
-//    protected AuthorizedOnClickListener(Context context, SigninOptionContext signinOptionContext) {
-//      this.context = context;
-//      this.signinOptionContext = signinOptionContext;
-//    }
-//
-//    protected AuthorizedOnClickListener(Context context) {
-//      this(context, SigninOptionContext.DEFAULT);
-//    }
-//
-//    @Override
-//    protected final void onClick(MenuItem menuItem) {
-//      if (Credential.getInstance().exists()) {
-//        authorizedOnMenuItemClick(menuItem);
-//      }
-//      else {
-//        LarvaeCheckOnClickListener.promptUnlockViaSignin(context, signinOptionContext);
-//      }
-//    }
-//
-//    protected abstract void authorizedOnMenuItemClick(MenuItem item);
-//  }
 }

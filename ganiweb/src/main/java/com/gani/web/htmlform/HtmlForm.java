@@ -292,6 +292,7 @@ public class HtmlForm {
         break;
       case SUBMIT_TYPE:
         GButton button = new GButton(mContext).size(ViewGroup.LayoutParams.MATCH_PARENT, null);
+        button.setTag(field.attr(NAME_ATTR));
         button.setText(field.val());
         button.setOnClickListener(new View.OnClickListener() {
           @Override

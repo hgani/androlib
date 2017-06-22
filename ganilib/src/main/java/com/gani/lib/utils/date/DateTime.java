@@ -45,4 +45,8 @@ public class DateTime {
   public Calendar getCalendar() {
     return calendar;
   }
+
+  public int getYear() {
+    return calendar.get(Calendar.YEAR);
+  }
 }

@@ -17,6 +17,8 @@ import com.gani.web.WebVisit;
 import java.net.URI;
 
 public abstract class GTurbolinks {
+  public static final String PENDING_TITLE = "";
+
   private GTurbolinksSupportActivity activity;
   private TurbolinksView view;
   private String url;
@@ -173,6 +175,15 @@ public abstract class GTurbolinks {
       public void visitCompleted() {
         GLog.t(getClass(), "TL visitCompleted: " + url);
 
+        // Put this here because onPageFinished() doesn't get called when redirection is involved.
+        if (PENDING_TITLE.equals(activity.getTitle())) {
+          String title = getWebView().getTitle();
+          Uri uri = Uri.parse(url);
+          // visitCompleted() gets called twice. Avoid setting title when it's called the first time because title is set to the URL.
+          if (!title.contains(uri.getHost())) {
+            activity.setTitle(title);
+          }
+        }
 //        // Execute later to ensure that the content has fully loaded/rendered to reduce jumpiness caused by height changing to 0 (content hasn't rendered) then to the real size (after content is rendered).
 //        Ui.run(new Runnable() {
 //          @Override

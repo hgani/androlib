@@ -144,6 +144,12 @@ public class GTextView<T extends GTextView> extends AppCompatTextView implements
     return this;
   }
 
+  public GTextView onClick(OnClickListener listener) {
+    helper.click(listener);
+    return this;
+  }
+
+  // NOTE: Deprecated
   public GTextView click(OnClickListener listener) {
     helper.click(listener);
     return this;

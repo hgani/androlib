@@ -2,6 +2,9 @@ package com.gani.web.htmlform;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.provider.Settings;
+import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 
@@ -16,6 +19,7 @@ import com.gani.lib.http.HttpMethod;
 import com.gani.lib.json.GJsonObject;
 import com.gani.lib.logging.GLog;
 import com.gani.lib.screen.GActivity;
+import com.gani.lib.ui.view.GButton;
 import com.gani.web.PathSpec;
 import com.gani.web.htmlform.field.HtmlCheckBox;
 import com.gani.web.htmlform.field.HtmlDataList;
@@ -49,6 +53,7 @@ public abstract class HtmlFormOnSubmit implements HtmlFormOnSubmitListener {
 
     for (int i = 0; i < form.getLayout().getChildCount(); i++) {
       String tag = (String) layout.getChildAt(i).getTag();
+      View field = layout.getChildAt(i);
 
       if (layout.getChildAt(i) instanceof HtmlEditText) {
         String value = ((HtmlEditText) layout.getChildAt(i)).getText().toString();
@@ -97,6 +102,10 @@ public abstract class HtmlFormOnSubmit implements HtmlFormOnSubmitListener {
             storeParams(params, tag, value);
           }
         }
+
+      } else if (field instanceof Button) {
+        String value = ((GButton) field).getText().toString();
+        storeParams(params, tag, value);
       }
     }
 

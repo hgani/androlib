@@ -11,20 +11,30 @@ import android.webkit.WebViewClient;
 import com.gani.lib.http.GImmutableParams;
 import com.gani.lib.logging.GLog;
 import com.gani.lib.screen.GFragment;
+import com.gani.lib.ui.ProgressIndicator;
+
+import static android.R.attr.fragment;
 
 //public class GWebView extends LinearLayout {
 public class GWebView extends WebView {
   private ViewHelper helper;
-  private GFragment fragment;
+//  private GFragment fragment;
+  private ProgressIndicator indicator;
 
 //  private ProgressBar progress;
 //  private TextView progress;
-
-  public GWebView(Context context, GFragment fragment) {
+  public GWebView(Context context, ProgressIndicator progress) {
     super(context);
     init();
-    this.fragment = fragment;
+//    this.fragment = fragment;
+    this.indicator = progress;
   }
+
+//  public GWebView(Context context, GFragment fragment) {
+//    super(context);
+//    init();
+//    this.fragment = fragment;
+//  }
 
   public GWebView(Context context, AttributeSet attrs) {
     super(context, attrs);
@@ -78,7 +88,7 @@ public class GWebView extends WebView {
       GLog.i(getClass(), "onPageStarted: " + url);
       super.onPageStarted(view, url, favicon);
 
-      fragment.showProgress();
+      indicator.showProgress();
     }
 
     @Override
@@ -86,7 +96,7 @@ public class GWebView extends WebView {
       GLog.i(getClass(), "onPageFinished: " + url);
       super.onPageFinished(view, url);
 
-      fragment.hideProgress();
+      indicator.hideProgress();
     }
 
 //    // This wasn't working on Android 5.1.1 last time it was tested, but it doesn't matter now that we use Turbolinks on newer OSes.

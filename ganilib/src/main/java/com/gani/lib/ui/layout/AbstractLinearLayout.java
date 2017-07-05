@@ -34,6 +34,10 @@ public class AbstractLinearLayout<T extends AbstractLinearLayout> extends Linear
     this.helper = new ViewHelper(this);
   }
 
+  public T self() {
+    return (T) this;
+  }
+
   public T size(Integer width, Integer height) {
 //    ViewGroup.LayoutParams params = getLayoutParams();
 //    if (width != null) {
@@ -80,8 +84,9 @@ public class AbstractLinearLayout<T extends AbstractLinearLayout> extends Linear
     return (T) this;
   }
 
-  public T bgColor(String color) {
-    return bgColor(Ui.color(color));
+  public T bgColor(String code) {
+    helper.bgColor(code);
+    return self();
   }
 
   public T bg(Drawable drawable) {
@@ -111,10 +116,6 @@ public class AbstractLinearLayout<T extends AbstractLinearLayout> extends Linear
   public T rtl() {
     ViewCompat.setLayoutDirection(this, ViewCompat.LAYOUT_DIRECTION_RTL);
     return self();
-  }
-
-  public T self() {
-    return (T) this;
   }
 
 //  public T layout(Integer width, Integer height) {

@@ -2,10 +2,13 @@ package com.gani.web;
 
 import android.net.Uri;
 
+import com.gani.lib.logging.GLog;
 import com.gani.lib.ui.Ui;
 import com.gani.web.htmlform.HtmlFormOnSubmitListener;
 
 import java.io.Serializable;
+
+import javax.microedition.khronos.opengles.GL;
 
 public class PathSpec implements Serializable {
   private String path;
@@ -45,5 +48,14 @@ public class PathSpec implements Serializable {
 
   public boolean matches(Uri uri) {
     return path.equals(uri.getPath());
+  }
+
+  // Needed for GScreenView's intent equality check.
+  @Override
+  public boolean equals(Object that) {
+    if (that instanceof PathSpec) {
+      return this.path.equals(((PathSpec) that).path);
+    }
+    return false;
   }
 }

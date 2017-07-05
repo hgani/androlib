@@ -1,29 +1,12 @@
 package com.gani.lib.ui.view;
 
 import android.content.Context;
-import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.AppCompatImageView;
-import android.text.SpannableString;
-import android.text.SpannableStringBuilder;
-import android.text.style.StyleSpan;
 import android.util.AttributeSet;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.gani.lib.ui.Ui;
-import com.gani.lib.ui.style.Length;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class GImageView extends AppCompatImageView {
   private ViewHelper helper;
@@ -53,7 +36,7 @@ public class GImageView extends AppCompatImageView {
 
   public GImageView imageUrl(String url) {
     if (url != null) {
-      Glide.with(getContext())
+      Glide.with(getContext().getApplicationContext()) //using application context prevents app crash when closing activity during image load
           .load(url)
           .into(this);
     }

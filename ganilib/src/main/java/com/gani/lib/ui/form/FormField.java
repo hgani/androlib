@@ -1,20 +1,13 @@
 package com.gani.lib.ui.form;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
-import android.support.v4.view.ViewCompat;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 //import com.clsreview.clsreview.R;
-import com.gani.lib.R;
-import com.gani.lib.ui.Ui;
 import com.gani.lib.ui.layout.AbstractHorizontalLayout;
-import com.gani.lib.ui.layout.AbstractLinearLayout;
-import com.gani.lib.ui.layout.HorizontalLayout;
 import com.gani.lib.ui.layout.VerticalLayout;
 import com.gani.lib.ui.view.GTextView;
 

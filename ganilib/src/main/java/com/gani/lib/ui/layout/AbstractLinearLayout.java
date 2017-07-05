@@ -2,6 +2,7 @@ package com.gani.lib.ui.layout;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
@@ -93,6 +94,26 @@ public class AbstractLinearLayout<T extends AbstractLinearLayout> extends Linear
 
     // Not sure why this doesn't work
 //    ViewCompat.setBackground(this, drawable);
+    return self();
+  }
+
+  public void setWeightOf(View child, int weight) {
+    LayoutParams params = (LayoutParams) child.getLayoutParams();
+    if (params == null) {
+      params = new LayoutParams(
+              ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+    }
+    params.width = 0;
+    params.weight = weight;
+    child.setLayoutParams(params);
+  }
+
+  public T rtl() {
+    ViewCompat.setLayoutDirection(this, ViewCompat.LAYOUT_DIRECTION_RTL);
+    return self();
+  }
+
+  public T self() {
     return (T) this;
   }
 

@@ -12,9 +12,10 @@
 
   <!-- Attach to the left of check box to ensure that the label's width doesn't exceed the available space and thus
        overlap with the checkbox -->
-  <com.gani.lib.ui.view.GTextView android:id="@+id/label_message"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+  <com.teamapp.teamapp.app.view.TaTextView
+      android:id="@+id/label_message"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
       android:layout_toLeftOf="@id/toggle_select"
       android:layout_marginLeft="@dimen/padding_large"
       android:layout_marginTop="@dimen/padding_small"

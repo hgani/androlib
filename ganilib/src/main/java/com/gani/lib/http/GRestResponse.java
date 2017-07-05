@@ -1,7 +1,6 @@
 package com.gani.lib.http;
 
 import com.gani.lib.json.GJsonObject;
-import com.google.gson.JsonObject;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -26,7 +25,12 @@ public class GRestResponse implements Serializable {
   
   protected JSONObject getJsonResult() throws JSONException {
     if (this.jsonResult == null) {
-      this.jsonResult = new JSONObject(jsonString);
+      if (jsonString != null) {
+        this.jsonResult = new JSONObject(jsonString);
+      }
+      else {
+        throw new JSONException("Null body");  // Unify NPE with JSONException
+      }
     }
     return this.jsonResult;
   }

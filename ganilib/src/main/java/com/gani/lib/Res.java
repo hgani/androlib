@@ -1,15 +1,16 @@
 package com.gani.lib;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.graphics.drawable.Drawable;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
 
-import com.gani.lib.logging.GLog;
 import com.gani.lib.prefs.Prefs;
 import com.gani.lib.ui.Ui;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -57,6 +58,16 @@ public class Res {
     reader.close();
 
     return out.toString();
+  }
+
+  public static JSONObject assetJsonObject(String path) throws JSONException {
+    try{
+      String jsonAsString = assetText(path);
+      return new JSONObject(jsonAsString);
+    }
+    catch(IOException e){
+      throw new JSONException(e.getMessage());
+    }
   }
 
   public static Drawable assetDrawable(String fileName) throws IOException {

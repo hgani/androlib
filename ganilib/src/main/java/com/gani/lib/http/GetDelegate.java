@@ -3,7 +3,6 @@ package com.gani.lib.http;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
-import java.net.URL;
 
 
 class GetDelegate extends HttpDelegate {
@@ -44,11 +43,15 @@ class GetDelegate extends HttpDelegate {
 
   @Override
   protected String getFullUrl() {
+    String url = getUrl();
+
     if (params.size() <= 0) {
-      return getUrl();
+      return url;
     }
-//    return getUrl() + "?" + UrlUtils.paramMapToString(params);
-    return getUrl() + "?" + params.toImmutable().asQueryString();
+
+    String separator = (url.contains("?")) ? "&" : "?";
+
+    return url + separator + params.toImmutable().asQueryString();
   }
   
 //  static HttpURLConnection makeConnection(String url) throws MalformedURLException, IOException {

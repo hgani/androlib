@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.gani.lib.R;
 import com.gani.lib.ui.Ui;
 import com.gani.lib.ui.style.Length;
 
@@ -70,8 +71,19 @@ public class GImageView extends AppCompatImageView {
     return this;
   }
 
+  // NOTE: Deprecated
   public GImageView background(int color) {
     setBackgroundColor(color);
+    return this;
+  }
+
+  public GImageView bgColor(int res) {
+    helper.bgColor(res);
+    return this;
+  }
+
+  public GImageView bg(int res) {
+    helper.bg(res);
     return this;
   }
 

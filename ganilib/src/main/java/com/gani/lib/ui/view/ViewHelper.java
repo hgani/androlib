@@ -1,5 +1,6 @@
 package com.gani.lib.ui.view;
 
+import android.support.v4.view.ViewCompat;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -149,7 +150,20 @@ public class ViewHelper {
   }
 
 
+  public void bgColor(int res) {
+    view.setBackgroundColor(res);
+  }
+
   public void bgColor(String code) {
     view.setBackgroundColor(Ui.color(code));
+  }
+
+  public void bg(int res) {
+    int sdk = android.os.Build.VERSION.SDK_INT;
+    if(sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+      view.setBackgroundDrawable(drawable);
+    } else {
+      view.setBackground(drawable);
+    }
   }
 }

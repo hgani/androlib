@@ -6,6 +6,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.gani.lib.logging.GLog;
+import com.gani.lib.ui.Ui;
 import com.gani.lib.ui.style.Length;
 
 import static android.R.attr.width;
@@ -145,5 +146,10 @@ public class ViewHelper {
 
   public void click(View.OnClickListener listener) {
     view.setOnClickListener(listener);
+  }
+
+
+  public void bgColor(String code) {
+    view.setBackgroundColor(Ui.color(code));
   }
 }

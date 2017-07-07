@@ -84,11 +84,11 @@ public class GTextView<T extends GTextView> extends AppCompatTextView implements
 
   public GTextView background(String code) {
 //    setBackgroundColor(Ui.color(code));
-    background(Ui.color(code));
+    bgColor(Ui.color(code));
     return this;
   }
 
-  public GTextView background(int color) {
+  public GTextView bgColor(int color) {
     setBackgroundColor(color);
     return this;
   }
@@ -174,7 +174,7 @@ public class GTextView<T extends GTextView> extends AppCompatTextView implements
     public void init(GTextView textView) {
       Integer backgroundColor = backgroundColor();
       if (backgroundColor != null) {
-        textView.background(backgroundColor);
+        textView.bgColor(backgroundColor);
       }
 
       Integer color = color();

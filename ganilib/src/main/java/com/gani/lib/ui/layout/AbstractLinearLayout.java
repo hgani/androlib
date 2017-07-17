@@ -4,12 +4,10 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
-import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
-import com.gani.lib.ui.Ui;
 import com.gani.lib.ui.view.ViewHelper;
 
 public class AbstractLinearLayout<T extends AbstractLinearLayout> extends LinearLayout {
@@ -60,6 +58,16 @@ public class AbstractLinearLayout<T extends AbstractLinearLayout> extends Linear
 //    setLayoutParams(params);
 
     helper.size(width, height);
+    return (T) this;
+  }
+
+  public T vertical(){
+    this.setOrientation(LinearLayout.VERTICAL);
+    return (T) this;
+  }
+
+  public T horizontal(){
+    this.setOrientation(LinearLayout.HORIZONTAL);
     return (T) this;
   }
 

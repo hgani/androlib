@@ -4,15 +4,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 
 public abstract class GJsonArray<JO extends GJsonObject> implements Iterable<JO> {
   private JO[] elements;
-
-//  public GJsonArray(JO element) throws JSONException {
-//    this(new JO[] { element });
-//  }
 
   protected GJsonArray(String str) throws JSONException {
     this(new JSONArray(str));
@@ -22,13 +21,26 @@ public abstract class GJsonArray<JO extends GJsonObject> implements Iterable<JO>
     this.elements = elements;
   }
 
-  public GJsonArray(JSONArray backend) throws JSONException {
-//    this.elements = new GJsonObject[backend.length()];
-    this.elements = createArray(backend.length());
-    for (int i = 0; i < elements.length; ++i) {
-//      elements[i] = new GJsonObject(backend.getJSONObject(i));
-      elements[i] = createObject(backend.getJSONObject(i));
+  public GJsonArray(JSONArray backend) {
+    List<JSONObject> temp = new ArrayList<>();
+    for (int i = 0; i < backend.length(); ++i) {
+      try {
+        temp.add(backend.getJSONObject(i));
+      }
+      catch (JSONException e) {
+        // This shouldn't happen.
+      }
     }
+
+    this.elements = createArray(temp.size());
+    for (int i = 0; i < temp.size(); ++i) {
+      elements[i] = createObject(temp.get(i));
+    }
+
+//    for (int i = 0; i < elements.length; ++i) {
+////      elements[i] = new GJsonObject(backend.getJSONObject(i));
+//      elements[i] = createObject(backend.getJSONObject(i));
+//    }
   }
 
   protected abstract JO[] createArray(int length);
@@ -45,6 +57,10 @@ public abstract class GJsonArray<JO extends GJsonObject> implements Iterable<JO>
   @Override
   public String toString() {
     return Arrays.toString(elements);
+  }
+
+  public List<JO> toList() {
+    return new LinkedList<>(Arrays.asList(elements));
   }
 
   public Iterator<JO> iterator() {
@@ -88,7 +104,7 @@ public abstract class GJsonArray<JO extends GJsonObject> implements Iterable<JO>
       super(str);
     }
 
-    public Default(JSONArray array) throws JSONException {
+    public Default(JSONArray array) {
       super(array);
     }
 

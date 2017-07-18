@@ -35,7 +35,7 @@ public abstract class GJsonObject<JO extends GJsonObject, JA extends GJsonArray>
     return createArray(getRawArray(name));
   }
 
-  protected abstract JA createArray(JSONArray array) throws JSONException;
+  protected abstract JA createArray(JSONArray array);
 
   @NonNull
   private JSONArray getRawArray(String name) throws JSONException  {
@@ -133,6 +133,16 @@ public abstract class GJsonObject<JO extends GJsonObject, JA extends GJsonArray>
     return backend.getString(name);
   }
 
+  @NonNull
+  public String getString(String name, String defaultValue) {
+    try {
+      return backend.getString(name);
+    }
+    catch (JSONException e) {
+      return defaultValue;
+    }
+  }
+
   @Nullable
   public String getNullableString(String name) {
     try {
@@ -186,6 +196,16 @@ public abstract class GJsonObject<JO extends GJsonObject, JA extends GJsonArray>
     }
     catch (JSONException e) {
       return null;
+    }
+  }
+
+  @NonNull
+  public int getInt(String name, int defaultValue) {
+    try {
+      return backend.isNull(name) ? defaultValue : getInt(name);
+    }
+    catch (JSONException e) {
+      return defaultValue;
     }
   }
 
@@ -271,6 +291,16 @@ public abstract class GJsonObject<JO extends GJsonObject, JA extends GJsonArray>
     }
   }
 
+  @NonNull
+  public JA getArray(String name, JA defaultValue) {
+    try {
+      return backend.isNull(name) ? defaultValue : getArray(name);
+    }
+    catch (JSONException e) {
+      return defaultValue;
+    }
+  }
+
   @Override
   @NonNull
   public String toString() {
@@ -289,7 +319,7 @@ public abstract class GJsonObject<JO extends GJsonObject, JA extends GJsonArray>
     }
 
     @Override
-    protected GJsonArray.Default createArray(JSONArray array) throws JSONException {
+    protected GJsonArray.Default createArray(JSONArray array) {
       return new GJsonArray.Default(array);
     }
 

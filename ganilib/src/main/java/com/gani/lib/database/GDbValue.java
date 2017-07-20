@@ -34,6 +34,10 @@ public class GDbValue {
     TABLE_HELPER.deleteRows(new String[] { COLUMN_KEY }, new String[] { key });
   }
 
+  public static void clear(){
+    TABLE_HELPER.deleteRows(new String[] { }, new String[] { });
+  }
+
   public static String getString(String key) {
     return get(key, new TypeToken<String>() {});
 //    GDbCursor cursor = TABLE_HELPER.query(new String[] { COLUMN_KEY }, new String[] { key });

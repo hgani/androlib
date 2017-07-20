@@ -101,6 +101,11 @@ public abstract class GJsonObject<JO extends GJsonObject, JA extends GJsonArray>
     };
   }
 
+  public boolean isEmpty() {
+    return backend.names().length() <= 0;
+  }
+
+
   // TODO: Deprecate. As much as possible, use getImage()
 //  public String getImageUrl(String name) throws JSONException {
 //    return ImageGetRequest.toImageUrl(getString(name));

@@ -1,6 +1,5 @@
 package com.gani.lib.ui.layout;
 
-import android.view.Gravity;
 import android.widget.LinearLayout;
 
 import com.gani.lib.ui.style.Length;
@@ -21,6 +20,11 @@ public class GLayoutParams<T extends GLayoutParams> extends LinearLayout.LayoutP
 
   public T height(int height) {
     this.height = Length.dpToPx(height);
+    return self();
+  }
+
+  public T margins(int left, int top, int right, int bottom){
+    super.setMargins(Length.dpToPx(left), Length.dpToPx(top), Length.dpToPx(right), Length.dpToPx(bottom));
     return self();
   }
 }

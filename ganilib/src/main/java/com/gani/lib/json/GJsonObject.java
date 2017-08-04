@@ -4,14 +4,20 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.gani.lib.ui.Ui;
+import com.google.gson.internal.bind.util.ISO8601Utils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.ParsePosition;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+
+import static android.R.attr.defaultValue;
 
 public abstract class GJsonObject<JO extends GJsonObject, JA extends GJsonArray> {
   protected JSONObject backend;
@@ -303,6 +309,25 @@ public abstract class GJsonObject<JO extends GJsonObject, JA extends GJsonArray>
     }
     catch (JSONException e) {
       return defaultValue;
+    }
+  }
+
+  @NonNull
+  public Date getDate(String name) throws JSONException {
+    try {
+      return ISO8601Utils.parse(getString(name), new ParsePosition(0));
+    }
+    catch (ParseException e) {
+      throw new JSONException(e.getLocalizedMessage());
+    }
+  }
+  @Nullable
+  public Date getNullableDate(String name) {
+    try {
+      return backend.isNull(name) ? null : getDate(name);
+    }
+    catch (JSONException e) {
+      return null;
     }
   }
 

@@ -9,7 +9,6 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 
 import com.gani.lib.R;
-import com.gani.lib.logging.GLog;
 import com.gani.lib.screen.GActivity;
 import com.gani.lib.ui.Ui;
 
@@ -18,10 +17,6 @@ import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
-
-import static android.R.attr.id;
-import static android.app.Activity.RESULT_OK;
-import static com.gani.lib.select.FragmentItemSelect.RETURN_ITEMS;
 
 public class ItemSelectScreenHelper<I extends SelectableItem, T extends SelectGroup.Tab> {
   static final String PARAM_SELECTED_ITEMS = "selectedItems";
@@ -56,6 +51,11 @@ public class ItemSelectScreenHelper<I extends SelectableItem, T extends SelectGr
 
 //    onCreate(savedInstanceState);
     activity.setFragmentWithToolbar(fragment, false, savedInstanceState);
+  }
+
+  public ItemSelectScreenHelper(Bundle savedInstanceState, boolean multiselect) {
+    this.multiselect = multiselect;
+    this.selectedItems = (LinkedHashSet<I>) savedInstanceState.getSerializable(BUNDLE_SELECTED_ITEMS);
   }
 
 //  protected ItemSelectScreenHelper(FragmentItemSelect<I, T> fragment) {

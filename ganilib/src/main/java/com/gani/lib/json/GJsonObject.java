@@ -102,6 +102,9 @@ public abstract class GJsonObject<JO extends GJsonObject, JA extends GJsonArray>
   }
 
   public boolean isEmpty() {
+    if(backend.names() == null){
+      return true;
+    }
     return backend.names().length() <= 0;
   }
 

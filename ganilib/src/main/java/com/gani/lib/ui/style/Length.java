@@ -28,8 +28,12 @@ public class Length {
     return (size.x > size.y) ? size.x : size.y;
   }
 
-  public static int windowWidth() {
+  public static int windowWidthDP() {
     return pxToDp(windowRawSize().x);
+  }
+
+  public static int windowWidthPX(){
+    return windowRawSize().x;
   }
 
   public static int windowHeight() {

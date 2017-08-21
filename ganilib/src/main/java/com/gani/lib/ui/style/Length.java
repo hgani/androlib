@@ -39,4 +39,8 @@ public class Length {
   public static int windowHeight() {
     return pxToDp(windowRawSize().y);
   }
+
+  public static int windowHeightPx(){
+    return windowRawSize().y;
+  }
 }

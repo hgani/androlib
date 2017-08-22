@@ -8,33 +8,24 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import com.gani.lib.http.GHttp;
 import com.gani.lib.http.GImmutableParams;
 import com.gani.lib.logging.GLog;
 import com.gani.lib.screen.GFragment;
 import com.gani.lib.ui.ProgressIndicator;
 
 import static android.R.attr.fragment;
+import static org.jsoup.nodes.Document.OutputSettings.Syntax.html;
 
-//public class GWebView extends LinearLayout {
 public class GWebView extends WebView {
   private ViewHelper helper;
-//  private GFragment fragment;
   private ProgressIndicator indicator;
 
-//  private ProgressBar progress;
-//  private TextView progress;
   public GWebView(Context context, ProgressIndicator progress) {
     super(context);
     init();
-//    this.fragment = fragment;
     this.indicator = progress;
   }
-
-//  public GWebView(Context context, GFragment fragment) {
-//    super(context);
-//    init();
-//    this.fragment = fragment;
-//  }
 
   public GWebView(Context context, AttributeSet attrs) {
     super(context, attrs);
@@ -43,8 +34,6 @@ public class GWebView extends WebView {
   
   private void init() {
     this.helper = new ViewHelper(this);
-
-
 
 //    size(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 
@@ -78,6 +67,11 @@ public class GWebView extends WebView {
 
   public GWebView load(String url) {
     return load(url, null);
+  }
+
+  public GWebView loadHtml(String html, String baseUrl) {
+    loadDataWithBaseURL(baseUrl, html, "text/html", "utf-8", null);
+    return this;
   }
 
 

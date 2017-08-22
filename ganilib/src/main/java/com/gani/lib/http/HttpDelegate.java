@@ -92,7 +92,6 @@ abstract class HttpDelegate implements Serializable {
     String redirectUrl = connection.getHeaderField("Location");
     GLog.d(getClass(), "Redirected to url: " + redirectUrl);
     return GHttp.instance().openConnection(redirectUrl, GParams.create(), HttpMethod.GET);
-//    return GetDelegate.makeConnection(redirectUrl);
   }
 
 
@@ -110,9 +109,6 @@ abstract class HttpDelegate implements Serializable {
         return null;
       }
     };
-//    if (connection != null) {
-//      connection.disconnect();
-//    }
   }
 
   final synchronized void cancel() {

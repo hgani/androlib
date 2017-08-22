@@ -2,6 +2,9 @@ package com.gani.lib.http;
 
 import android.net.Uri;
 
+import com.gani.lib.json.GJsonObject;
+import com.gani.lib.logging.GLog;
+
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
@@ -16,7 +19,7 @@ public abstract class GParams<PB extends GParams, IP extends GImmutableParams> i
   }
 
   protected GParams(Map<String, Object> initialData) {
-    this.paramMap = new HashMap<String, Object>();
+    this.paramMap = new HashMap<>();
     paramMap.putAll(initialData);
   }
   
@@ -33,7 +36,17 @@ public abstract class GParams<PB extends GParams, IP extends GImmutableParams> i
     return put(name, nullSafeString(value));
   }
 
+  public PB put(String name, Boolean value) {
+    return put(name, nullSafeString(value));
+  }
+
   public PB put(String name, Integer value) {
+    return put(name, nullSafeString(value));
+  }
+
+  public PB put(String name, GJsonObject value) {
+//    return put(name,  (value == null) ? null : UrlUtils.encodeUrl(value.toString()));
+    GLog.t(getClass(), "VALUE: " + value);
     return put(name, nullSafeString(value));
   }
 

@@ -3,6 +3,7 @@ package com.gani.lib.json;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.gani.lib.logging.GLog;
 import com.gani.lib.ui.Ui;
 import com.google.gson.internal.bind.util.ISO8601Utils;
 
@@ -21,6 +22,10 @@ import static android.R.attr.defaultValue;
 
 public abstract class GJsonObject<JO extends GJsonObject, JA extends GJsonArray> {
   protected JSONObject backend;
+
+  protected GJsonObject() {
+    this(new JSONObject());
+  }
 
   protected GJsonObject(GJsonObject object) {
     this(object.backend);
@@ -58,14 +63,36 @@ public abstract class GJsonObject<JO extends GJsonObject, JA extends GJsonArray>
     return elements;
   }
 
+  @Nullable
   public String[] getNullableStringArray(String name) throws JSONException{
     try {
-      JSONArray arr = backend.getJSONArray(name);
-      String[] elements = new String[arr.length()];
-      for (int i = 0; i < elements.length; ++i) {
-        elements[i] = arr.getString(i);
-      }
-      return elements;
+//      JSONArray arr = backend.getJSONArray(name);
+//      String[] elements = new String[arr.length()];
+//      for (int i = 0; i < elements.length; ++i) {
+//        elements[i] = arr.getString(i);
+//      }
+//      return elements;
+      return getStringArray(name);
+    }
+    catch(JSONException e){
+      return null;
+    }
+  }
+
+  @NonNull
+  public int[] getIntArray(String name) throws JSONException {
+    JSONArray arr = backend.getJSONArray(name);
+    int[] elements = new int[arr.length()];
+    for (int i = 0; i < elements.length; ++i) {
+      elements[i] = arr.getInt(i);
+    }
+    return elements;
+  }
+
+  @Nullable
+  public int[] getNullableIntArray(String name) {
+    try {
+      return getIntArray(name);
     }
     catch(JSONException e){
       return null;
@@ -113,24 +140,6 @@ public abstract class GJsonObject<JO extends GJsonObject, JA extends GJsonArray>
     }
     return backend.names().length() <= 0;
   }
-
-
-  // TODO: Deprecate. As much as possible, use getImage()
-//  public String getImageUrl(String name) throws JSONException {
-//    return ImageGetRequest.toImageUrl(getString(name));
-//  }
-
-//  public Image getImage(String name) throws JSONException {
-//    return Image.fromKey(getString(name));
-//  }
-//
-//  public Image getImage(String name) throws JSONException {
-//    return backend.isNull(name) ? null : Image.fromKey(getString(name));
-//  }
-//
-//  public Images getImages(String name) throws JSONException {
-//    return Images.fromJson(getStringArray(name));
-//  }
 
   @NonNull
   public List<Long> getLongs(String name) throws JSONException {
@@ -252,34 +261,6 @@ public abstract class GJsonObject<JO extends GJsonObject, JA extends GJsonArray>
       return null;
     }
   }
-//
-//  private String expandColorIfNecessary(String code) {
-//    if (code.length() == 3) {
-//      String result = "";
-//      for (char c : code.toCharArray()) {
-//        result += ("" + c + c);
-//      }
-//      return result;
-//    }
-//    return code;
-//  }
-//
-//  @Nullable
-//  public Integer getNullableColor(String name) {
-//    String code = getNullableString(name);
-//    if (code != null) {
-//      if (code.startsWith("#")) {
-//        code = "#" + expandColorIfNecessary(code.substring(1));
-//      }
-//      try {
-//        return Color.parseColor(code);
-//      }
-//      catch (IllegalArgumentException e) {
-//        // Do nothing
-//      }
-//    }
-//    return null;
-//  }
 
   @Nullable
   public Integer getNullableColor(String name) {
@@ -324,6 +305,7 @@ public abstract class GJsonObject<JO extends GJsonObject, JA extends GJsonArray>
       throw new JSONException(e.getLocalizedMessage());
     }
   }
+
   @Nullable
   public Date getNullableDate(String name) {
     try {
@@ -332,6 +314,33 @@ public abstract class GJsonObject<JO extends GJsonObject, JA extends GJsonArray>
     catch (JSONException e) {
       return null;
     }
+  }
+
+  private JO self() {
+    return (JO) this;
+  }
+
+//  public JO put(String name, String value) {
+//    try {
+//      backend.put(name, value);
+//    }
+//    catch (JSONException e) {
+//      GLog.e(getClass(), "Failed adding value to JSON", e);
+//    }
+//    return self();
+//  }
+
+  public JO put(String name, Object value) {
+    try {
+      if (value instanceof GJsonObject) {
+        value = ((GJsonObject) value).backend;
+      }
+      backend.put(name, value);
+    }
+    catch (JSONException e) {
+      GLog.e(getClass(), "Failed adding value to JSON", e);
+    }
+    return self();
   }
 
   @Override

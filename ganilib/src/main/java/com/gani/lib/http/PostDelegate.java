@@ -9,13 +9,11 @@ final class PostDelegate extends HttpDelegate {
   private static final long serialVersionUID = 1L;
 
   private HttpMethod method;
-//  private Map<String, Object> params;
   private GParams params;
 
   PostDelegate(String nakedUrl, GImmutableParams params, HttpHook hook, HttpMethod method) {
     super(nakedUrl, hook);
     this.method = method;
-//    this.params = ConnectionPreparator.nonNullMutable(params);
     this.params = GParams.fromNullable(params);
   }
   

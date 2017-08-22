@@ -15,14 +15,13 @@ public class GHttpResponse<RR extends GRestResponse> implements Serializable {
   
   private byte[] binary;
   private String string;
-//  private GRestResponse restReponse;
   private RR restReponse;
   private String url;
   private GHttpError error;
+  private Integer code;  // Could be null, e.g. if network times out
 
   protected GHttpResponse(String url) {
     this.url = url;
-//    this.error = new GHttpError(this);
     this.error = createError();
   }
   
@@ -42,6 +41,14 @@ public class GHttpResponse<RR extends GRestResponse> implements Serializable {
     return error.hasError();
   }
 
+  public void setCode(int code) {
+    this.code = code;
+  }
+
+  public int getCode() {
+    return code;
+  }
+
   public byte[] asBinary() {
     return binary;
   }
@@ -52,11 +59,8 @@ public class GHttpResponse<RR extends GRestResponse> implements Serializable {
   
   public RR asRestResponse() {
     if (restReponse == null) {
-      //GLog.d(getClass(), "Result of " + url + ": " + string);
-//      restReponse = new GRestResponse(string, this);
       restReponse = createRestResponse(string);
     }
-    //GLog.d(getClass(), "REST RESPONSE1: " + restReponse + " -- " + string);
     return restReponse;
   }
 
@@ -72,6 +76,7 @@ public class GHttpResponse<RR extends GRestResponse> implements Serializable {
 
   void extractFrom(HttpURLConnection connection) throws IOException {
     int code = connection.getResponseCode();
+    setCode(code);
 //    if (code == HttpURLConnection.HTTP_OK) {
     if (code < 300) {  // Includes the standard 200, the less common 201, etc.
       this.binary = readByteArray(connection.getInputStream(),
@@ -82,10 +87,8 @@ public class GHttpResponse<RR extends GRestResponse> implements Serializable {
       GLog.t(getClass(), "HTTP Code: " + code);
       error.markForCode(code);
 
-      GLog.t(getClass(), "Reading data1 ... ");
       this.binary = readByteArray(connection.getErrorStream(),
           getContentLengthForBufferring(connection));
-      GLog.t(getClass(), "Reading data2 ... ");
       this.string = new String(binary);
       GLog.t(getClass(), "Finished reading data: " + string);
     }

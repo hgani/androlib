@@ -2,6 +2,7 @@ package com.gani.lib.utils.date;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.Locale;
 
 public class DateTime {
   private Calendar calendar;
@@ -48,5 +49,11 @@ public class DateTime {
 
   public int getYear() {
     return calendar.get(Calendar.YEAR);
+  }
+
+  public int getHour() { return calendar.get(Calendar.HOUR_OF_DAY); }
+
+  public String getShortDayOfWeek() {
+    return calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.SHORT, Locale.US);
   }
 }

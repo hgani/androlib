@@ -21,26 +21,14 @@ public class GHttpError<HR extends GHttpResponse> implements Serializable {
   }
 
   private HR response;
-  //  private String url;
   private String message;
   private ErrorType type;
   private Integer code;
 
-//  public GHttpError(String url) {
-////    this.type = null;
-////    this.url = url;
-//    this(GHttp.instance().createHttpResponse(url));
-//  }
-
   public GHttpError(HR response) {
-//    this(response.getUrl());
     this.type = null;
     this.response = response;
   }
-//
-//  String getUrl() {
-//    return url;
-//  }
 
   String getUrl() {
     return response.getUrl();

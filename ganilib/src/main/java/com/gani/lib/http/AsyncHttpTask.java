@@ -44,7 +44,7 @@ public class AsyncHttpTask extends AsyncTask<Void, Void, GHttpResponse> {
 
   public synchronized void secondPhaseExecute() {
     if (!isCancelled()) {
-      execute();
+      executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
   }
 

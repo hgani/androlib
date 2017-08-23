@@ -19,8 +19,8 @@ public class AsyncHttpTask extends AsyncTask<Void, Void, GHttpResponse> {
   private static final BlockingQueue<Runnable> QUEUE = new LinkedBlockingQueue<Runnable>(128);
 
   private static final int MAXIMUM_POOL_SIZE = 20;
-  // For some reason, new threads don't seem to get added as we run out of threads. We'll still get stuck if there
-  // are a few long running requests. So we just set core size to be the maximum right from the beginning.
+  // New threads only get added when the queue is full, so we just set core size to be the maximum right from the beginning.
+  // See https://stackoverflow.com/questions/19528304/how-to-get-the-threadpoolexecutor-to-increase-threads-to-max-before-queueing
   private static final int CORE_POOL_SIZE = MAXIMUM_POOL_SIZE;
 
   public static final Executor THREAD_POOL_EXECUTOR;

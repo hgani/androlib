@@ -77,21 +77,25 @@ public class GHttpResponse<RR extends GRestResponse> implements Serializable {
   void extractFrom(HttpURLConnection connection) throws IOException {
     int code = connection.getResponseCode();
     setCode(code);
-//    if (code == HttpURLConnection.HTTP_OK) {
-    if (code < 300) {  // Includes the standard 200, the less common 201, etc.
-      this.binary = readByteArray(connection.getInputStream(),
-          getContentLengthForBufferring(connection));
-      this.string = new String(binary);
-    }
-    else {
+
+    // Redirection (e.g. 300) should have been handled prior, so we consider anything below 300 a "success".
+    if (code > 300) {
       GLog.t(getClass(), "HTTP Code: " + code);
       error.markForCode(code);
-
-      this.binary = readByteArray(connection.getErrorStream(),
-          getContentLengthForBufferring(connection));
-      this.string = new String(binary);
-      GLog.t(getClass(), "Finished reading data: " + string);
     }
+
+    InputStream inputStream = connection.getInputStream();
+    if (inputStream == null) {
+      inputStream = connection.getErrorStream();
+    }
+
+    if (inputStream == null) {  // Not sure if this will happen ever, but just a safe guard especially since we're dealing with API.
+      this.binary = new byte[0];
+    }
+    else {
+      this.binary = readByteArray(inputStream, getContentLengthForBufferring(connection));
+    }
+    this.string = new String(binary);
   }
   
   void handle(GHttpCallback callback) {

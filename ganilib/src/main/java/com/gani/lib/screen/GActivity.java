@@ -328,10 +328,11 @@ public class GActivity extends AppCompatActivity implements RichContainer {
 
   public static final int PERMISSION_LOCATION = 40000;
 
+  // NOTE: This method also gets called when the user says no.
   public void onRequestPermissionsResult(int reqCode, String permissions[], int[] results) {
     switch (reqCode) {
       case PERMISSION_LOCATION: {
-        LocationManager.instance().fetchFusedLocation(this);
+        LocationManager.instance().updateLocationSilently(this);
         return;
       }
       default:

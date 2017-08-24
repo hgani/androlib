@@ -39,6 +39,20 @@ public class LocationManager {
     return INSTANCE;
   }
 
+  public Double getLatitude() {
+    if (location == null) {
+      return null;
+    }
+    return location.getLatitude();
+  }
+
+  public Double getLongitude() {
+    if (location == null) {
+      return null;
+    }
+    return location.getLongitude();
+  }
+
   public void updateLocation(GActivity activity) {
     if (!updateLocationSilently(activity)) {
       ActivityCompat.requestPermissions(activity, new String[] { PERMISSION }, GActivity.PERMISSION_LOCATION);
@@ -59,7 +73,7 @@ public class LocationManager {
     return ContextCompat.checkSelfPermission(Ui.context(), PERMISSION) == PackageManager.PERMISSION_GRANTED;
   }
 
-  public void fetchFusedLocation(GActivity activity) {
+  private void fetchFusedLocation(GActivity activity) {
     GLog.t(getClass(), "fetchFusedLocation3");
 
     FusedLocationProviderClient client = LocationServices.getFusedLocationProviderClient(activity);

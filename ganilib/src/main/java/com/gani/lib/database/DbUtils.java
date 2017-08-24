@@ -57,7 +57,9 @@ public class DbUtils {
     if (whereArgs != null) {
       selectionArgList = new ArrayList<>(whereArgs.length);
       for (Object selectionArg : whereArgs) {
-        selectionArgList.add(selectionArg.toString());
+        if(selectionArg != null) {
+          selectionArgList.add(selectionArg.toString());
+        }
       }
       return selectionArgList.toArray(new String[selectionArgList.size()]);
     }

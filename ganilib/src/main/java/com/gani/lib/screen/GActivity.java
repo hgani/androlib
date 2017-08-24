@@ -1,10 +1,17 @@
 package com.gani.lib.screen;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -23,9 +30,16 @@ import com.gani.lib.logging.GLog;
 import com.gani.lib.model.GBundle;
 import com.gani.lib.ui.ProgressIndicator;
 import com.gani.lib.ui.Ui;
+import com.gani.lib.utils.LocationManager;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 
 import java.io.Serializable;
 import java.util.List;
+
+import static android.R.attr.permission;
 
 public class GActivity extends AppCompatActivity implements RichContainer {
   protected Tracker tracker;
@@ -190,29 +204,10 @@ public class GActivity extends AppCompatActivity implements RichContainer {
     return (Button) findViewById(resId);
   }
 
-//  //  TODO: Shouldn't this be deprecated in favour of args() ?
-//  public final String getStringParam(String key) {
-//    return getIntent().getStringExtra(key);
-//  }
-//
-//  //  TODO: Shouldn't this be deprecated in favour of args() ?
-//  public final int getIntParam(String key, int defaultValue) {
-//    return getIntent().getIntExtra(key, defaultValue);
-//  }
-//
-//  //  TODO: Shouldn't this be deprecated in favour of args() ?
-//  public final Serializable getSerializableParam(String key) {
-//    return getIntent().getSerializableExtra(key);
-//  }
-
   private void setContent(int resId) {
     container.initNavigation(topNavigation, getSupportActionBar());
     container.setBody(resId);
   }
-
-//  protected View findBodyView(int resId) {
-//    return container.findViewById(resId);
-//  }
 
   public void setContentWithToolbar(int resId, boolean topNavigation) {
     this.topNavigation = topNavigation;
@@ -329,13 +324,25 @@ public class GActivity extends AppCompatActivity implements RichContainer {
 
 
 
-//  // TODO: Deprecated
-//  // Default implementation of HasUp interface. Be careful in overriding this when using dirty checking.
-//  // Returning a value other than null would create a bug because the non-null class would cause a corresponding Activity to be created
-//  // when up is pressed, defeating dirty checking in this class.
-//  public Intent getUpIntent() {
-//    return null;
-//  }
+  ///// Permission /////
+
+  public static final int PERMISSION_LOCATION = 40000;
+
+  // NOTE: This method also gets called when the user says no.
+  public void onRequestPermissionsResult(int reqCode, String permissions[], int[] results) {
+    switch (reqCode) {
+      case PERMISSION_LOCATION: {
+        LocationManager.instance().updateLocationSilently(this);
+        return;
+      }
+      default:
+        // Nothing to do
+    }
+  }
+
+  /////
+
+
 
   // This is a last resort indicator that should be used only when at the time, there's no better simple solution.
   public ProgressIndicator getGenericProgressIndicator() {

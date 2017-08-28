@@ -39,6 +39,10 @@ public class LocationManager {
     return INSTANCE;
   }
 
+  public Location getLocation() {
+    return location;
+  }
+
   public Double getLatitude() {
     if (location == null) {
       return null;

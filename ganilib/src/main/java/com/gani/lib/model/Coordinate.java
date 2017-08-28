@@ -1,5 +1,7 @@
 package com.gani.lib.model;
 
+import android.location.Location;
+
 import com.google.android.gms.maps.model.LatLng;
 
 import java.io.Serializable;
@@ -14,7 +16,22 @@ public class Coordinate implements Serializable {
     this.longitude = longitude;
   }
 
+  public double getLatitude() {
+    return latitude;
+  }
+
+  public double getLongitude() {
+    return longitude;
+  }
+
   public LatLng toLatLng() {
     return new LatLng(latitude, longitude);
+  }
+
+  public Location toLocation() {
+    Location location = new Location("");
+    location.setLatitude(latitude);
+    location.setLongitude(longitude);
+    return location;
   }
 }

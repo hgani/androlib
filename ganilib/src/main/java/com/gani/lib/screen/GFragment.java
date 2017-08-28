@@ -96,14 +96,16 @@ public class GFragment extends Fragment implements RichContainer, ProgressIndica
   public void showProgress() {
     // Use post() so that this works when called from onCreateForScreen(), which is a common scenario (i.e. auto-populating list view)
     // See http://www.androidhive.info/2015/05/android-swipe-down-to-refresh-listview-tutorial/
-    getRefreshView().post(new Runnable() {
-      @Override
-      public void run() {
-        if (getView() != null) {  // Still on-screen
-          getRefreshView().setRefreshing(true);
+    if(getRefreshView() != null) {
+      getRefreshView().post(new Runnable() {
+        @Override
+        public void run() {
+          if (getView() != null) {  // Still on-screen
+            getRefreshView().setRefreshing(true);
+          }
         }
-      }
-    });
+      });
+    }
   }
 
   public void hideProgress() {
@@ -120,7 +122,13 @@ public class GFragment extends Fragment implements RichContainer, ProgressIndica
   }
 
   private SwipeRefreshLayout getRefreshView() {
-    return ((SwipeRefreshLayout) getView().findViewById(R.id.layout_refresh));
+    try {
+      return ((SwipeRefreshLayout) getView().findViewById(R.id.layout_refresh));
+    }
+    catch (NullPointerException e){
+      // Might happen when screen has been closed.
+    }
+    return null;
   }
 
   public void initRefreshView(SwipeRefreshLayout.OnRefreshListener listener) {

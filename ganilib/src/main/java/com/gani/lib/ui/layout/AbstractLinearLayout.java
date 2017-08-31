@@ -32,7 +32,7 @@ public class AbstractLinearLayout<T extends AbstractLinearLayout> extends Linear
     this.helper = new ViewHelper(this);
   }
 
-  public T self() {
+  private T self() {
     return (T) this;
   }
 
@@ -123,6 +123,16 @@ public class AbstractLinearLayout<T extends AbstractLinearLayout> extends Linear
 
   public T rtl() {
     ViewCompat.setLayoutDirection(this, ViewCompat.LAYOUT_DIRECTION_RTL);
+    return self();
+  }
+
+  public T onClick(OnClickListener listener) {
+    setOnClickListener(listener);
+    return self();
+  }
+
+  public T append(View child) {
+    addView(child);
     return self();
   }
 

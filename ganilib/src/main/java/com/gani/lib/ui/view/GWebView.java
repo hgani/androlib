@@ -2,7 +2,10 @@ package com.gani.lib.ui.view;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
+import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -35,8 +38,6 @@ public class GWebView extends WebView {
   private void init() {
     this.helper = new ViewHelper(this);
 
-//    size(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-
     setWebViewClient(new ProgressAwareWebViewClient());
 
     // Mimic turbolinks-android's WebView as much as possible.
@@ -59,6 +60,11 @@ public class GWebView extends WebView {
     return this;
   }
 
+  public GWebView bgColor(int color) {
+    setBackgroundColor(color);
+    return this;
+  }
+
   public GWebView load(String url, GImmutableParams params) {
     String fullUrl = url + ((params == null) ? "" : "?" + params.asQueryString());
     loadUrl(fullUrl);
@@ -74,6 +80,11 @@ public class GWebView extends WebView {
     return this;
   }
 
+  protected void onPageFinished() {
+    // To be overridden
+  }
+
+//  public void onClick()
 
 
   private class ProgressAwareWebViewClient extends WebViewClient {
@@ -91,6 +102,7 @@ public class GWebView extends WebView {
       super.onPageFinished(view, url);
 
       indicator.hideProgress();
+      GWebView.this.onPageFinished();
     }
 
 //    // This wasn't working on Android 5.1.1 last time it was tested, but it doesn't matter now that we use Turbolinks on newer OSes.

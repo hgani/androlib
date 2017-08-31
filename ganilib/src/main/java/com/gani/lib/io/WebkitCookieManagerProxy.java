@@ -30,8 +30,6 @@ public class WebkitCookieManagerProxy extends CookieManager
     @Override
     public void put(URI uri, Map<String, List<String>> responseHeaders) throws IOException 
     {
-        GLog.t(getClass(), "PUT COOKIE");
-
         // make sure our args are valid
         if ((uri == null) || (responseHeaders == null)) return;
 

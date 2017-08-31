@@ -1,16 +1,18 @@
 package com.gani.lib.screen;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.telephony.TelephonyManager;
 
+import com.gani.lib.logging.GLog;
 import com.gani.lib.notification.Alert;
 
-public class LauncherHelper {
+public class LaunchHelper {
   private Context context;
 
-  public LauncherHelper(Context context) {
+  public LaunchHelper(Context context) {
     this.context = context;
   }
 
@@ -51,5 +53,15 @@ public class LauncherHelper {
     i.setType("message/rfc822");
     Intent chooser = Intent.createChooser(i, "Launch Email");
     context.startActivity(chooser);
+  }
+
+  public void browser(String url) {
+    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+    try {
+      context.startActivity(browserIntent);
+    }
+    catch (ActivityNotFoundException e) {
+      GLog.e(getClass(), "Invalid URL: " + url, e);
+    }
   }
 }

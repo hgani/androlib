@@ -84,16 +84,23 @@ public class GHttpResponse<RR extends GRestResponse> implements Serializable {
       error.markForCode(code);
     }
 
-    InputStream inputStream = connection.getInputStream();
-    if (inputStream == null) {
-      inputStream = connection.getErrorStream();
+    InputStream stream = null;
+    try {
+      stream = connection.getInputStream();
+    }
+    catch (IOException e) {
+      // The var `stream` will be null and handled in subsequent code.
     }
 
-    if (inputStream == null) {  // Not sure if this will happen ever, but just a safe guard especially since we're dealing with API.
+    if (stream == null) {
+      stream = connection.getErrorStream();
+    }
+
+    if (stream == null) {  // Not sure if this will happen ever, but just a safe guard especially since we're dealing with API.
       this.binary = new byte[0];
     }
     else {
-      this.binary = readByteArray(inputStream, getContentLengthForBufferring(connection));
+      this.binary = readByteArray(stream, getContentLengthForBufferring(connection));
     }
     this.string = new String(binary);
   }

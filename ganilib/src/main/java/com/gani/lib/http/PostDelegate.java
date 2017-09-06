@@ -3,7 +3,6 @@ package com.gani.lib.http;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
-import java.net.URL;
 
 final class PostDelegate extends HttpDelegate {
   private static final long serialVersionUID = 1L;

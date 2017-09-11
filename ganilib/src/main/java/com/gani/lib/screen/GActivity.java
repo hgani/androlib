@@ -342,7 +342,20 @@ public class GActivity extends AppCompatActivity implements RichContainer {
 
   /////
 
+  public ProgressIndicator getCircularProgressIndicator() {
+    final View indicator = findViewById(R.id.circular_progress);
+    return new ProgressIndicator() {
+      @Override
+      public void showProgress() {
+        indicator.setVisibility(View.VISIBLE);
+      }
 
+      @Override
+      public void hideProgress() {
+        indicator.setVisibility(View.GONE);
+      }
+    };
+  }
 
   // This is a last resort indicator that should be used only when at the time, there's no better simple solution.
   public ProgressIndicator getGenericProgressIndicator() {

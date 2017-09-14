@@ -4,15 +4,27 @@ import android.content.Context;
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.LayerDrawable;
 import android.media.MediaPlayer;
 import android.support.v7.widget.AppCompatButton;
 import android.util.AttributeSet;
 import android.view.View;
 
 import com.gani.lib.ui.Ui;
+import com.gani.lib.ui.layout.GRelativeLayoutParams;
+import com.gani.lib.ui.style.Length;
+
+import static android.R.attr.button;
+import static android.R.attr.radius;
 
 public class GButton<T extends GButton> extends AppCompatButton implements GView {
-  private static Spec defaultSpec = new Spec();
+  private static Spec defaultSpec = new Spec() {
+    @Override
+    public void init(GButton button) {
+      // Null spec
+    }
+  };
 
   public static void setDefaultSpec(Spec defaultSpec) {
     GButton.defaultSpec = defaultSpec;
@@ -23,6 +35,8 @@ public class GButton<T extends GButton> extends AppCompatButton implements GView
 
   public GButton(Context context) {
     super(context);
+//    super(context, null, android.R.attr
+//            .borderlessButtonStyle);
     init();
   }
 
@@ -31,10 +45,12 @@ public class GButton<T extends GButton> extends AppCompatButton implements GView
     init();
   }
 
-  public T relative() {
-    helper.relative();
+  public GRelativeLayoutParams<T> relative() {
+    return helper.relative(self());
 //    setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-    return self();
+//    GRelativeLayoutParams params = new GRelativeLayoutParams();
+//    setLayoutParams(params);
+//    return params;
   }
 
   private void init() {
@@ -47,22 +63,81 @@ public class GButton<T extends GButton> extends AppCompatButton implements GView
     return self();
   }
 
+  public T width(Integer width) {
+    helper.width(width);
+    return self();
+  }
+
+  public T height(Integer height) {
+    helper.height(height);
+    return self();
+  }
+
   public T spec(Spec spec) {
     spec.init(this);
     return self();
   }
 
-  public T background(String code) {
-    background(Ui.color(code));
-    return self();
-  }
-
-  public T background(int color) {
+  public T bgTint(int color) {
     // Alternative implementation: http://stackoverflow.com/questions/1521640/standard-android-button-with-a-different-color
-     getBackground().setColorFilter(color, PorterDuff.Mode.MULTIPLY);
+    getBackground().setColorFilter(color, PorterDuff.Mode.MULTIPLY);
 //    ViewCompat.setBackgroundTintList(this, ContextCompat.getColorStateList(getContext(), colorResId));
     return self();
   }
+
+  public T bgColor(String code) {
+    return bgColor(Ui.color(code), 0);
+  }
+
+  public T bgColor(int color) {
+    return bgColor(color, 0);
+  }
+
+  public T bgColor(int color, int cornerRadius) {
+    GradientDrawable drawable = new GradientDrawable();
+    drawable.setColor(color);
+    drawable.setCornerRadius(cornerRadius);
+    setBackground(drawable);
+    return self();
+  }
+
+  // Can't be used before setting bgColor()
+  public T border(int color, int thickness, int cornerRadius) {
+    GradientDrawable borderColorDrawable = new GradientDrawable();
+    borderColorDrawable.setCornerRadius(Length.dpToPx(cornerRadius));
+    borderColorDrawable.setStroke(Length.dpToPx(thickness), color);
+
+    Drawable backgroundColorDrawable = getBackground();
+    Drawable[] drawables = new Drawable[]{
+            borderColorDrawable,
+            backgroundColorDrawable
+    };
+
+    LayerDrawable layerDrawable = new LayerDrawable(drawables);
+    layerDrawable.setLayerInset(1, thickness, thickness, thickness, thickness);
+    setBackground(layerDrawable);
+    return self();
+  }
+
+
+  // Use bgColor() instead
+//  public T background(String code) {
+//    background(Ui.color(code));
+//    return self();
+//  }
+//
+  // Use bgTint() instead
+//  public T background(int color) {
+//    // Alternative implementation: http://stackoverflow.com/questions/1521640/standard-android-button-with-a-different-color
+//     getBackground().setColorFilter(color, PorterDuff.Mode.MULTIPLY);
+////    ViewCompat.setBackgroundTintList(this, ContextCompat.getColorStateList(getContext(), colorResId));
+//    return self();
+//  }
+
+//  public T background() {
+//
+//    return self();
+//  }
 
   public T color(String code) {
     color(Ui.color(code));
@@ -163,53 +238,57 @@ public class GButton<T extends GButton> extends AppCompatButton implements GView
 
 
 
-  public static class Spec {
-    public void init(GButton button) {
-//      button.bgColor(Ui.color(R.color.colorAccent));
-
-      Integer backgroundColor = backgroundColor();
-      if (backgroundColor != null) {
-        button.background(backgroundColor);
-      }
-
-      Integer color = color();
-      if (color != null) {
-        button.color(color);
-      }
-
-      Integer textSize = textSize();
-      if (textSize != null) {
-        button.textSize(textSize);
-      }
-
-      Typeface typeface = typeface();
-      if (typeface != null) {
-        button.typeface(typeface);
-      }
-
-      button.size(width(), height());
-    }
-
-    public Integer backgroundColor() {
-      return null;
-    }
-
-    public Integer color() {
-      return null;
-    }
-
-    public Integer textSize() {
-      return null;
-    }
-
-    public Typeface typeface() { return null; }
-
-    public Integer width() {
-      return null;
-    }
-
-    public Integer height() {
-      return null;
-    }
+  public interface Spec {
+    void init(GButton button);
   }
+
+//  public static class Spec {
+//    public void init(GButton button) {
+////      button.bgColor(Ui.color(R.color.colorAccent));
+//
+//      Integer backgroundColor = backgroundColor();
+//      if (backgroundColor != null) {
+//        button.background(backgroundColor);
+//      }
+//
+//      Integer color = color();
+//      if (color != null) {
+//        button.color(color);
+//      }
+//
+//      Integer textSize = textSize();
+//      if (textSize != null) {
+//        button.textSize(textSize);
+//      }
+//
+//      Typeface typeface = typeface();
+//      if (typeface != null) {
+//        button.typeface(typeface);
+//      }
+//
+//      button.size(width(), height());
+//    }
+//
+//    public Integer backgroundColor() {
+//      return null;
+//    }
+//
+//    public Integer color() {
+//      return null;
+//    }
+//
+//    public Integer textSize() {
+//      return null;
+//    }
+//
+//    public Typeface typeface() { return null; }
+//
+//    public Integer width() {
+//      return null;
+//    }
+//
+//    public Integer height() {
+//      return null;
+//    }
+//  }
 }

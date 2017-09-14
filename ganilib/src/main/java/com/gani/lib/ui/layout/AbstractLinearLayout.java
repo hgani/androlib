@@ -37,59 +37,48 @@ public class AbstractLinearLayout<T extends AbstractLinearLayout> extends Linear
   }
 
   public T size(Integer width, Integer height) {
-//    ViewGroup.LayoutParams params = getLayoutParams();
-//    if (width != null) {
-//      GLog.t(getClass(), "WIDTH: " + width);
-//      if (width > 0) {
-//        params.width = Length.dpToPx(width);
-//      }
-//      else {  // Special values such as MATCH_PARENT
-//        params.width = width;
-//      }
-//    }
-//    if (height != null) {
-//      if (height > 0) {
-//        params.height = Length.dpToPx(height);
-//      }
-//      else {  // Special values such as MATCH_PARENT
-//        params.height = height;
-//      }
-//    }
-//    setLayoutParams(params);
-
     helper.size(width, height);
-    return (T) this;
+    return self();
+  }
+
+  public T width(Integer width) {
+    helper.width(width);
+    return self();
+  }
+
+  public T height(Integer height) {
+    helper.height(height);
+    return self();
   }
 
   public T vertical(){
     this.setOrientation(LinearLayout.VERTICAL);
-    return (T) this;
+    return self();
   }
 
   public T horizontal(){
     this.setOrientation(LinearLayout.HORIZONTAL);
-    return (T) this;
+    return self();
   }
 
   public T padding(Integer left, Integer top, Integer right, Integer bottom) {
     helper.padding(left, top, right, bottom);
-    return (T) this;
+    return self();
   }
 
   public T margin(Integer left, Integer top, Integer right, Integer bottom) {
     helper.margin(left, top, right, bottom);
-    return (T) this;
+    return self();
   }
 
   public T gravity(int gravity) {
-//    helper.margin(left, top, right, bottom);
     setGravity(gravity);
-    return (T) this;
+    return self();
   }
 
   public T bgColor(int color) {
     setBackgroundColor(color);
-    return (T) this;
+    return self();
   }
 
   public T bgColor(String code) {

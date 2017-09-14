@@ -13,6 +13,7 @@ import com.gani.lib.ui.Ui;
 import com.gani.lib.ui.view.ViewHelper;
 
 import static android.R.attr.button;
+import static android.R.attr.width;
 
 public class GRelativeLayout<T extends GRelativeLayout> extends RelativeLayout {
   private ViewHelper helper;
@@ -36,8 +37,17 @@ public class GRelativeLayout<T extends GRelativeLayout> extends RelativeLayout {
     return self();
   }
 
+  public T width(Integer width) {
+    helper.width(width);
+    return self();
+  }
+
+  public T height(Integer height) {
+    helper.height(height);
+    return self();
+  }
+
   public T padding(Integer left, Integer top, Integer right, Integer bottom) {
-//    setPadding(left, top, right, bottom);
     helper.padding(left, top, right, bottom);
     return self();
   }

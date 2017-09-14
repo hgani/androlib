@@ -262,6 +262,16 @@ public abstract class GJsonObject<JO extends GJsonObject, JA extends GJsonArray>
     }
   }
 
+  @NonNull
+  public double getDouble(String name, double defaultValue) {
+    try {
+      return backend.isNull(name) ? defaultValue : getDouble(name);
+    }
+    catch (JSONException e) {
+      return defaultValue;
+    }
+  }
+
   @Nullable
   public Integer getNullableColor(String name) {
     String code = getNullableString(name);

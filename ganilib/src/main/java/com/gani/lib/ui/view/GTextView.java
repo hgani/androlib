@@ -9,11 +9,14 @@ import android.text.style.StyleSpan;
 import android.util.AttributeSet;
 
 import com.gani.lib.ui.Ui;
+import com.gani.lib.ui.layout.GRelativeLayoutParams;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static android.R.attr.width;
 
 public class GTextView<T extends GTextView> extends AppCompatTextView implements GView {
   private ViewHelper helper;
@@ -36,9 +39,13 @@ public class GTextView<T extends GTextView> extends AppCompatTextView implements
     return (T) this;
   }
 
-  public T relative() {
-    helper.relative();
-    return self();
+//  public T relative() {
+//    helper.relative();
+//    return self();
+//  }
+
+  public GRelativeLayoutParams<T> relative() {
+    return helper.relative(self());
   }
 
   public T alignParentRight() {
@@ -53,6 +60,16 @@ public class GTextView<T extends GTextView> extends AppCompatTextView implements
 
   public GTextView size(Integer width, Integer height) {
     helper.size(width, height);
+    return this;
+  }
+
+  public GTextView width(Integer width) {
+    helper.width(width);
+    return this;
+  }
+
+  public GTextView height(Integer height) {
+    helper.height(height);
     return this;
   }
 

@@ -7,7 +7,10 @@ import android.widget.RelativeLayout;
 
 import com.gani.lib.logging.GLog;
 import com.gani.lib.ui.Ui;
+import com.gani.lib.ui.layout.GRelativeLayoutParams;
 import com.gani.lib.ui.style.Length;
+
+import static android.R.attr.width;
 
 public class ViewHelper {
   private View view;
@@ -27,8 +30,11 @@ public class ViewHelper {
     view.setLayoutParams(layoutParams);
   }
 
-  public void relative() {
-    view.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+  public <T extends View> GRelativeLayoutParams relative(T view) {
+//    view.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+    GRelativeLayoutParams<T> params = new GRelativeLayoutParams(view);
+    this.view.setLayoutParams(params);
+    return params;
   }
 
   public void alignParentRight() {
@@ -55,6 +61,14 @@ public class ViewHelper {
       }
     }
     view.setLayoutParams(params);
+  }
+
+  public void width(Integer width) {
+    size(width, null);
+  }
+
+  public void height(Integer height) {
+    size(null, height);
   }
 
   public void padding(Integer left, Integer top, Integer right, Integer bottom) {

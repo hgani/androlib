@@ -9,6 +9,8 @@ import com.bumptech.glide.Glide;
 import com.gani.lib.R;
 import com.gani.lib.ui.Ui;
 
+import static android.R.attr.width;
+
 public class GImageView extends AppCompatImageView {
   private ViewHelper helper;
 
@@ -46,6 +48,16 @@ public class GImageView extends AppCompatImageView {
 
   public GImageView size(Integer width, Integer height) {
     helper.size(width, height);
+    return this;
+  }
+
+  public GImageView width(Integer width) {
+    helper.width(width);
+    return this;
+  }
+
+  public GImageView height(Integer height) {
+    helper.height(height);
     return this;
   }
 

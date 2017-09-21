@@ -15,9 +15,6 @@ import com.gani.lib.ui.Ui;
 import com.gani.lib.ui.layout.GRelativeLayoutParams;
 import com.gani.lib.ui.style.Length;
 
-import static android.R.attr.button;
-import static android.R.attr.radius;
-
 public class GButton<T extends GButton> extends AppCompatButton implements GView {
   private static Spec defaultSpec = new Spec() {
     @Override

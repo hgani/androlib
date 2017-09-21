@@ -7,10 +7,6 @@ import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Handler;
-import android.support.annotation.Nullable;
-import android.util.Log;
-
-import static android.R.attr.name;
 
 public class Ui {
   private static Context appContext;

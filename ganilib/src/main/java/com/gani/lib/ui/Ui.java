@@ -81,6 +81,17 @@ public class Ui {
     }
     throw new IllegalArgumentException();
   }
+  
+  public static String expandColorIfNecassary(String code){
+    if (code.length() == 3) {
+      String result = "";
+      for (char c : code.toCharArray()) {
+        result += ("" + c + c);
+      }
+      return result;
+    }
+    return code;
+  }
 
   public static int integer(int resId) {
     return resources.getInteger(resId);

@@ -11,18 +11,18 @@ import com.gani.lib.R;
 import com.gani.lib.ui.Ui;
 
 public abstract class AbstractBindingHolder extends RecyclerView.ViewHolder {
-    private View layout;
+    private ViewGroup layout;
 
-    public AbstractBindingHolder(View view, boolean selectable) {
-      super(view);
-      this.layout = view;
+    public AbstractBindingHolder(ViewGroup layout, boolean selectable) {
+      super(layout);
+      this.layout = layout;
 
       if (selectable) {
         unhighlightSelectable();
       }
     }
 
-    public View getLayout() {
+    public ViewGroup getLayout() {
       return layout;
     }
 
@@ -30,10 +30,8 @@ public abstract class AbstractBindingHolder extends RecyclerView.ViewHolder {
       return layout.getContext();
     }
 
-    protected static View inflate(ViewGroup parent, int layoutId) {
-      return LayoutInflater.from(parent.getContext()).inflate(layoutId, parent, false);
-//
-//      return DbCursorRecyclerAdapter.inflate(parent, layoutId);
+    protected static ViewGroup inflate(ViewGroup parent, int layoutId) {
+      return (ViewGroup) LayoutInflater.from(parent.getContext()).inflate(layoutId, parent, false);
     }
 
     protected void unselectable() {

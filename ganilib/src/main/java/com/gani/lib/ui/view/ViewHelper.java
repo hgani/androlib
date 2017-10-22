@@ -17,10 +17,6 @@ public class ViewHelper {
 
   public ViewHelper(View view) {
     this(view, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-//    this.view = view;
-//
-//    // Ensure layout params can't be null.
-//    view.setLayoutParams();
   }
 
   public ViewHelper(View view, ViewGroup.LayoutParams layoutParams) {

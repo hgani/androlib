@@ -118,17 +118,9 @@ public abstract class DtoRecyclerAdapter<DO, VH
 
 
 
-//  public static abstract class GenericBindingHolder extends AbstractBindingHolder {
-//    public GenericBindingHolder(View view, boolean selectable) {
-//      super(view, selectable);
-//    }
-//
-//    protected abstract void update(DbCursorRecyclerAdapter.State state);
-//  }
-
   public static abstract class GenericBindingHolder extends AbstractBindingHolder {
-    public GenericBindingHolder(View view, boolean selectable) {
-      super(view, selectable);
+    public GenericBindingHolder(ViewGroup layout, boolean selectable) {
+      super(layout, selectable);
     }
 
     protected abstract void update();

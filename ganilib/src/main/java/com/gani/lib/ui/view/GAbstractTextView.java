@@ -46,19 +46,19 @@ public class GAbstractTextView<T extends GAbstractTextView> extends AppCompatTex
     return this;
   }
 
-  public GAbstractTextView size(Integer width, Integer height) {
+  public T size(Integer width, Integer height) {
     helper.size(width, height);
-    return this;
+    return self();
   }
 
-  public GAbstractTextView width(Integer width) {
+  public T width(Integer width) {
     helper.width(width);
-    return this;
+    return self();
   }
 
-  public GAbstractTextView height(Integer height) {
+  public T height(Integer height) {
     helper.height(height);
-    return this;
+    return self();
   }
 
   public GAbstractTextView processBold() {
@@ -87,36 +87,35 @@ public class GAbstractTextView<T extends GAbstractTextView> extends AppCompatTex
     return this;
   }
 
-  public GAbstractTextView background(String code) {
-//    setBackgroundColor(Ui.color(code));
+  public T bgColor(String code) {
     bgColor(Ui.color(code));
-    return this;
+    return self();
   }
 
-  public GAbstractTextView bgColor(int color) {
+  public T bgColor(int color) {
     setBackgroundColor(color);
-    return this;
+    return self();
   }
 
-  public GAbstractTextView color(String code) {
+  public T color(String code) {
     return color(Ui.color(code));
   }
 
-  public GAbstractTextView color(int color) {
+  public T color(int color) {
     setTextColor(color);
-    return this;
+    return self();
   }
 
   @Override
-  public GAbstractTextView padding(Integer left, Integer top, Integer right, Integer bottom) {
+  public T padding(Integer left, Integer top, Integer right, Integer bottom) {
     helper.padding(left, top, right, bottom);
-    return this;
+    return self();
   }
 
   @Override
-  public GAbstractTextView margin(Integer left, Integer top, Integer right, Integer bottom) {
+  public T margin(Integer left, Integer top, Integer right, Integer bottom) {
     helper.margin(left, top, right, bottom);
-    return this;
+    return self();
   }
 
   public GAbstractTextView bold() {

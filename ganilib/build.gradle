@@ -43,7 +43,8 @@ dependencies {
     compile 'com.joanzapata.iconify:android-iconify-fontawesome:2.2.2'
 
     compile 'com.google.android.gms:play-services-location:11.0.4'
-    compile 'com.google.android.gms:play-services-maps:11.0.4'
+//    compile 'com.google.android.gms:play-services-maps:11.0.4'
+
 //    compile 'com.google.maps.android:android-maps-utils:0.5+'
 
     //compile 'com.android.support:recyclerview-v7:23.1.1'

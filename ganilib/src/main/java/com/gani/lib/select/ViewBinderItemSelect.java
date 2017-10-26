@@ -2,6 +2,7 @@ package com.gani.lib.select;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 
@@ -14,12 +15,12 @@ public abstract class ViewBinderItemSelect<I extends SelectableItem, T extends S
   private boolean multiselect;
   private CheckBox selectButton;
 
-  protected ViewBinderItemSelect(View view, ItemSelectScreenHelper<I, T> activity, boolean multiselect) {
-    super(view, false);
+  protected ViewBinderItemSelect(ViewGroup layout, ItemSelectScreenHelper<I, T> activity, boolean multiselect) {
+    super(layout, false);
 
     this.activity = activity;
     this.multiselect = multiselect;
-    this.selectButton = (CheckBox) getLayout().findViewById(R.id.toggle_select);
+    this.selectButton = getLayout().findViewById(R.id.toggle_select);
   }
 
   @Override

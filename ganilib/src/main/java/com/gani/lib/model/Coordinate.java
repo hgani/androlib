@@ -2,14 +2,12 @@ package com.gani.lib.model;
 
 import android.location.Location;
 
-import com.google.android.gms.maps.model.LatLng;
-
 import java.io.Serializable;
 
 // A Serializable alternative to LatLng
 public class Coordinate implements Serializable {
-  public final double latitude;
-  public final double longitude;
+  private final double latitude;
+  private final double longitude;
 
   public Coordinate(double latitude, double longitude) {
     this.latitude = latitude;
@@ -22,10 +20,6 @@ public class Coordinate implements Serializable {
 
   public double getLongitude() {
     return longitude;
-  }
-
-  public LatLng toLatLng() {
-    return new LatLng(latitude, longitude);
   }
 
   public Location toLocation() {

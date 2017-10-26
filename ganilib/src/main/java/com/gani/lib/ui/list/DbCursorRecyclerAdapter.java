@@ -195,16 +195,16 @@ public abstract class DbCursorRecyclerAdapter<C extends GDbCursor> extends Curso
   }
 
   public static abstract class GenericBindingHolder extends AbstractBindingHolder {
-    public GenericBindingHolder(View view, boolean selectable) {
-      super(view, selectable);
+    public GenericBindingHolder(ViewGroup layout, boolean selectable) {
+      super(layout, selectable);
     }
 
     protected abstract void update(State state);
   }
 
   public static abstract class CursorBindingHolder<T extends GDbCursor> extends AbstractBindingHolder {
-    public CursorBindingHolder(View view, boolean selectable) {
-      super(view, selectable);
+    public CursorBindingHolder(ViewGroup layout, boolean selectable) {
+      super(layout, selectable);
     }
 
     protected abstract void bind(T cursor);

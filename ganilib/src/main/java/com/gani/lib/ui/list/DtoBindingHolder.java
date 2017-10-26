@@ -1,13 +1,10 @@
 package com.gani.lib.ui.list;
 
-import android.view.View;
-
-import com.gani.lib.ui.list.AbstractBindingHolder;
-import com.gani.lib.ui.list.DbCursorRecyclerAdapter;
+import android.view.ViewGroup;
 
 public abstract class DtoBindingHolder<DO> extends AbstractBindingHolder {
-  public DtoBindingHolder(View view, boolean selectable) {
-    super(view, selectable);
+  public DtoBindingHolder(ViewGroup layout, boolean selectable) {
+    super(layout, selectable);
   }
 
   public abstract void update(DO object);

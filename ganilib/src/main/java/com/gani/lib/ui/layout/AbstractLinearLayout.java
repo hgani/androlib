@@ -17,10 +17,6 @@ public class AbstractLinearLayout<T extends AbstractLinearLayout> extends Linear
     super(context);
 
     init();
-
-//    // Ensure layout params can't be null.
-//    setLayoutParams(new LinearLayout.LayoutParams(
-//        ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
   }
 
   public AbstractLinearLayout(Context context, AttributeSet attrs) {
@@ -124,17 +120,4 @@ public class AbstractLinearLayout<T extends AbstractLinearLayout> extends Linear
     addView(child);
     return self();
   }
-
-//  public T layout(Integer width, Integer height) {
-//    ViewGroup.LayoutParams params = getLayoutParams();
-//    if (width != null) {
-//      params.
-//    }
-//    if (height != null) {
-//      params.height = Length.dpToPx(height);
-//    }
-//    setLayoutParams(params);
-//
-//    return (T) this;
-//  }
 }

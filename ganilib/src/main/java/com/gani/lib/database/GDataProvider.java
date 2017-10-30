@@ -5,7 +5,6 @@ package com.gani.lib.database;
 import android.content.ContentProvider;
 import android.content.ContentValues;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 
 import java.util.LinkedHashSet;
@@ -116,7 +115,7 @@ public abstract class GDataProvider extends ContentProvider {
 
 
   public static final class KeyValue extends GDbTable {
-    static final String TABLE = "key_value";
+    public static final String TABLE = "key_value";
 
     public static final String COLUMN_KEY = "data_key";
     public static final String COLUMN_VALUE = "data_value";

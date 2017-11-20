@@ -13,7 +13,6 @@ import android.view.MenuItem;
 import android.view.ViewGroup;
 
 import com.gani.lib.R;
-import com.gani.lib.logging.GLog;
 import com.gani.lib.ui.icon.GIcon;
 
 

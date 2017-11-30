@@ -71,7 +71,7 @@ abstract class HttpDelegate implements Serializable {
       }
       response.extractFrom(connection);
     } catch (MalformedURLException e) {
-      throw new RuntimeException(e);
+      response.getError().markForNetwork(e);
     } catch (IOException e) {
       if (!isCanceled()) {
         response.getError().markForNetwork(e);

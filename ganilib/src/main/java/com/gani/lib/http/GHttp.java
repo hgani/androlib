@@ -45,7 +45,7 @@ public abstract class GHttp {
 
   protected abstract String networkErrorMessage();
 
-  public HttpURLConnection openConnection(String url, GParams params, HttpMethod method) throws MalformedURLException, IOException {
+  public HttpURLConnection openConnection(String url, GParams params, HttpMethod method) throws IOException {
     HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
     prepareConnection(connection, params, method);
     return connection;

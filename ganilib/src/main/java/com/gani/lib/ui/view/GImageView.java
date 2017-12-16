@@ -61,6 +61,7 @@ public class GImageView extends AppCompatImageView {
     return this;
   }
 
+  // NOTE: Deprecated
   public GImageView background(String code) {
     background(Ui.color(code));
     return this;
@@ -69,6 +70,11 @@ public class GImageView extends AppCompatImageView {
   // NOTE: Deprecated
   public GImageView background(int color) {
     setBackgroundColor(color);
+    return this;
+  }
+
+  public GImageView bgColor(String code) {
+    background(Ui.color(code));
     return this;
   }
 

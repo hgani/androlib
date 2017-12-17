@@ -71,7 +71,7 @@ public class GHttpResponse<RR extends GRestResponse> implements Serializable {
 
   // To be overridden
   protected GHttpError createError() {
-    return new GHttpError(this);
+    return new GHttpError.Default(this);
   }
 
   void extractFrom(HttpURLConnection connection) throws IOException {

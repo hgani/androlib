@@ -43,6 +43,10 @@ public class DrawablePagerAdapter extends PagerAdapter {
     return this;
   }
 
+  public DrawablePagerAdapter urls(List<String> urls) {
+    return urls(urls.toArray(new String[urls.size()]));
+  }
+
   // See https://stackoverflow.com/questions/7263291/viewpager-pageradapter-not-updating-the-view
   public int getItemPosition(Object object) {
     return POSITION_NONE;

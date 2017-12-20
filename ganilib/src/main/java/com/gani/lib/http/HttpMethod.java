@@ -24,6 +24,12 @@ public enum HttpMethod {
     public HttpAsync async(String url, GImmutableParams params, GHttpCallback callback) {
       return new HttpAsyncGet(url, params, HttpHook.DUMMY, callback);
     }
+  },
+  PUT {
+    @Override
+    public HttpAsync async(String url, GImmutableParams params, GHttpCallback callback) {
+      return new HttpAsyncPost(url, params, HttpHook.DUMMY, PUT, callback);
+    }
   };
 
   public abstract HttpAsync async(String url, GImmutableParams params, GHttpCallback callback);
@@ -33,7 +39,7 @@ public enum HttpMethod {
       case "patch":
         return PATCH;
       case "put":
-        return PATCH;
+        return PUT;
       case "delete":
         return DELETE;
       default:

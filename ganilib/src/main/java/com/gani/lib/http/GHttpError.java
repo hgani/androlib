@@ -3,14 +3,16 @@ package com.gani.lib.http;
 import android.content.Context;
 import android.widget.Toast;
 
+import com.gani.lib.json.GJsonObject;
 import com.gani.lib.logging.GLog;
+import com.gani.lib.ui.alert.ToastUtils;
 
 import org.json.JSONException;
 
 import java.io.IOException;
 import java.io.Serializable;
 
-public class GHttpError<HR extends GHttpResponse> implements Serializable {
+public abstract class GHttpError<HR extends GHttpResponse> implements Serializable {
   private static final long serialVersionUID = 1L;
 
   public enum ErrorType {
@@ -83,10 +85,15 @@ public class GHttpError<HR extends GHttpResponse> implements Serializable {
     return setError(ErrorType.AUTH, ErrorType.AUTH.name(), logMessagePrefix + " -- logging out (" + getUrl() + ") ...");
   }
 
-  // TODO: Review. This seems to handle multiple types of error, the distinction is unclear.
-  public void handleDefault(Context context) {
-    // To be overidden
-  }
+//  // TODO: Review. This seems to handle multiple types of error, the distinction is unclear.
+//  public void handleDefault(Context context) {
+//    GLog.t(getClass(), "handleDefault1 " + getClass());
+//
+//    // To be overidden
+//  }
+//
+
+  abstract void handle(Context context);
 
 
 
@@ -96,8 +103,20 @@ public class GHttpError<HR extends GHttpResponse> implements Serializable {
     }
 
     @Override
-    public void handleDefault(Context context) {
-      Toast.makeText(context, getMessage(), Toast.LENGTH_LONG).show();
+    void handle(Context context) {
+      try {
+        GJsonObject restData = getResponse().asRestResponse().getResult();
+        String message = restData.getNullableString("message");
+        if (message != null) {
+          ToastUtils.showNormal(message);
+          return;
+        }
+      }
+      catch (JSONException e) {
+        // Will be handled later.
+      }
+
+      ToastUtils.showNormal(getMessage());
     }
   }
 }

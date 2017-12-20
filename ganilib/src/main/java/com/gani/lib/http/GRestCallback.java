@@ -70,15 +70,11 @@ public abstract class GRestCallback<HR extends GHttpResponse, RR extends GRestRe
         GLog.t(getClass(), "ON ERROR");
         onError();
         doFinally();
-//          HttpUtils.alertCommonError(container, response);
-//          HttpUtils.alertCommonError(context, response);
         GHttp.instance().alertHelper().alertCommonError(context, response);
       }
     } catch (JSONException e) {
       onError();
       doFinally();
-//        HttpUtils.alertJsonError(container, r, e);
-//        HttpUtils.alertJsonError(context, r, e);
       GHttp.instance().alertHelper().alertJsonError(context, r, e);
     }
   }
@@ -87,8 +83,7 @@ public abstract class GRestCallback<HR extends GHttpResponse, RR extends GRestRe
   public void onHttpFailure(HE error) {
     onError();
     doFinally();
-//      error.handleDefault(container.getGActivity());
-    error.handleDefault(context);
+    error.handle(context);
   }
 
   protected final void onBeforeHttp() {

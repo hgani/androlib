@@ -1,7 +1,6 @@
 package com.gani.lib.http;
 
 import android.content.Context;
-import android.widget.Toast;
 
 import com.gani.lib.json.GJsonObject;
 import com.gani.lib.logging.GLog;
@@ -93,7 +92,7 @@ public abstract class GHttpError<HR extends GHttpResponse> implements Serializab
 //  }
 //
 
-  abstract void handle(Context context);
+  protected abstract void handle(Context context);
 
 
 
@@ -103,7 +102,7 @@ public abstract class GHttpError<HR extends GHttpResponse> implements Serializab
     }
 
     @Override
-    void handle(Context context) {
+    protected void handle(Context context) {
       try {
         GJsonObject restData = getResponse().asRestResponse().getResult();
         String message = restData.getNullableString("message");

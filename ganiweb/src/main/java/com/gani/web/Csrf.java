@@ -36,7 +36,7 @@ public class Csrf {
   private void download(final Callback callback) {
     HttpMethod.GET.async(url, null, new GHttpCallback() {
       @Override
-      public void onHttpSuccess(GHttpResponse response) {
+      public void onHttpResponse(GHttpResponse response) {
         if (!response.hasError()) {
           Document document = Jsoup.parse(response.asString());
 
@@ -44,7 +44,6 @@ public class Csrf {
           if (token == null) {
             GLog.t(Csrf.this.getClass(), "TEST1");
             fail();
-//            GLog.i(getClass(), "CSRF token not received");
           }
           else {
             GLog.i(getClass(), "CSRF token received");
@@ -57,19 +56,45 @@ public class Csrf {
             }
           }
         } else {
-          GLog.t(Csrf.this.getClass(), "TEST0");
           fail();
-//          GLog.i(getClass(), "CSRF token not received");
-          //          GHttp.instance().alertHelper().alertFormParsingError(mContext, response);
         }
-//        GDbValue.set(TOKEN_DBKEY, );
       }
 
-      @Override
-      public void onHttpFailure(GHttpError error) {
-//        GLog.i(getClass(), "CSRF token not received");
-        fail();
-      }
+//      @Override
+//      public void onHttpSuccess(GHttpResponse response) {
+//        if (!response.hasError()) {
+//          Document document = Jsoup.parse(response.asString());
+//
+//          token = HtmlForm.parseCsrfToken(document);
+//          if (token == null) {
+//            GLog.t(Csrf.this.getClass(), "TEST1");
+//            fail();
+////            GLog.i(getClass(), "CSRF token not received");
+//          }
+//          else {
+//            GLog.i(getClass(), "CSRF token received");
+//
+//            Res.libPrefs().setString(TOKEN_PREFKEY, token);
+//
+////            GDbValue.set(TOKEN_DBKEY, token);
+//            if (callback != null) {
+//              callback.onTokenReceived(token);
+//            }
+//          }
+//        } else {
+//          GLog.t(Csrf.this.getClass(), "TEST0");
+//          fail();
+////          GLog.i(getClass(), "CSRF token not received");
+//          //          GHttp.instance().alertHelper().alertFormParsingError(mContext, response);
+//        }
+////        GDbValue.set(TOKEN_DBKEY, );
+//      }
+//
+//      @Override
+//      public void onHttpFailure(GHttpError error) {
+////        GLog.i(getClass(), "CSRF token not received");
+//        fail();
+//      }
     }).execute();
   }
 

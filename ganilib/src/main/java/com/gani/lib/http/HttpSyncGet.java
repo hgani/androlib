@@ -24,10 +24,12 @@ public class HttpSyncGet implements HttpSync {
 
   public void execute(GHttpCallback callback) {
     try {
-      callback.onHttpSuccess(execute());
+      callback.onHttpResponse(execute());
+//      callback.onHttpSuccess(execute());
     }
     catch (HttpSyncException e) {
-      callback.onHttpFailure(e.getError());
+      callback.onHttpResponse(e.getError().getResponse());
+//      callback.onHttpFailure(e.getError());
     }
     catch (HttpCanceledException e) {
       // Be silent for now.

@@ -51,12 +51,13 @@ public class AsyncHttpTask extends AsyncTask<Void, Void, GHttpResponse> {
 
   @Override
   protected void onPostExecute(GHttpResponse result) {
-    result.handle(callback);
+    callback.onHttpResponse(result);
+//    result.handle(callback);
   }
 
-  public void notifyFailure(GHttpError error) {
-    callback.onHttpFailure(error);
-  }
+//  public void notifyFailure(GHttpError error) {
+//    callback.onHttpFailure(error);
+//  }
 
   // NOTE: calling this to ensure that no future call to executeIfNotCanceled() will take effect
   synchronized void safeCancel() {  // Sync with executeIfNotCanceled()

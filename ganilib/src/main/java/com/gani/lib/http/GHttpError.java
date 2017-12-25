@@ -91,8 +91,8 @@ public abstract class GHttpError<HR extends GHttpResponse> implements Serializab
 //    // To be overidden
 //  }
 //
-
-  protected abstract void handle(Context context);
+//
+//  protected abstract void handle(Context context);
 
 
 
@@ -101,21 +101,21 @@ public abstract class GHttpError<HR extends GHttpResponse> implements Serializab
       super(response);
     }
 
-    @Override
-    protected void handle(Context context) {
-      try {
-        GJsonObject restData = getResponse().asRestResponse().getResult();
-        String message = restData.getNullableString("message");
-        if (message != null) {
-          ToastUtils.showNormal(message);
-          return;
-        }
-      }
-      catch (JSONException e) {
-        // Will be handled later.
-      }
-
-      ToastUtils.showNormal(getMessage());
-    }
+//    @Override
+//    protected void handle(Context context) {
+////      try {
+////        GJsonObject restData = getResponse().asRestResponse().getResult();
+////        String message = restData.getNullableString("message");
+////        if (message != null) {
+////          ToastUtils.showNormal(message);
+////          return;
+////        }
+////      }
+////      catch (JSONException e) {
+////        // Will be handled later.
+////      }
+////
+////      ToastUtils.showNormal(getMessage());
+//    }
   }
 }

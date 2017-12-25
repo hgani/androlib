@@ -39,9 +39,9 @@ public class GRestResponse implements Serializable {
     return new GJsonObject.Default(getJsonResult());
   }
 
-  public boolean isAllOk() throws JSONException {
-    return true;
-  }
+//  public boolean isAllOk() throws JSONException {
+//    return true;
+//  }
   
   public String getJsonString() {
     return jsonString;

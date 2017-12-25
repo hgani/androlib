@@ -129,7 +129,7 @@ public class HtmlForm {
 
     GHttpCallback callback = new GHttpCallback<GHttpResponse, GHttpError>() {
       @Override
-      public void onHttpSuccess(GHttpResponse response) {
+      public void onHttpResponse(GHttpResponse response) {
         if (!response.hasError()) {
           Document document = Jsoup.parse(response.asString());
           parse(document);
@@ -140,12 +140,24 @@ public class HtmlForm {
         fragment.hideProgress();
       }
 
-      @Override
-      public void onHttpFailure(GHttpError error) {
-        GHttp.instance().alertHelper().alertFormParsingError(mContext, error.getResponse());
-        fragment.hideProgress();
-//                GLog.e(getClass(), "Failed retrieving form");
-      }
+//      @Override
+//      public void onHttpSuccess(GHttpResponse response) {
+//        if (!response.hasError()) {
+//          Document document = Jsoup.parse(response.asString());
+//          parse(document);
+//        } else {
+//          GHttp.instance().alertHelper().alertFormParsingError(mContext, response);
+//        }
+//
+//        fragment.hideProgress();
+//      }
+//
+//      @Override
+//      public void onHttpFailure(GHttpError error) {
+//        GHttp.instance().alertHelper().alertFormParsingError(mContext, error.getResponse());
+//        fragment.hideProgress();
+////                GLog.e(getClass(), "Failed retrieving form");
+//      }
     };
 
     new HttpAsyncGet(mURL, null, HttpHook.DUMMY, callback).execute();

@@ -134,9 +134,11 @@ public abstract class HtmlFormOnSubmit implements HtmlFormOnSubmitListener {
     String endpoint = transformUrl(GHttp.instance().baseUrl() + form.getFormElement().attr("action"));
 
     GParams params = getParams(form);
-    GHttpCallback restCallback = new GRestCallback.Default(form.getFragment()) {
+    GHttpCallback restCallback = new GRestCallback(form.getFragment()) {
       @Override
-      protected void onRestSuccess(GRestResponse r) throws JSONException {
+      protected void onRestResponse(GRestResponse r) throws JSONException {
+        super.onRestResponse(r);
+
         GActivity activity = form.getFragment().getGActivity();
         GJsonObject result = r.getResult();
 
@@ -162,13 +164,40 @@ public abstract class HtmlFormOnSubmit implements HtmlFormOnSubmitListener {
         activity.finish();
       }
 
-      @Override
-      protected final void onJsonSuccess(GRestResponse r) throws JSONException {
-//    String message = r.getJResult().getNullableString(ParamKeys.MESSAGE);
-//    if (message != null) {
-//      ToastUtils.showNormal(message);
-//    }
-      }
+//      @Override
+//      protected void onRestSuccess(GRestResponse r) throws JSONException {
+//        GActivity activity = form.getFragment().getGActivity();
+//        GJsonObject result = r.getResult();
+//
+//        GJsonObject handler = result.getNullableObject("handler");
+//        if (handler != null) {
+//          String name = handler.getString("name");
+//          try {
+//            String prefix = HtmlFormOnSubmit.this.getClass().getPackage().getName() + ".handler";
+//            HtmlFormHandler.create(prefix, name).execute(activity, handler);
+//          }
+//          catch (HtmlFormHandler.NotFoundException e) {
+//            GLog.e(getClass(), "Handler not found", e);
+//            throw new JSONException("Handler not found");
+//          }
+//        }
+//
+//        String url = result.getString("visit");
+//
+//        Uri uri = Uri.parse(url);
+//        PathSpec path = new PathSpec(uri.getPath());
+//
+//        activity.startActivity(createTurbolinksIntent(path));
+//        activity.finish();
+//      }
+//
+//      @Override
+//      protected final void onJsonSuccess(GRestResponse r) throws JSONException {
+////    String message = r.getJResult().getNullableString(ParamKeys.MESSAGE);
+////    if (message != null) {
+////      ToastUtils.showNormal(message);
+////    }
+//      }
     };
 
     // The HTTP method is specified as a field.

@@ -40,14 +40,14 @@ public class GRestDialogProgress extends GDialogProgress {
     final Callback callback = (Callback) args().getSerializable(ARG_CALLBACK);
 
     httpRequest = method.async(url, params, new GRestCallback(this) {
-      @Override
-      protected void onJsonSuccess(GRestResponse r) throws JSONException {
-        callback.onJsonSuccess(GRestDialogProgress.this, r);
-      }
+//      @Override
+//      protected void onJsonSuccess(GRestResponse r) throws JSONException {
+//        callback.onJsonSuccess(GRestDialogProgress.this, r);
+//      }
 
       @Override
-      protected void onRestSuccess(GRestResponse r) throws JSONException {
-
+      protected void onRestResponse(GRestResponse r) throws JSONException {
+        callback.onRestResponse(GRestDialogProgress.this, r);
       }
     }).execute();
   }
@@ -59,7 +59,10 @@ public class GRestDialogProgress extends GDialogProgress {
 
 
 
-  public interface Callback extends Serializable {
-    void onJsonSuccess(GRestDialogProgress dialogProgress, GRestResponse r) throws JSONException;
+  public static abstract class Callback implements Serializable {
+    // To be overridden
+    protected void onRestResponse(GRestDialogProgress dialogProgress, GRestResponse r) throws JSONException {
+      GRestCallback.displayMessage(r);
+    }
   }
 }

@@ -1,8 +1,12 @@
 package com.gani.lib.http;
 
 import com.gani.lib.R;
+import com.gani.lib.json.GJsonObject;
 import com.gani.lib.logging.GLog;
 import com.gani.lib.ui.Ui;
+import com.gani.lib.ui.alert.ToastUtils;
+
+import org.json.JSONException;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -103,16 +107,21 @@ public class GHttpResponse<RR extends GRestResponse> implements Serializable {
       this.binary = readByteArray(stream, getContentLengthForBufferring(connection));
     }
     this.string = new String(binary);
+
+    GLog.i(getClass(), "[" + code + "]: " + string);
   }
-  
-  void handle(GHttpCallback callback) {
-    if (error.hasError()) {
-      callback.onHttpFailure(error);
-    }
-    else {
-      callback.onHttpSuccess(this);
-    }
-  }
+
+//  void handle(GHttpCallback callback) {
+//    if (error.hasError()) {
+//      callback.onHttpFailure(error);
+//      if (!displayMessage()) {
+//        ToastUtils.showNormal(error.getMessage());
+//      }
+//    }
+//    else {
+//      callback.onHttpSuccess(this);
+//    }
+//  }
 
   private static int getContentLengthForBufferring(HttpURLConnection connection) {
     try {

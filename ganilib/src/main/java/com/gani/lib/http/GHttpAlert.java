@@ -23,10 +23,10 @@ public abstract class GHttpAlert<HR extends GHttpResponse, RR extends GRestRespo
     return "Failed communicating with server";
   }
 
-  // To be overridden
-  public void alertJsonError(Context c, RR r, JSONException e) {
-    GLog.e(getClass(), "TODO: Override alertJsonError()", e);
-  }
+//  // To be overridden
+//  public void alertJsonError(Context c, RR r, JSONException e) {
+//    GLog.e(getClass(), "TODO: Override alertJsonError()", e);
+//  }
 
   // TODO: rename to alertAppSpecificError
   // To be overridden

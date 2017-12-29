@@ -14,7 +14,6 @@ import java.net.CookieHandler;
 import java.net.CookieManager;
 import java.net.CookiePolicy;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 public abstract class GHttp {
@@ -78,10 +77,10 @@ public abstract class GHttp {
         return null;
       }
 
-      @Override
-      public void alertJsonError(Context c, GRestResponse r, JSONException e) {
-
-      }
+//      @Override
+//      public void alertJsonError(Context c, GRestResponse r, JSONException e) {
+//
+//      }
 
       @Override
       public void alertCommonError(Context context, GHttpResponse r) throws JSONException {

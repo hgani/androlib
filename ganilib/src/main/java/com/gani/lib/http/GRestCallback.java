@@ -16,10 +16,12 @@ import org.json.JSONException;
 public abstract class GRestCallback<HR extends GHttpResponse, RR extends GRestResponse, HE extends GHttpError> implements GHttpCallback<HR, HE> {
   private Context context;
   private ProgressIndicator indicator;
+  private boolean async;
 
   public GRestCallback(Context context, ProgressIndicator indicator) {
     this.context = context;
     this.indicator = indicator;
+    this.async = false;
   }
 
   // To be used by child.
@@ -33,6 +35,11 @@ public abstract class GRestCallback<HR extends GHttpResponse, RR extends GRestRe
 
   public GRestCallback(GDialogProgress dialog) {
     this(dialog, dialog);
+  }
+
+  public GRestCallback async(boolean value) {
+    this.async = value;
+    return this;
   }
 
 //  protected abstract void onJsonSuccess(RR r) throws JSONException;
@@ -108,27 +115,45 @@ public abstract class GRestCallback<HR extends GHttpResponse, RR extends GRestRe
   @Override
   public final void onHttpResponse(HR response) {
     final RR r = (RR) response.asRestResponse();
-    new AsyncTask<Void, Void, Exception>() {
-      @Override
-      protected Exception doInBackground(Void... params) {
-        try {
-          onRestResponse(r);
-        } catch (JSONException e) {
-          return e;
+
+    if (this.async) {
+      new AsyncTask<Void, Void, Exception>() {
+        @Override
+        protected Exception doInBackground(Void... params) {
+          try {
+            onRestResponse(r);
+          } catch (JSONException e) {
+            return e;
+          }
+
+          return null;
         }
 
-        return null;
+        @Override
+        protected void onPostExecute(Exception e) {
+          if (e instanceof JSONException) {
+  //          GHttp.instance().alertHelper().alertJsonError(context, r, (JSONException) e);
+            onJsonError(r, (JSONException) e);
+          }
+
+          doFinally();
+        }
+      }.execute();
+    }
+    else {
+      try {
+        onRestResponse(r);
+      } catch (JSONException e) {
+        onJsonError(r, e);
       }
-
-      @Override
-      protected void onPostExecute(Exception e) {
-        if (e instanceof JSONException) {
-          GHttp.instance().alertHelper().alertJsonError(context, r, (JSONException) e);
-        }
-
+      finally {
         doFinally();
       }
-    }.execute();
+    }
+  }
+
+  protected void onJsonError(RR response, JSONException e) {
+    GLog.e(getClass(), "Failed parsing JSON result", e);
   }
 
 //  @Override

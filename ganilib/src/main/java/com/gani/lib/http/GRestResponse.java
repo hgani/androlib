@@ -19,6 +19,10 @@ public class GRestResponse implements Serializable {
     this.httpResponse = httpResponse;
   }
 
+  public GHttpResponse getHttpResponse() {
+    return httpResponse;
+  }
+
   public String getUrl() {
     return httpResponse.getUrl();
   }

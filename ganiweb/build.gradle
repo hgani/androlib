@@ -40,6 +40,4 @@ dependencies {
     //compile 'com.android.volley:volley:1.0.0'
 
     compile 'com.basecamp:turbolinks:1.0.7'
-
-    compile project(':ganilib')
 }

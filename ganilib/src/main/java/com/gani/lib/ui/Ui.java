@@ -8,6 +8,8 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Handler;
 
+import com.gani.lib.logging.GLog;
+
 public class Ui {
   private static Context appContext;
   private static Resources resources;
@@ -28,8 +30,7 @@ public class Ui {
   }
 
   public static Drawable drawable(int resId) {
-    return ((Build.VERSION.SDK_INT >= 21) ?
-        appContext.getDrawable(resId) : resources.getDrawable(resId));
+    return ((Build.VERSION.SDK_INT >= 21) ? appContext.getDrawable(resId) : resources.getDrawable(resId));
   }
 
   public static String str(int resId, Object... formatArgs) {
@@ -60,11 +61,11 @@ public class Ui {
   }
 
   public static int color(String code) throws IllegalArgumentException {
+
     if (code != null) {
       if (code.startsWith("#")) {
         code = "#" + expandColorIfNecessary(code.substring(1));
       }
-
       try {
         return Color.parseColor(code);
       }
@@ -77,7 +78,7 @@ public class Ui {
     }
     throw new IllegalArgumentException();
   }
-  
+
   public static String expandColorIfNecassary(String code){
     if (code.length() == 3) {
       String result = "";

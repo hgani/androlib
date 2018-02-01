@@ -138,7 +138,9 @@ public abstract class GRestCallback<HR extends GHttpResponse, RR extends GRestRe
 
           doFinally();
         }
-      }.execute();
+//      }.execute();
+
+      }.executeOnExecutor(AsyncHttpTask.THREAD_POOL_EXECUTOR);
     }
     else {
       try {

@@ -22,7 +22,11 @@ public abstract class GParams<PB extends GParams, IP extends GImmutableParams> i
     this.paramMap = new HashMap<>();
     paramMap.putAll(initialData);
   }
-  
+
+  protected Map<String, Object> getMap() {
+    return paramMap;
+  }
+
   public PB put(String name, String value) {
     paramMap.put(name, value);
     return (PB) this;

@@ -19,6 +19,10 @@ public class GImmutableParams implements Serializable {
     paramMap.putAll(initialData);
   }
 
+  protected Map<String, Object> getMap() {
+    return paramMap;
+  }
+
   protected GParams toMutable() {
     return new GParams.Default(paramMap);
   }

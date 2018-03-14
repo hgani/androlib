@@ -20,7 +20,15 @@ public class GImmutableParams implements Serializable {
   }
 
   protected Map<String, Object> getMap() {
-    return paramMap;
+    return new HashMap<>(paramMap);
+  }
+
+  public Object get(String name) {
+    return paramMap.get(name);
+  }
+
+  public int size() {
+    return paramMap.size();
   }
 
   protected GParams toMutable() {

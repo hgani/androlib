@@ -69,10 +69,6 @@ public abstract class GParams<PB extends GParams, IP extends GImmutableParams> i
     return paramMap.size();
   }
 
-//  public Map<String, Object> asMap() {
-//    return paramMap;
-//  }
-
   public Set<Map.Entry<String, Object>> entrySet() {
     return paramMap.entrySet();
   }
@@ -80,10 +76,6 @@ public abstract class GParams<PB extends GParams, IP extends GImmutableParams> i
   public static GParams create() {
     return new Default();
   }
-
-//  public static GParams fromMap(Map<String, Object> paramMap) {
-//    return new Default(paramMap);
-//  }
 
   // Think about this class as a builder and GImmutableParams is the actual (built) object.
   protected abstract IP createImmutable(Map<String, Object> paramMap);

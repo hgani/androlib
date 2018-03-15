@@ -8,13 +8,13 @@ import java.net.MalformedURLException;
 class GetDelegate extends HttpDelegate {
   private static final long serialVersionUID = 1L;
 
-  private GParams params;
+  private GImmutableParams params;
   private HttpMethod method;
 
   GetDelegate(String nakedUrl, GImmutableParams params, HttpHook hook) {
     super(nakedUrl, hook);
 
-    this.params = GParams.fromNullable(params);
+    this.params = GImmutableParams.fromNullable(params);
     this.method = HttpMethod.GET;
   }
 
@@ -36,12 +36,14 @@ class GetDelegate extends HttpDelegate {
   protected String getFullUrl() {
     String url = getUrl();
 
-    if (params.size() <= 0) {
+    GImmutableParams finalParams = GHttp.instance().processParams(params, method);
+
+    if (finalParams.size() <= 0) {
       return url;
     }
 
     String separator = (url.contains("?")) ? "&" : "?";
 
-    return url + separator + params.toImmutable().asQueryString();
+    return url + separator + finalParams.asQueryString();
   }
 }

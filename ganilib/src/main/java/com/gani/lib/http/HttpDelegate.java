@@ -91,7 +91,7 @@ abstract class HttpDelegate implements Serializable {
   private HttpURLConnection makeRedirectConnection() throws MalformedURLException, IOException {
     String redirectUrl = connection.getHeaderField("Location");
     GLog.d(getClass(), "Redirected to url: " + redirectUrl);
-    return GHttp.instance().openConnection(redirectUrl, GParams.create(), HttpMethod.GET);
+    return GHttp.instance().openConnection(redirectUrl, GImmutableParams.EMPTY, HttpMethod.GET);
   }
 
 

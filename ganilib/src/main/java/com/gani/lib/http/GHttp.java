@@ -16,7 +16,7 @@ import java.net.CookiePolicy;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public abstract class GHttp {
+public abstract class GHttp<P extends GImmutableParams> {
   private static GHttp instance;
 
   public static void register(GHttp i) {
@@ -44,14 +44,19 @@ public abstract class GHttp {
 
   protected abstract String networkErrorMessage();
 
-  public HttpURLConnection openConnection(String url, GParams params, HttpMethod method) throws IOException {
+  public HttpURLConnection openConnection(String url, P params, HttpMethod method) throws IOException {
     HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
     prepareConnection(connection, params, method);
     return connection;
   }
 
-  protected void prepareConnection(HttpURLConnection connection, GParams params, HttpMethod method) {
+  protected void prepareConnection(HttpURLConnection connection, P params, HttpMethod method) {
     // To be overridden
+  }
+
+  protected GImmutableParams processParams(P params, HttpMethod method) {
+    // To be overridden
+    return params;
   }
 
   // To be overridden

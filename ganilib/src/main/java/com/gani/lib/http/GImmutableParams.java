@@ -5,8 +5,11 @@ import com.gani.lib.logging.GLog;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 public class GImmutableParams implements Serializable {
+  public static final GImmutableParams EMPTY = new GImmutableParams();
+
   // NOTE: Value should only be either String or String[]
   private Map<String, Object> paramMap;
 
@@ -29,6 +32,10 @@ public class GImmutableParams implements Serializable {
 
   public int size() {
     return paramMap.size();
+  }
+
+  public Set<Map.Entry<String, Object>> entrySet() {
+    return paramMap.entrySet();
   }
 
   protected GParams toMutable() {
@@ -75,6 +82,13 @@ public class GImmutableParams implements Serializable {
   @Override
   public String toString() {
     return asQueryString();
+  }
+
+  public static GImmutableParams fromNullable(GImmutableParams params) {
+    if (params == null) {
+      return GImmutableParams.EMPTY;
+    }
+    return params;
   }
 
   //

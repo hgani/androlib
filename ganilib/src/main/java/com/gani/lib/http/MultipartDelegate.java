@@ -16,15 +16,12 @@ final class MultipartDelegate extends HttpDelegate {
   private static final String MESSAGE_BOUNDARY = "----------V2ymHFg03ehbqgZCaKO6jy";
   private static final long serialVersionUID = 1L;
 
-//  private Map<String, Object> params;
-
-  private GParams params;
+  private GImmutableParams params;
   private Map<String, HttpAsyncMultipart.Uploadable> uploads;
 
   MultipartDelegate(String nakedUrl, GImmutableParams params, Map<String, HttpAsyncMultipart.Uploadable> uploads, HttpHook hook) {
     super(nakedUrl, hook);
-//    this.params = ConnectionPreparator.nonNullImmutable(params);
-    this.params = GParams.fromNullable(params);;
+    this.params = GImmutableParams.fromNullable(params);
     this.uploads = nonNullImmutable(uploads);
   }
   
@@ -41,9 +38,7 @@ final class MultipartDelegate extends HttpDelegate {
   }
   
   @Override
-  protected HttpURLConnection makeConnection() throws MalformedURLException, IOException {
-//    HttpURLConnection connection = (HttpURLConnection) new URL(getFullUrl()).openConnection();
-//    ConnectionPreparator.configureCharsetAndTimeouts(connection);
+  protected HttpURLConnection makeConnection() throws IOException {
     HttpURLConnection connection = GHttp.instance().openConnection(getFullUrl(), params, HttpMethod.POST);
   	connection.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + MESSAGE_BOUNDARY);
     connection.setDoOutput(true);
@@ -57,7 +52,7 @@ final class MultipartDelegate extends HttpDelegate {
     return connection;
   }
 
-  private static byte[] createMultipartData(GParams params, Map<String, HttpAsyncMultipart.Uploadable> uploads) throws IOException {
+  private static byte[] createMultipartData(GImmutableParams params, Map<String, HttpAsyncMultipart.Uploadable> uploads) throws IOException {
     String endBoundary = "\r\n--" + MESSAGE_BOUNDARY + "--\r\n";
 
     ByteArrayOutputStream baos = new ByteArrayOutputStream();

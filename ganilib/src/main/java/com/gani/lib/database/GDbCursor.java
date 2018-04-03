@@ -84,7 +84,9 @@ public class GDbCursor implements GDbData {
   }
   
   public void close() {
-    cursor.close();
+    if(cursor != null){
+      cursor.close();
+    }
   }
   
   public int getIndex(String name) {
